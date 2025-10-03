@@ -10,6 +10,9 @@ private:
     SDL_Renderer *m_Renderer = nullptr;
     bool m_Quit = true;
     GameState *m_CurrentState = nullptr;
+    Uint64 NOW = 0;
+    Uint64 LAST = SDL_GetPerformanceCounter();
+    float m_DeltaTime = 0;
     SDL_FPoint m_MousePos = {-1,-1};
     void Cleanup();
 

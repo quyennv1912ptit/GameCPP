@@ -46,6 +46,6 @@ public:
     void Enter() override;
     void Exit() override;
     void HandleEvent(const SDL_Event& event) override;
-    void Update() override;
+    void Update(float dt) override;
     void Render() override;
 };

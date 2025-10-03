@@ -57,7 +57,7 @@ void MenuState::HandleEvent(const SDL_Event& event)
     }
 }
 
-void MenuState::Update()
+void MenuState::Update(float dt)
 {
 
     for (MenuButton &btn : m_Buttons)
@@ -77,7 +77,7 @@ void MenuState::Update()
 
 void MenuState::Render()
 {
-    SDL_SetRenderDrawColor(m_Game->GetRenderer(), 255, 30, 30, 255);
+    SDL_SetRenderDrawColor(m_Game->GetRenderer(), 0, 0, 0, 255);
 
     SDL_RenderClear(m_Game->GetRenderer());
 

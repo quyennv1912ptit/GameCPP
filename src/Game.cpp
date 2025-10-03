@@ -24,18 +24,27 @@ void Game::Run()
     SDL_Event event;
     while (!m_Quit)
     {
+        NOW = SDL_GetPerformanceCounter();
+
+        m_DeltaTime = (float)(NOW - LAST) / (float)SDL_GetPerformanceFrequency();
+
+        LAST = NOW;
+
         SDL_GetMouseState(&m_MousePos.x, &m_MousePos.y);
         if (m_CurrentState)
         {
-            while(SDL_PollEvent(&event)) {
-                if(event.type == SDL_EVENT_QUIT) {
+            while (SDL_PollEvent(&event))
+            {
+                if (event.type == SDL_EVENT_QUIT)
+                {
                     Quit();
                 }
-                else {
-                     m_CurrentState->HandleEvent(event);
+                else
+                {
+                    m_CurrentState->HandleEvent(event);
                 }
             }
-            m_CurrentState->Update();
+            m_CurrentState->Update(m_DeltaTime);
             m_CurrentState->Render();
         }
     }

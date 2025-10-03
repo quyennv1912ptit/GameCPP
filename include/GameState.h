@@ -14,6 +14,6 @@ public:
     virtual void Enter() = 0;
     virtual void Exit() = 0;
     virtual void HandleEvent(const SDL_Event& event) = 0;
-    virtual void Update() = 0;
+    virtual void Update(float dt) = 0;
     virtual void Render() = 0;
 };
