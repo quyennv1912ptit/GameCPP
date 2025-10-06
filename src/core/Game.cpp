@@ -8,7 +8,7 @@ void Game::Init()
         return;
     }
 
-    if (!SDL_CreateWindowAndRenderer("GameCPP", 1220, 720, 0, &m_Window, &m_Renderer))
+    if (!SDL_CreateWindowAndRenderer("GameCPP", 1280, 720, 0, &m_Window, &m_Renderer))
     {
         SDL_Log("SDL_CreateWindowAndRenderer Error: %s\n", SDL_GetError());
         return;
