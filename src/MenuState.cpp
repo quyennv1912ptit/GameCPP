@@ -1,104 +1,77 @@
 #include "MenuState.h"
 #include "PlayState.h"
+#include "Button.h"
 
 void MenuState::Enter()
 {
-    texture1 = IMG_LoadTexture(m_Game->GetRenderer(), "resources/imgs/Menu Buttons sprite (BnW).png");
-    texture2 = IMG_LoadTexture(m_Game->GetRenderer(), "resources/imgs/Menu Buttons sprite (Colored).png");
+    SDL_Renderer *renderer = m_Game->GetRenderer();
 
-    if (!texture1)
-    {
-        SDL_Log("IMG_LoadTexture Error: %s\n", SDL_GetError());
-        m_Game->Quit();
-        return;
-    }
+    logoBox = new TextBox(renderer, "resources/fonts/mightysouly.ttf", "TOWER DEFENSE", 80);
+    logoBox->setPos({(float)1280 / 2 - logoBox->getDims().size.x / 2, 100});
 
-    if (!texture2)
-    {
-        SDL_Log("IMG_LoadTexture Error: %s\n", SDL_GetError());
-        m_Game->Quit();
-        SDL_DestroyTexture(texture1);
-        return;
-    }
+    startBtn = new TextButton(renderer, "resources/fonts/mightysouly.ttf", "START", 60, {255, 255, 255, 255}, {100, 100, 100, 255});
+    startBtn->setPos({(float)1280 / 2 - startBtn->getDims().size.x / 2, 250});
 
-    std::vector<ButtonID> ButtonIDs = {ButtonID::START, ButtonID::SETTINGS, ButtonID::QUIT};
+    settingBtn = new TextButton(renderer, "resources/fonts/mightysouly.ttf", "SETTINGS", 60, {255, 255, 255, 255}, {100, 100, 100, 255});
+    settingBtn->setPos({(float)1280 / 2 - settingBtn->getDims().size.x / 2, 350});
 
-    for (const ButtonID &ID : ButtonIDs)
-    {
-        MenuButton btn;
-        btn.ID = ID;
-        btn.src = srcRects.at(ID);
-        btn.dest = destRects.at(ID);
-        m_Buttons.push_back(btn);
-    }
+    exitBtn = new TextButton(renderer, "resources/fonts/mightysouly.ttf", "EXIT", 60, {255, 255, 255, 255}, {100, 100, 100, 255});
+    exitBtn->setPos({(float)1280 / 2 - exitBtn->getDims().size.x / 2, 450});
 }
 
-void MenuState::HandleEvent(const SDL_Event& event)
+void MenuState::HandleEvent(const SDL_Event &event)
 {
     if (event.type == SDL_EVENT_MOUSE_BUTTON_DOWN)
     {
-        for (MenuButton &btn : m_Buttons)
+        if (startBtn->getIsHovered())
         {
-            if (event.button.button == SDL_BUTTON_LEFT && btn.isHovered)
-            {
-                switch (btn.ID)
-                {
-                case ButtonID::START:
-                    m_Game->ChangeState(new PlayState(m_Game));
-                    break;
-                case ButtonID::SETTINGS:
-                    break;
-                case ButtonID::QUIT:
-                    m_Game->Quit();
-                    break;
-                }
-            }
+            m_Game->ChangeState(new PlayState(m_Game));
+        }
+        else if (settingBtn->getIsHovered())
+        {
+        }
+        else if (exitBtn->getIsHovered())
+        {
+            m_Game->Quit();
         }
     }
 }
 
 void MenuState::Update(float dt)
 {
-
-    for (MenuButton &btn : m_Buttons)
-    {
-        if (SDL_PointInRectFloat(m_Game->GetMousePos(), &btn.dest))
-        {
-            btn.isHovered = true;
-            btn.texture = texture2;
-        }
-        else
-        {
-            btn.isHovered = false;
-            btn.texture = texture1;
-        }
-    }
+    startBtn->update(m_Game->GetMousePos());
+    settingBtn->update(m_Game->GetMousePos());
+    exitBtn->update(m_Game->GetMousePos());
 }
 
 void MenuState::Render()
 {
-    SDL_SetRenderDrawColor(m_Game->GetRenderer(), 0, 0, 0, 255);
+    SDL_Renderer *renderer = m_Game->GetRenderer();
 
-    SDL_RenderClear(m_Game->GetRenderer());
+    SDL_SetRenderDrawColor(renderer, 30, 30, 30, 255);
 
-    for (const MenuButton &btn : m_Buttons)
-    {
-        SDL_RenderTexture(m_Game->GetRenderer(), btn.texture, &btn.src, &btn.dest);
-    }
+    SDL_RenderClear(renderer);
 
-    SDL_RenderPresent(m_Game->GetRenderer());
+    logoBox->render();
+
+    startBtn->render();
+
+    settingBtn->render();
+
+    exitBtn->render();
+
+    SDL_RenderPresent(renderer);
 }
 
 void MenuState::Exit()
 {
-    if (texture1)
-    {
-        SDL_DestroyTexture(texture1);
-        texture1 = nullptr;
-    }
-    if (texture2)
-    {
-        SDL_DestroyTexture(texture2);
-        texture2 = nullptr;
-    }
+    delete logoBox;
+    delete startBtn;
+    delete settingBtn;
+    delete exitBtn;
+
+    logoBox = nullptr;
+    startBtn = nullptr;
+    settingBtn = nullptr;
+    exitBtn = nullptr;
 }

@@ -3,7 +3,7 @@
 #include <map>
 #include "IEnitity.h"
 
-const std::map<EntityState,std::pair<const char*, int>> SamuraiAnimationPath = {
+const std::map<EntityState, std::pair<const char *, int>> SamuraiAnimationPath = {
     {SamuraiState::WALK, {"resources/imgs/kinghts/Samurai/Walk.png", 9}},
     {SamuraiState::ATTACK1, {"resources/imgs/kinghts/Samurai/Attack_1.png", 4}},
     {SamuraiState::ATTACK2, {"resources/imgs/kinghts/Samurai/Attack_2.png", 5}},
@@ -12,9 +12,10 @@ const std::map<EntityState,std::pair<const char*, int>> SamuraiAnimationPath = {
     {SamuraiState::DEAD, {"resources/imgs/kinghts/Samurai/Dead.png", 6}},
 };
 
-class Samurai : public IEntity {
-    private:
-    public:
-        Samurai();
-        void setState(SDL_Renderer* renderer, EntityState newState) override;
+class Samurai : public IEntity
+{
+private:
+public:
+    Samurai();
+    void setState(SDL_Renderer *renderer, EntityState newState) override;
 };

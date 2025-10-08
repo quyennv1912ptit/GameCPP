@@ -2,9 +2,9 @@
 
 #include <SDL3/SDL.h>
 #include "Vector2.h"
-#include "Animation.h"
 #include "HPBar.h"
 #include "EntityState.h"
+#include "Animation.h"
 
 class IEntity
 {
@@ -13,7 +13,7 @@ protected:
     Transform transform;
     EntityState state;
     Animation *animation;
-    HPBar* hpbar;
+    HPBar *hpbar;
     bool flip;
 
 public:
@@ -21,10 +21,10 @@ public:
     virtual ~IEntity();
 
     virtual void update();
-    virtual void render(SDL_Renderer* renderer);
+    virtual void render(SDL_Renderer *renderer);
 
-    virtual void setState(SDL_Renderer* renderer, EntityState newState) = 0;
+    virtual void setState(SDL_Renderer *renderer, EntityState newState) = 0;
     virtual void setPos(float x, float y);
     virtual void setSize(float w, float y);
-    virtual Transform& getTransform();
+    virtual Transform &getTransform();
 };

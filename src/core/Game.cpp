@@ -14,6 +14,10 @@ void Game::Init()
         return;
     }
 
+    if(!TTF_Init()) {
+        SDL_Log("TTF_Init Error: %s\n", SDL_GetError());
+    }
+
     m_Quit = false;
 
     ChangeState(new MenuState(this));

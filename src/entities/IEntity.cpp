@@ -9,10 +9,6 @@ IEntity::IEntity()
     flip = false;
 
     animation = new Animation(transform);
-
-    // hpbar = new HPBar(maxHP, curHP, transform, SDL_Color{50, 50, 50, 255},
-    //                   SDL_Color{200, 0, 0, 255},
-    //                   10.0f, -60.0f, 100.0);
 }
 
 IEntity::~IEntity()
