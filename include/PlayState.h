@@ -3,7 +3,7 @@
 #include <vector>
 #include "GameState.h"
 #include "Animation.h"
-#include "IEnitity.h"
+#include "Samurai.h"
 
 class PlayState : public GameState
 {

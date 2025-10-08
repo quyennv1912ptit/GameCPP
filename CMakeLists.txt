@@ -6,9 +6,10 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/$<CONFIGURATION>")
 
 include_directories(${CMAKE_SOURCE_DIR}/include)
 include_directories(${CMAKE_SOURCE_DIR}/include/core)
+include_directories(${CMAKE_SOURCE_DIR}/include/entities)
 link_directories(${CMAKE_SOURCE_DIR}/lib)
 
-file(GLOB SRC_FILES src/*.cpp src/core/*.cpp)
+file(GLOB SRC_FILES src/*.cpp src/core/*.cpp src/entities/*.cpp)
 
 add_executable(${PROJECT_NAME} ${SRC_FILES})
 

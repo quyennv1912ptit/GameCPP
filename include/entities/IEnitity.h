@@ -4,35 +4,27 @@
 #include "Vector2.h"
 #include "Animation.h"
 #include "HPBar.h"
-
-enum class State
-{
-    NONE,
-    WALK,
-    ATTACK,
-    HURT,
-    DEAD
-};
+#include "EntityState.h"
 
 class IEntity
 {
 protected:
     float curHP, maxHP;
     Transform transform;
-    State state;
+    EntityState state;
     Animation *animation;
     HPBar* hpbar;
     bool flip;
 
 public:
-    IEntity(float maxHP, float x, float y);
+    IEntity();
     virtual ~IEntity();
 
     virtual void update();
     virtual void render(SDL_Renderer* renderer);
 
-    void setState(SDL_Renderer* renderer, State newState);
-    void setPos(float x, float y);
-    void setSize(float w, float y);
-    Transform& getTransform();
+    virtual void setState(SDL_Renderer* renderer, EntityState newState) = 0;
+    virtual void setPos(float x, float y);
+    virtual void setSize(float w, float y);
+    virtual Transform& getTransform();
 };
