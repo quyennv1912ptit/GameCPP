@@ -2,31 +2,75 @@
 
 void PlayState::Enter()
 {
-    e = new Samurai();
-    e->setState(m_Game->GetRenderer(), SamuraiState::ATTACK2);
+    SDL_Renderer *renderer = m_Game->GetRenderer();
+    Samurai *e1 = new Samurai();
+    Samurai *e2 = new Samurai();
+
+    e1->setState(renderer, SamuraiState::ATTACK1);
+    e1->setPos(100, 100);
+    e2->setState(renderer, SamuraiState::ATTACK3);
+    e2->setPos(400, 400);
+
+    knights.push_back(e1);
+    enemies.push_back(e2);
+
+    pauseBtn = new ImageButton(renderer, "resources/imgs/ui/pauseBtn.png", "resources/imgs/ui/pauseBtn_hovered.png");
+    pauseBtn->setPos({1200, 30});
+    pauseBtn->setSize({50, 50});
 }
 
 void PlayState::HandleEvent(const SDL_Event &event)
 {
+    if (event.type == SDL_EVENT_MOUSE_BUTTON_DOWN)
+    {
+        if (pauseBtn->getIsHovered())
+        {
+            m_Game->PushState(new PauseState(m_Game));
+        }
+    }
 }
 
 void PlayState::Update(float dt)
 {
-    e->update();
+    pauseBtn->update(m_Game->GetMousePos());
+    for (IEntity *k : knights)
+    {
+        k->update();
+    }
+
+    for (IEntity *e : enemies)
+    {
+        e->update();
+    }
 }
 
 void PlayState::Render()
 {
     SDL_Renderer *renderer = m_Game->GetRenderer();
-    SDL_SetRenderDrawColor(renderer, 200, 200, 200, 255);
-    SDL_RenderClear(renderer);
+    // ui
+    pauseBtn->render();
 
-    e->render(renderer);
+    // entities
+    for (IEntity *k : knights)
+    {
+        k->render(renderer);
+    }
 
-    SDL_RenderPresent(renderer);
+    for (IEntity *e : enemies)
+    {
+        e->render(renderer);
+    }
 }
 
 void PlayState::Exit()
 {
-    delete e;
+    for (IEntity *k : knights)
+    {
+        delete k;
+    }
+
+    for (IEntity *e : enemies)
+    {
+        delete e;
+    }
 }

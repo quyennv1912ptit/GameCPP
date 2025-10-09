@@ -9,6 +9,7 @@ class Image
 {
 protected:
     Transform transform;
+    Vector2 textureSize;
     SDL_Texture *texture = nullptr;
 
 public:
@@ -22,6 +23,7 @@ public:
     SDL_FRect getRect();
 
     void loadTexture(SDL_Renderer *renderer, const char *path);
+    void loadTexture(SDL_Renderer *renderer, const char *path, float w, float h);
 
     void render(SDL_Renderer *renderer);
 };

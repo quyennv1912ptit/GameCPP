@@ -1,6 +1,7 @@
 #pragma once
 
 #include <SDL3/SDL.h>
+#include <vector>
 #include "MenuState.h"
 
 class Game
@@ -9,11 +10,13 @@ private:
     SDL_Window *m_Window = nullptr;
     SDL_Renderer *m_Renderer = nullptr;
     bool m_Quit = true;
-    GameState *m_CurrentState = nullptr;
+
+    std::vector<GameState *> states;
+
     Uint64 NOW = 0;
     Uint64 LAST = SDL_GetPerformanceCounter();
     float m_DeltaTime = 0;
-    SDL_FPoint m_MousePos = {-1,-1};
+    SDL_FPoint m_MousePos = {-1, -1};
     void Cleanup();
 
 public:
@@ -21,11 +24,14 @@ public:
     {
         return m_Renderer;
     }
-    SDL_FPoint* GetMousePos() {
+    SDL_FPoint *GetMousePos()
+    {
         return &m_MousePos;
     }
     void Init();
     void Run();
     void Quit();
     void ChangeState(GameState *);
+    void PushState(GameState *);
+    void PopState();
 };

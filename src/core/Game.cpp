@@ -14,7 +14,8 @@ void Game::Init()
         return;
     }
 
-    if(!TTF_Init()) {
+    if (!TTF_Init())
+    {
         SDL_Log("TTF_Init Error: %s\n", SDL_GetError());
     }
 
@@ -35,7 +36,7 @@ void Game::Run()
         LAST = NOW;
 
         SDL_GetMouseState(&m_MousePos.x, &m_MousePos.y);
-        if (m_CurrentState)
+        if (!states.empty())
         {
             while (SDL_PollEvent(&event))
             {
@@ -45,11 +46,15 @@ void Game::Run()
                 }
                 else
                 {
-                    m_CurrentState->HandleEvent(event);
+                    states.back()->HandleEvent(event);
                 }
             }
-            m_CurrentState->Update(m_DeltaTime);
-            m_CurrentState->Render();
+            states.back()->Update(m_DeltaTime);
+            SDL_SetRenderDrawColor(m_Renderer, 200, 200, 200, 255);
+            SDL_RenderClear(m_Renderer);
+            for (auto state : states)
+                state->Render();
+            SDL_RenderPresent(m_Renderer);
         }
     }
 
@@ -58,27 +63,46 @@ void Game::Run()
 
 void Game::ChangeState(GameState *newState)
 {
-    if (m_CurrentState)
+    if (!states.empty())
     {
-        m_CurrentState->Exit();
-        delete m_CurrentState;
+        states.back()->Exit();
+        delete states.back();
+        states.pop_back();
     }
 
-    m_CurrentState = newState;
+    states.push_back(newState);
 
-    if (m_CurrentState)
+    states.back()->Enter();
+}
+
+void Game::PushState(GameState *state)
+{
+    states.push_back(state);
+    states.back()->Enter();
+}
+
+void Game::PopState()
+{
+    if (!states.empty())
     {
-        m_CurrentState->Enter();
+        states.back()->Exit();
+        delete states.back();
+        states.pop_back();
     }
 }
 
 void Game::Cleanup()
 {
-    if (m_CurrentState)
+    if (!states.empty())
     {
-        m_CurrentState->Exit();
-        delete m_CurrentState;
-        m_CurrentState = nullptr;
+        for (auto state : states)
+        {
+            {
+                state->Exit();
+                delete state;
+                state = nullptr;
+            }
+        }
     }
 
     if (m_Renderer)

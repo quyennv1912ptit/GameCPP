@@ -2,13 +2,20 @@
 
 #include <vector>
 #include "GameState.h"
+#include "PauseState.h"
 #include "Animation.h"
+#include "Image.h"
 #include "Samurai.h"
 
 class PlayState : public GameState
 {
 private:
-    IEntity* e;
+    //ui
+    //pause button
+    ImageButton* pauseBtn;
+    //all entities
+    std::vector<IEntity*> knights;
+    std::vector<IEntity*> enemies; 
 
 public:
     PlayState(Game *game) { m_Game = game; }

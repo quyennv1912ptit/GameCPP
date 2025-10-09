@@ -6,18 +6,9 @@
 #include "Transform.h"
 #include <string>
 
-enum class ButtonID {
-    //Menu
-    START,
-    SETTINGS,
-    EXIT
-};
-
 class TextButton
 {
 private:
-    ButtonID ID;
-
     SDL_Texture *defaultTex = nullptr;
     SDL_Texture *hoverdTex = nullptr;
 
@@ -37,6 +28,68 @@ public:
     void update(SDL_FPoint *mousePos);
     void render();
     bool getIsHovered();
+    void setHovered(bool hovered);
     void setPos(Vector2 pos);
+    Transform getDims();
+};
+
+class ImageButton
+{
+private:
+    SDL_Texture *defaultTex = nullptr;
+    SDL_Texture *hoverdTex = nullptr;
+
+    SDL_Renderer *renderer = nullptr;
+
+    Transform dims;
+    Vector2 texSSize;
+
+    bool isHovered = false;
+
+public:
+    ImageButton(SDL_Renderer *rdr, const char *path1, const char *path2);
+    ImageButton(SDL_Renderer *rdr, const char *path1, const char *path2, float w, float h);
+    ~ImageButton();
+    void setPos(Vector2 pos);
+
+    void setSize(Vector2 size);
+
+    void update(SDL_FPoint *mousePos);
+
+    void render();
+
+    bool getIsHovered();
+
+    void setHovered(bool hovered);
+
+    Transform getDims();
+};
+
+class CombinedButton
+{
+private:
+    TextButton *textBtn = nullptr;
+    ImageButton *imgBtn = nullptr;
+
+    SDL_Renderer *renderer = nullptr;
+
+    // Transform dims;
+
+    bool isHovered = false;
+
+public:
+    CombinedButton(SDL_Renderer *rdr, const char *imgNormal, const char *imgHover, const char *fontPath, std::string text, float textSize, SDL_Color textClr, SDL_Color textHoverClr);
+    CombinedButton(SDL_Renderer *rdr, const char *imgNormal, const char *imgHover, float w, float h, const char *fontPath, std::string text, float textSize, SDL_Color textClr, SDL_Color textHoverClr);
+
+    ~CombinedButton();
+
+    void setPos(Vector2 pos);
+
+    void update(SDL_FPoint* mousePos);
+
+    void render();
+
+    bool getIsHovered();
+
     Transform getDims();
 };

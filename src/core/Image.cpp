@@ -3,7 +3,15 @@
 void Image::loadTexture(SDL_Renderer *renderer, const char *path)
 {
     texture = IMG_LoadTexture(renderer, path);
-    SDL_GetTextureSize(texture, &transform.size.x, &transform.size.y);
+    SDL_GetTextureSize(texture, &textureSize.x, &textureSize.y);
+    transform.size = textureSize;
+}
+
+void Image::loadTexture(SDL_Renderer *renderer, const char *path, float w, float h)
+{
+    texture = IMG_LoadTexture(renderer, path);
+    SDL_GetTextureSize(texture, &textureSize.x, &textureSize.y);
+    transform.size = {w, h};
 }
 
 void Image::flipImage()

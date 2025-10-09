@@ -48,10 +48,6 @@ void MenuState::Render()
 {
     SDL_Renderer *renderer = m_Game->GetRenderer();
 
-    SDL_SetRenderDrawColor(renderer, 30, 30, 30, 255);
-
-    SDL_RenderClear(renderer);
-
     logoBox->render();
 
     startBtn->render();
@@ -59,8 +55,6 @@ void MenuState::Render()
     settingBtn->render();
 
     exitBtn->render();
-
-    SDL_RenderPresent(renderer);
 }
 
 void MenuState::Exit()
