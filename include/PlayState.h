@@ -6,6 +6,7 @@
 #include "Animation.h"
 #include "Image.h"
 #include "Samurai.h"
+#include"Samurai_Archer.h"
 
 class PlayState : public GameState
 {
