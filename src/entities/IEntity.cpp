@@ -30,23 +30,19 @@ void IEntity::update()
 {
     const bool *keys = SDL_GetKeyboardState(NULL);
 
-    if (keys[SDL_SCANCODE_W])
+    if(control == ControlType::PLAYER_ARROW)
     {
-        transform.pos.y -= 3;
+        if(keys[SDL_SCANCODE_UP]) transform.pos.y -= 3;
+        if(keys[SDL_SCANCODE_DOWN]) transform.pos.y += 3;
+        if(keys[SDL_SCANCODE_LEFT]) { flip = true; transform.pos.x -= 3; }
+        if(keys[SDL_SCANCODE_RIGHT]) { flip = false; transform.pos.x += 3; }
     }
-    if (keys[SDL_SCANCODE_A])
+    else if(control == ControlType::PLAYER_WASD)
     {
-        flip = true;
-        transform.pos.x -= 3;
-    }
-    if (keys[SDL_SCANCODE_S])
-    {
-        transform.pos.y += 3;
-    }
-    if (keys[SDL_SCANCODE_D])
-    {
-        flip = false;
-        transform.pos.x += 3;
+        if(keys[SDL_SCANCODE_W]) transform.pos.y -= 3;
+        if(keys[SDL_SCANCODE_S]) transform.pos.y += 3;
+        if(keys[SDL_SCANCODE_A]) { flip = true; transform.pos.x -= 3; }
+        if(keys[SDL_SCANCODE_D]) { flip = false; transform.pos.x += 3; }
     }
     hpbar->Update();
 

@@ -1,18 +1,21 @@
 #include "PlayState.h"
+#include <Demon.h>
+
 
 void PlayState::Enter()
 {
     SDL_Renderer *renderer = m_Game->GetRenderer();
     Samurai *e1 = new Samurai();
-    Samurai *e2 = new Samurai();
-
     e1->setState(renderer, SamuraiState::ATTACK1);
     e1->setPos(100, 100);
-    e2->setState(renderer, SamuraiState::ATTACK3);
-    e2->setPos(400, 400);
-
+    e1->control = ControlType::PLAYER_WASD;
     knights.push_back(e1);
-    enemies.push_back(e2);
+
+    Demon *demon= new Demon();
+    demon->setState(renderer, DemonState::ATTACK);
+    demon->setPos(400,105);
+    demon->control = ControlType::PLAYER_ARROW;
+    enemies.push_back(demon);
 
     pauseBtn = new ImageButton(renderer, "resources/imgs/ui/pauseBtn.png", "resources/imgs/ui/pauseBtn_hovered.png");
     pauseBtn->setPos({1200, 30});

@@ -6,6 +6,12 @@
 #include "EntityState.h"
 #include "Animation.h"
 
+enum class ControlType {
+    NONE,
+    PLAYER_WASD,
+    PLAYER_ARROW
+};
+
 class IEntity
 {
 protected:
@@ -17,6 +23,8 @@ protected:
     bool flip;
 
 public:
+    ControlType control = ControlType::NONE; // ← Thêm biến control
+
     IEntity();
     virtual ~IEntity();
 
