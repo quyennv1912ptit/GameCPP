@@ -4,11 +4,11 @@ void PlayState::Enter()
 {
     SDL_Renderer *renderer = m_Game->GetRenderer();
     Samurai *e1 = new Samurai();
-    SamuraiArcher *e2 = new SamuraiArcher();
+    Demon *e2 = new Demon();
 
     e1->setState(renderer, SamuraiState::ATTACK1);
     e1->setPos(100, 100);
-    e2->setState(renderer, SamuraiArcherState::ATTACK3);
+    e2->setState(renderer, DemonState::ATTACK);
     e2->setPos(400, 400);
 
     knights.push_back(e1);

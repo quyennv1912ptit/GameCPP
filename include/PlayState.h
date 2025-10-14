@@ -7,6 +7,14 @@
 #include "Image.h"
 #include "Samurai.h"
 #include"Samurai_Archer.h"
+#include "Demon.h"
+#include "Jinn.h"
+#include "Lizard.h"
+#include "Medusa.h"
+#include "Orc1.h"
+#include "Orc2.h"
+#include "Orc3.h"
+
 
 class PlayState : public GameState
 {

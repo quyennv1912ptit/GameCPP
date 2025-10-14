@@ -34,6 +34,20 @@ enum class EntityState
     // DRAGON
 
     DRAGON_ATTACK,
+
+    // Demon
+
+    DEMON_ATTACK,
+
+    // Jinn
+    JINN_ATTACK,
+
+    //Lizard
+    LIZARD_ATTACK,
+
+    // Medusa
+    MEDUSA_ATTACK,
+
 };
 
 namespace SamuraiState
@@ -84,6 +98,42 @@ namespace Dragon
     constexpr EntityState NONE = EntityState::NONE;
     constexpr EntityState WALK = EntityState::WALK;
     constexpr EntityState ATTACK = EntityState::DRAGON_ATTACK;
+    constexpr EntityState HURT = EntityState::HURT;
+    constexpr EntityState DEAD = EntityState::DEAD;
+}
+
+namespace DemonState
+{
+    constexpr EntityState NONE = EntityState::NONE;
+    constexpr EntityState WALK = EntityState::WALK;
+    constexpr EntityState ATTACK = EntityState::DEMON_ATTACK;
+    constexpr EntityState HURT = EntityState::HURT;
+    constexpr EntityState DEAD = EntityState::DEAD;
+}
+
+namespace JinnState
+{
+     constexpr EntityState NONE = EntityState::NONE;
+    constexpr EntityState WALK = EntityState::WALK;
+    constexpr EntityState ATTACK = EntityState::JINN_ATTACK;
+    constexpr EntityState HURT = EntityState::HURT;
+    constexpr EntityState DEAD = EntityState::DEAD;
+}
+
+namespace LizardState
+{
+     constexpr EntityState NONE = EntityState::NONE;
+    constexpr EntityState WALK = EntityState::WALK;
+    constexpr EntityState ATTACK = EntityState::LIZARD_ATTACK;
+    constexpr EntityState HURT = EntityState::HURT;
+    constexpr EntityState DEAD = EntityState::DEAD;
+}
+
+namespace MedusaState
+{
+     constexpr EntityState NONE = EntityState::NONE;
+    constexpr EntityState WALK = EntityState::WALK;
+    constexpr EntityState ATTACK = EntityState::MEDUSA_ATTACK;
     constexpr EntityState HURT = EntityState::HURT;
     constexpr EntityState DEAD = EntityState::DEAD;
 }
