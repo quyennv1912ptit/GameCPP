@@ -5,6 +5,10 @@ SamuraiArcher::SamuraiArcher()
 
     // attributes
 
+    name = "Samurai Archer";
+
+    cost = 50;
+
     transform.size = {100, 100};
 
     SDL_Color bg = {50, 50, 50, 255};

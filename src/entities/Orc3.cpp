@@ -5,6 +5,10 @@ Orc3::Orc3()
 
     // attributes
 
+    name = "Orc3";
+
+    cost = 0;
+
     transform.size = {100, 100};
 
     SDL_Color bg = {50, 50, 50, 255};

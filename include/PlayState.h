@@ -8,11 +8,11 @@
 #include "Samurai.h"
 
 const std::map<std::string, std::string> avt_path = {
-    {"SAMURAI", "resources/imgs/avt/samurai_avt.png"},
-    {"SAMURAI_ARCHER", "resources/imgs/avt/samurai_archer_avt.png"},
-    {"SAMURAI_COMMANDER", "resources/imgs/avt/samurai_commander_avt.png"},
-    {"SMALL_DRAGON", "resources/imgs/avt/small_dragon_avt.png"},
-    {"DRAGON", "resources/imgs/avt/dragon_avt.png"},
+    {"Samurai", "resources/imgs/avt/samurai_avt.png"},
+    {"Samurai Archer", "resources/imgs/avt/samurai_archer_avt.png"},
+    {"Samurai Commander", "resources/imgs/avt/samurai_commander_avt.png"},
+    {"Small Dragon", "resources/imgs/avt/small_dragon_avt.png"},
+    {"Dragon", "resources/imgs/avt/dragon_avt.png"},
 };
 
 
@@ -23,7 +23,7 @@ private:
     // pause button
     ImageButton *pauseBtn;
     // hotbar
-    std::vector<SDL_Texture *> avts;
+    std::vector<std::pair<std::string, SDL_Texture *>> avts;
     std::vector<std::pair<std::string, SDL_Texture *>> slots;
     int currentSlot = -1;
     bool showSelector = false;

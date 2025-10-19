@@ -5,6 +5,10 @@ Orc1::Orc1()
 
     // attributes
 
+    name = "Orc1";
+
+    cost = 0;
+
     transform.size = {100, 100};
 
     SDL_Color bg = {50, 50, 50, 255};

@@ -1,15 +1,15 @@
-#include "Samurai.h"
+#include "SmallDragon.h"
 
-Samurai::Samurai()
+SmallDragon::SmallDragon()
 {
 
     // attributes
 
     transform.size = {100, 100};
 
-    name = "Samurai";
+    name = "Small Dragon";
 
-    cost = 50;
+    cost = 100;
 
     SDL_Color bg = {50, 50, 50, 255};
     SDL_Color fg = {0, 200, 0, 255};
@@ -19,13 +19,13 @@ Samurai::Samurai()
     hpbar = new HPBar(maxHP, curHP, transform, bg, fg, 5, -30, 60);
 }
 
-void Samurai::setState(SDL_Renderer *renderer, EntityState newState)
+void SmallDragon::setState(SDL_Renderer *renderer, EntityState newState)
 {
     if (state == newState)
         return;
 
     state = newState;
-    auto p = SamuraiAnimationPath.at(state);
+    auto p = SmallDragonAnimationPath.at(state);
 
     animation->setAnim(renderer, p.first, p.second, 150);
 }

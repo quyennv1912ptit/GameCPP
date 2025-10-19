@@ -15,7 +15,9 @@ void PlayState::Enter()
 
         texture = IMG_LoadTexture(renderer, kn.second.c_str());
 
-        avts.push_back(texture);
+        std::pair<std::string, SDL_Texture *> p = {kn.first, texture};
+
+        avts.push_back(p);
     }
 }
 
@@ -66,7 +68,7 @@ void PlayState::Render()
 
     ImGui::NewFrame();
 
-    ImGui::Begin("Hotbar");
+    ImGui::Begin("Hotbar", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
 
     if (ImGui::BeginTable("buttons", slots.size(), ImGuiTableFlags_SizingFixedFit))
     {
@@ -78,14 +80,32 @@ void PlayState::Render()
             if (ImGui::ImageButton(("btn" + std::to_string(i)).c_str(), slots[i].second, ImVec2(64, 64)))
             {
                 printf("clicked %d\n", i + 1);
-                if (currentSlot == i)
+                if (slots[i].second == nullptr)
                 {
-                    showSelector = !showSelector;
+                    if (currentSlot == i)
+                    {
+                        showSelector = !showSelector;
+                    }
+                    else
+                    {
+                        currentSlot = i;
+                        showSelector = true;
+                    }
                 }
                 else
                 {
-                    currentSlot = i;
-                    showSelector = true;
+                    Samurai *e = new Samurai();
+
+                    int x_min = 0, x_max = 1280;
+                    int y_min = 0, y_max = 720;
+
+                    int x = x_min + rand() % (x_max - x_min + 1);
+                    int y = y_min + rand() % (y_max - y_min + 1);
+
+                    e->setState(renderer, SamuraiState::ATTACK1);
+                    e->setPos(x, y);
+
+                    knights.push_back(e);
                 }
             }
         }
@@ -125,9 +145,9 @@ void PlayState::Render()
         for (int i = 0; i < avts.size(); i++)
         {
             ImGui::TableSetColumnIndex(i);
-            if (ImGui::ImageButton(("btn_avt" + std::to_string(i)).c_str(), avts[i], ImVec2(64, 64)))
+            if (ImGui::ImageButton(("btn_avt" + std::to_string(i)).c_str(), avts[i].second, ImVec2(64, 64)))
             {
-                slots[currentSlot].second = avts[i];
+                slots[currentSlot] = avts[i];
                 showSelector = false;
             }
         }

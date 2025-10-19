@@ -93,7 +93,7 @@ namespace SamuraiCommanderState
     constexpr EntityState DEAD = EntityState::DEAD;
 }
 
-namespace SmallDragon
+namespace SmallDragonState
 {
     constexpr EntityState NONE = EntityState::NONE;
     constexpr EntityState WALK = EntityState::WALK;
@@ -102,7 +102,7 @@ namespace SmallDragon
     constexpr EntityState DEAD = EntityState::DEAD;
 }
 
-namespace Dragon
+namespace DragonState
 {
     constexpr EntityState NONE = EntityState::NONE;
     constexpr EntityState WALK = EntityState::WALK;

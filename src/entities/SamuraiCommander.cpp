@@ -1,13 +1,13 @@
-#include "Samurai.h"
+#include "SamuraiCommander.h"
 
-Samurai::Samurai()
+SamuraiCommander::SamuraiCommander()
 {
 
     // attributes
 
     transform.size = {100, 100};
 
-    name = "Samurai";
+    name = "Samurai Commander";
 
     cost = 50;
 
@@ -19,13 +19,13 @@ Samurai::Samurai()
     hpbar = new HPBar(maxHP, curHP, transform, bg, fg, 5, -30, 60);
 }
 
-void Samurai::setState(SDL_Renderer *renderer, EntityState newState)
+void SamuraiCommander::setState(SDL_Renderer *renderer, EntityState newState)
 {
     if (state == newState)
         return;
 
     state = newState;
-    auto p = SamuraiAnimationPath.at(state);
+    auto p = SamuraiCommanderAnimationPath.at(state);
 
     animation->setAnim(renderer, p.first, p.second, 150);
 }

@@ -5,6 +5,10 @@ Medusa::Medusa()
 
     // attributes
 
+    name = "Medusa";
+
+    cost = 0;
+
     transform.size = {100, 100};
 
     SDL_Color bg = {50, 50, 50, 255};

@@ -65,3 +65,11 @@ Transform &IEntity::getTransform()
 {
     return transform;
 }
+
+std::string IEntity::getName() {
+    return name;
+}
+
+int IEntity::getCost() {
+    return cost;
+}

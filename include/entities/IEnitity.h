@@ -9,6 +9,8 @@
 class IEntity
 {
 protected:
+    std::string name = "";
+    int cost = 0;
     float curHP, maxHP;
     Transform transform;
     EntityState state;
@@ -26,5 +28,7 @@ public:
     virtual void setState(SDL_Renderer *renderer, EntityState newState) = 0;
     virtual void setPos(float x, float y);
     virtual void setSize(float w, float y);
+    virtual std::string getName();
+    virtual int getCost();
     virtual Transform &getTransform();
 };

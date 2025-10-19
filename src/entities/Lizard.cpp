@@ -5,6 +5,10 @@ Lizard::Lizard()
 
     // attributes
 
+    name = "Lizard";
+
+    cost = 0;
+
     transform.size = {100, 100};
 
     SDL_Color bg = {50, 50, 50, 255};
