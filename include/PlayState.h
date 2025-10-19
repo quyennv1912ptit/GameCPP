@@ -6,7 +6,8 @@
 #include "Animation.h"
 #include "Image.h"
 #include "Samurai.h"
-
+#include "Demon.h"
+#include "FindTarget.h"
 class PlayState : public GameState
 {
 private:

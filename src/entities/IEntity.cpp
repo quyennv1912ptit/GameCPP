@@ -28,21 +28,29 @@ void IEntity::setSize(float w, float h)
 
 void IEntity::update()
 {
-    const bool *keys = SDL_GetKeyboardState(NULL);
+    if(moving)
+    {
+        float dx = targetPos.pos.x - transform.pos.x;
+        float dy = targetPos.pos.y - transform.pos.y;
+        float dist = sqrt(dx*dx + dy*dy);
 
-    if(control == ControlType::PLAYER_ARROW)
-    {
-        if(keys[SDL_SCANCODE_UP]) transform.pos.y -= 3;
-        if(keys[SDL_SCANCODE_DOWN]) transform.pos.y += 3;
-        if(keys[SDL_SCANCODE_LEFT]) { flip = true; transform.pos.x -= 3; }
-        if(keys[SDL_SCANCODE_RIGHT]) { flip = false; transform.pos.x += 3; }
+        if(dist < speed)
+        {
+            transform.pos = targetPos.pos;
+            moving = false;
+        }
+        else
+        {
+            transform.pos.x += speed * dx / dist;
+            transform.pos.y += speed * dy / dist;
+        }
+
+        state = EntityState::WALK;
+        flip = (dx < 0);
     }
-    else if(control == ControlType::PLAYER_WASD)
+    else
     {
-        if(keys[SDL_SCANCODE_W]) transform.pos.y -= 3;
-        if(keys[SDL_SCANCODE_S]) transform.pos.y += 3;
-        if(keys[SDL_SCANCODE_A]) { flip = true; transform.pos.x -= 3; }
-        if(keys[SDL_SCANCODE_D]) { flip = false; transform.pos.x += 3; }
+        state = EntityState::IDLE;
     }
     hpbar->Update();
 

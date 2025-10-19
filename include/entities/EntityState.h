@@ -7,6 +7,7 @@ enum class EntityState
     WALK,
     HURT,
     DEAD,
+    IDLE,
 
     // Samurai
     
