@@ -2,6 +2,8 @@
 
 #include <SDL3/SDL.h>
 #include <vector>
+#include <imgui_impl_sdl3.h>
+#include <imgui_impl_sdlrenderer3.h>
 #include "MenuState.h"
 
 class Game

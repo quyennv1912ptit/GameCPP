@@ -19,6 +19,13 @@ void Game::Init()
         SDL_Log("TTF_Init Error: %s\n", SDL_GetError());
     }
 
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+    ImGuiIO &io = ImGui::GetIO();
+
+    ImGui_ImplSDL3_InitForSDLRenderer(m_Window, m_Renderer);
+    ImGui_ImplSDLRenderer3_Init(m_Renderer);
+
     m_Quit = false;
 
     ChangeState(new MenuState(this));
@@ -48,12 +55,17 @@ void Game::Run()
                 {
                     states.back()->HandleEvent(event);
                 }
+
+                ImGui_ImplSDL3_ProcessEvent(&event);
             }
             states.back()->Update(m_DeltaTime);
+
             SDL_SetRenderDrawColor(m_Renderer, 200, 200, 200, 255);
             SDL_RenderClear(m_Renderer);
+
             for (auto state : states)
                 state->Render();
+
             SDL_RenderPresent(m_Renderer);
         }
     }
@@ -104,6 +116,10 @@ void Game::Cleanup()
             }
         }
     }
+
+    ImGui_ImplSDLRenderer3_Shutdown();
+    ImGui_ImplSDL3_Shutdown();
+    ImGui::DestroyContext();
 
     if (m_Renderer)
     {

@@ -3,20 +3,20 @@
 void PlayState::Enter()
 {
     SDL_Renderer *renderer = m_Game->GetRenderer();
-    Samurai *e1 = new Samurai();
-    Samurai *e2 = new Samurai();
-
-    e1->setState(renderer, SamuraiState::ATTACK1);
-    e1->setPos(100, 100);
-    e2->setState(renderer, SamuraiState::ATTACK3);
-    e2->setPos(400, 400);
-
-    knights.push_back(e1);
-    enemies.push_back(e2);
 
     pauseBtn = new ImageButton(renderer, "resources/imgs/ui/pauseBtn.png", "resources/imgs/ui/pauseBtn_hovered.png");
     pauseBtn->setPos({1200, 30});
     pauseBtn->setSize({50, 50});
+
+    for (auto kn : avt_path)
+    {
+
+        SDL_Texture *texture = nullptr;
+
+        texture = IMG_LoadTexture(renderer, kn.second.c_str());
+
+        avts.push_back(texture);
+    }
 }
 
 void PlayState::HandleEvent(const SDL_Event &event)
@@ -60,10 +60,92 @@ void PlayState::Render()
     {
         e->render(renderer);
     }
+
+    ImGui_ImplSDLRenderer3_NewFrame();
+    ImGui_ImplSDL3_NewFrame();
+
+    ImGui::NewFrame();
+
+    ImGui::Begin("Hotbar");
+
+    if (ImGui::BeginTable("buttons", slots.size(), ImGuiTableFlags_SizingFixedFit))
+    {
+        ImGui::TableNextRow();
+
+        for (int i = 0; i < slots.size(); i++)
+        {
+            ImGui::TableSetColumnIndex(i);
+            if (ImGui::ImageButton(("btn" + std::to_string(i)).c_str(), slots[i].second, ImVec2(64, 64)))
+            {
+                printf("clicked %d\n", i + 1);
+                if (currentSlot == i)
+                {
+                    showSelector = !showSelector;
+                }
+                else
+                {
+                    currentSlot = i;
+                    showSelector = true;
+                }
+            }
+        }
+
+        ImGui::TableNextRow();
+
+        for (int i = 0; i < slots.size(); i++)
+        {
+            ImGui::TableSetColumnIndex(i);
+
+            ImGui::Text(slots[i].first.c_str());
+        }
+
+        ImGui::TableNextRow();
+
+        for (int col = 0; col < slots.size(); col++)
+        {
+            ImGui::TableSetColumnIndex(col);
+
+            ImGui::Text("%d$", 500);
+        }
+
+        ImGui::EndTable();
+    }
+
+    ImGui::End();
+
+    if (showSelector)
+    {
+        ImGui::Begin("Select Character", &showSelector, ImGuiWindowFlags_AlwaysAutoResize);
+
+        ImGui::Text("Select character for slot %d", currentSlot + 1);
+        if (ImGui::BeginTable("ch_sel", avts.size(), ImGuiTableFlags_SizingFixedFit))
+
+            ImGui::TableNextRow();
+
+        for (int i = 0; i < avts.size(); i++)
+        {
+            ImGui::TableSetColumnIndex(i);
+            if (ImGui::ImageButton(("btn_avt" + std::to_string(i)).c_str(), avts[i], ImVec2(64, 64)))
+            {
+                slots[currentSlot].second = avts[i];
+                showSelector = false;
+            }
+        }
+
+        ImGui::EndTable();
+
+        ImGui::End();
+    }
+
+    ImGui::Render();
+
+    ImGui_ImplSDLRenderer3_RenderDrawData(ImGui::GetDrawData(), renderer);
 }
 
 void PlayState::Exit()
 {
+    // SDL_DestroyTexture(texture);
+
     for (IEntity *k : knights)
     {
         delete k;
