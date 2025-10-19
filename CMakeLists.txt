@@ -11,7 +11,7 @@ include_directories(${CMAKE_SOURCE_DIR}/include/imgui)
 include_directories(${CMAKE_SOURCE_DIR}/include/imgui/backends)
 link_directories(${CMAKE_SOURCE_DIR}/lib)
 
-file(GLOB_RECURSE SRC_FILES src/*.cpp)
+file(GLOB_RECURSE SRC_FILES src/*.cpp src/entities/*.cpp)
 
 add_executable(${PROJECT_NAME} ${SRC_FILES})
 

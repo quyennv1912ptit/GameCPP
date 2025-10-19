@@ -6,6 +6,10 @@
 #include "Animation.h"
 #include "Image.h"
 #include "Samurai.h"
+#include "Samurai_Archer.h"
+#include "SamuraiCommander.h"
+#include "SmallDragon.h"
+#include "Dragon.h"
 
 const std::map<std::string, std::string> avt_path = {
     {"Samurai", "resources/imgs/avt/samurai_avt.png"},

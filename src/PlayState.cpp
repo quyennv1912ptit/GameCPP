@@ -94,7 +94,35 @@ void PlayState::Render()
                 }
                 else
                 {
-                    Samurai *e = new Samurai();
+                    IEntity *e;
+
+                    std::string name = slots[i].first;
+
+                    if (name == "Samurai")
+                    {
+                        e = new Samurai();
+                        e->setState(renderer, SamuraiState::ATTACK1);
+                    }
+                    else if (name == "Samurai Archer")
+                    {
+                        e = new SamuraiArcher();
+                        e->setState(renderer, SamuraiArcherState::ATTACK1);
+                    }
+                    else if (name == "Samurai Commander")
+                    {
+                        e = new SamuraiCommander();
+                        e->setState(renderer, SamuraiCommanderState::ATTACK1);
+                    }
+                    else if (name == "Dragon")
+                    {
+                        e = new Dragon();
+                        e->setState(renderer, DragonState::ATTACK);
+                    }
+                    else if (name == "Small Dragon")
+                    {
+                        e = new SmallDragon();
+                        e->setState(renderer, SmallDragonState::ATTACK);
+                    }
 
                     int x_min = 0, x_max = 1280;
                     int y_min = 0, y_max = 720;
@@ -102,7 +130,6 @@ void PlayState::Render()
                     int x = x_min + rand() % (x_max - x_min + 1);
                     int y = y_min + rand() % (y_max - y_min + 1);
 
-                    e->setState(renderer, SamuraiState::ATTACK1);
                     e->setPos(x, y);
 
                     knights.push_back(e);
