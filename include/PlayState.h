@@ -10,6 +10,8 @@
 #include "SamuraiCommander.h"
 #include "SmallDragon.h"
 #include "Dragon.h"
+#include "Demon.h"
+#include "FindTarget.h"
 
 const std::map<std::string, std::string> avt_path = {
     {"Samurai", "resources/imgs/avt/samurai_avt.png"},
@@ -18,7 +20,6 @@ const std::map<std::string, std::string> avt_path = {
     {"Small Dragon", "resources/imgs/avt/small_dragon_avt.png"},
     {"Dragon", "resources/imgs/avt/dragon_avt.png"},
 };
-
 
 class PlayState : public GameState
 {

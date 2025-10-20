@@ -26,5 +26,5 @@ void Demon::setState(SDL_Renderer *renderer, EntityState newState)
     state = newState;
     auto p = DemonAnimationPath.at(state);
 
-    animation->setAnim(renderer, p.first, p.second, 180);
+    animation->setAnim(renderer, p.first, p.second, 150);
 }

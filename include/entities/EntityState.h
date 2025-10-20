@@ -7,9 +7,10 @@ enum class EntityState
     WALK,
     HURT,
     DEAD,
+    IDLE,
 
     // Samurai
-    
+
     SAMURAI_ATTACK1,
     SAMURAI_ATTACK2,
     SAMURAI_ATTACK3,
@@ -42,7 +43,7 @@ enum class EntityState
     // Jinn
     JINN_ATTACK,
 
-    //Lizard
+    // Lizard
     LIZARD_ATTACK,
 
     // Medusa
@@ -87,8 +88,8 @@ namespace SamuraiCommanderState
     constexpr EntityState NONE = EntityState::NONE;
     constexpr EntityState WALK = EntityState::WALK;
     constexpr EntityState ATTACK1 = EntityState::SAMURAI_COMMANDER_ATTACK1;
-    constexpr EntityState ATTACK2 = EntityState::SAMURAI_ARCHER_ATTACK2;
-    constexpr EntityState ATTACK3 = EntityState::SAMURAI_ARCHER_ATTACK3;
+    constexpr EntityState ATTACK2 = EntityState::SAMURAI_COMMANDER_ATTACK2;
+    constexpr EntityState ATTACK3 = EntityState::SAMURAI_COMMANDER_ATTACK3;
     constexpr EntityState HURT = EntityState::HURT;
     constexpr EntityState DEAD = EntityState::DEAD;
 }
@@ -122,7 +123,7 @@ namespace DemonState
 
 namespace JinnState
 {
-     constexpr EntityState NONE = EntityState::NONE;
+    constexpr EntityState NONE = EntityState::NONE;
     constexpr EntityState WALK = EntityState::WALK;
     constexpr EntityState ATTACK = EntityState::JINN_ATTACK;
     constexpr EntityState HURT = EntityState::HURT;
@@ -131,7 +132,7 @@ namespace JinnState
 
 namespace LizardState
 {
-     constexpr EntityState NONE = EntityState::NONE;
+    constexpr EntityState NONE = EntityState::NONE;
     constexpr EntityState WALK = EntityState::WALK;
     constexpr EntityState ATTACK = EntityState::LIZARD_ATTACK;
     constexpr EntityState HURT = EntityState::HURT;
@@ -140,7 +141,7 @@ namespace LizardState
 
 namespace MedusaState
 {
-     constexpr EntityState NONE = EntityState::NONE;
+    constexpr EntityState NONE = EntityState::NONE;
     constexpr EntityState WALK = EntityState::WALK;
     constexpr EntityState ATTACK = EntityState::MEDUSA_ATTACK;
     constexpr EntityState HURT = EntityState::HURT;
@@ -149,7 +150,7 @@ namespace MedusaState
 
 namespace Orc1State
 {
-     constexpr EntityState NONE = EntityState::NONE;
+    constexpr EntityState NONE = EntityState::NONE;
     constexpr EntityState WALK = EntityState::WALK;
     constexpr EntityState ATTACK = EntityState::ORC1_ATTACK;
     constexpr EntityState HURT = EntityState::HURT;
@@ -158,7 +159,7 @@ namespace Orc1State
 
 namespace Orc2State
 {
-     constexpr EntityState NONE = EntityState::NONE;
+    constexpr EntityState NONE = EntityState::NONE;
     constexpr EntityState WALK = EntityState::WALK;
     constexpr EntityState ATTACK = EntityState::ORC2_ATTACK;
     constexpr EntityState HURT = EntityState::HURT;
@@ -167,7 +168,7 @@ namespace Orc2State
 
 namespace Orc3State
 {
-     constexpr EntityState NONE = EntityState::NONE;
+    constexpr EntityState NONE = EntityState::NONE;
     constexpr EntityState WALK = EntityState::WALK;
     constexpr EntityState ATTACK = EntityState::ORC3_ATTACK;
     constexpr EntityState HURT = EntityState::HURT;

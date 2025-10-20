@@ -6,6 +6,8 @@
 #include "EntityState.h"
 #include "Animation.h"
 
+
+
 class IEntity
 {
 protected:
@@ -16,9 +18,25 @@ protected:
     EntityState state;
     Animation *animation;
     HPBar *hpbar;
-    bool flip;
+    
+
+     
 
 public:
+    // --- Tấn công ---
+    IEntity* attackTarget = nullptr;   // mục tiêu đang nhắm
+    float attackRange = 150.0f;        // phạm vi tìm mục tiêu
+    float attackDistance = 50.0f;      // phạm vi tấn công tự động
+    bool attacking = false;            // trạng thái tấn công
+    float attackDamage = 10.0f;        // sát thương cơ bản
+    bool mouseControlActive;
+
+    bool flip;
+    // --- Di chuyển theo chuột ---
+    Transform targetPos;   // điểm click
+    bool moving = false;   // có đang di chuyển không
+    float speed = 3.0f;    // tốc độ di chuyển
+    
     IEntity();
     virtual ~IEntity();
 
@@ -31,4 +49,12 @@ public:
     virtual std::string getName();
     virtual int getCost();
     virtual Transform &getTransform();
+    public:
+    void setTargetPos(float x, float y) {
+        targetPos.pos = {x, y};
+        moving = true;
+    }
+
+    bool isMoving() const { return moving; }
+
 };

@@ -1,0 +1,16 @@
+#pragma once
+#include <vector>
+#include "IEnitity.h"  // hoặc IEntity.h tùy dự án của bạn
+
+class TargetingSystem
+{
+public:
+    // Tìm mục tiêu gần nhất trong phạm vi attackRange
+    // seeker: entity đang tìm target
+    // targets: danh sách entity khả dụng
+    // attackRange: phạm vi tìm target
+    static IEntity* FindNearestTarget(IEntity* seeker, const std::vector<IEntity*>& targets, float attackRange);
+
+    // Di chuyển entity tới target nếu có
+    static void MoveToTarget(IEntity* seeker, float dt);
+};
