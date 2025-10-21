@@ -45,26 +45,42 @@ void SamuraiArcher::update(std::vector<IEntity*> &enemies, SDL_Renderer* rendere
             target = e;
         }
     }
-
+    const int fireFrame = 13;
     if(target && minDist <= attackRange) 
     {
-        if(state != SamuraiArcherState::SHOT) 
+        if(state != SamuraiArcherState::SHOT)
             setState(renderer, SamuraiArcherState::SHOT);
 
-        if (attackTimer >= attackCooldown)
+        if (!hasShotThisAnim && animation->getCurrentFrame() >= fireFrame)
         {
-            Vector2 targetPos = target->getPos();
+            Transform targetT = target->getTransform();
+            Vector2 targetCenter = {
+                targetT.pos.x + targetT.size.y * 0.5f,
+                targetT.pos.y + targetT.size.y *0.55f
+            };
+            
+            
+            float baseX = transform.pos.x + transform.size.x * 0.35f;
+            float baseY = transform.pos.y + transform.size.y * 0.65f;
 
-            float dx = targetPos.x - transform.pos.x;
-            float dy = targetPos.y - transform.pos.y;
+            float dx = targetCenter.x - baseX;
+            float dy = targetCenter.y - baseY;
+            float len = sqrt(dx * dx + dy * dy);
+
+            float arrowStartOffset = 25.0f;
+
+            float startX = baseX + (dx / len) * arrowStartOffset;
+            float startY = baseY + (dy / len) * arrowStartOffset;
 
             Arrow a;
-            a.init(renderer, transform.pos.x +30, transform.pos.y +20, dx, dy);
+            a.init(renderer, startX, startY, dx, dy);
             arrows.push_back(a);
 
+            hasShotThisAnim = true;
             attackTimer = 0.0f;
-
         }
+        if(animation->getCurrentFrame()==0 )
+            hasShotThisAnim = false;
     }
     
     for (auto it = arrows.begin(); it != arrows.end();)

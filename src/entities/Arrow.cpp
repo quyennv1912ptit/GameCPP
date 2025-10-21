@@ -1,7 +1,7 @@
 #include "Arrow.h"
 #include <cmath>
 
-void Arrow::init(SDL_Renderer* renderer, float x, float y, float dx, float dy)
+void Arrow::init(SDL_Renderer* renderer, float x , float y, float dx, float dy)
 {
     transform.pos = {x, y};
     texture = IMG_LoadTexture(renderer,"resources/imgs/kinghts/Samurai_Archer/Arrow.png");
@@ -10,6 +10,7 @@ void Arrow::init(SDL_Renderer* renderer, float x, float y, float dx, float dy)
     vx = (dx / len) *speed;
     vy = (dy / len) *speed;
 
+    angle = atan2(vy, vx) *180.0f / M_PI;
 }
 
 void Arrow::update(float dt)
@@ -20,10 +21,15 @@ void Arrow::update(float dt)
 
 void Arrow::render(SDL_Renderer* renderer) 
 {
+    const float arrowWidth = 60.0f;
+    const float arrowHeight = 25.0f;
+    const float verticalOffset = 8.0f;
     SDL_FRect dest = {
-        (int)transform.pos.x,
-        (int)transform.pos.y,
-          40, 10
+        transform.pos.x - arrowWidth / 2.0f,
+        transform.pos.y - arrowHeight / 2.0f,
+        arrowWidth,
+        arrowHeight,
         };
-    SDL_RenderTexture(renderer, texture, NULL, &dest);
+    SDL_FPoint center = {arrowWidth * 0.75f, arrowHeight / 2.0f};
+    SDL_RenderTextureRotated(renderer, texture, nullptr, &dest, angle, &center, SDL_FLIP_NONE);
 }

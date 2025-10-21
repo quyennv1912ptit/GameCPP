@@ -5,7 +5,7 @@ Demon::Demon()
 
     // attributes
 
-    transform.size = {100, 100};
+    transform.size = {130, 130};
 
     SDL_Color bg = {50, 50, 50, 255};
     SDL_Color fg = {0, 200, 0, 255};

@@ -27,4 +27,7 @@ public:
     void setAnim(SDL_Renderer *renderer, const char *path, int framecount, int dt);
 
     SDL_FRect getRect();
+
+    int getCurrentFrame() const { return curFrame; }
+    int getTotalFrame() const { return frameCount;}
 };

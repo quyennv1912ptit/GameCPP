@@ -7,7 +7,8 @@ public:
     Transform transform;
     SDL_Texture* texture;
     float vx, vy;
-    float speed = 300;
+    float angle=0;
+    float speed = 200;
 
     void init(SDL_Renderer* renderer, float x, float y, float dx, float dy);
     void update(float dt);

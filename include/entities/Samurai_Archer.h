@@ -21,6 +21,7 @@ private:
     float attackCooldown = 1.0f;
     float attackTimer = 0.0f;
     std::vector<Arrow> arrows;
+    bool hasShotThisAnim = false;
 
 public:
     SamuraiArcher();
