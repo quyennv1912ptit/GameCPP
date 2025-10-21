@@ -14,6 +14,9 @@ private:
     SDL_Renderer *m_Renderer = nullptr;
     bool m_Quit = true;
 
+    int musicIndex = 0;
+    int bgIndex = 0;
+
     std::vector<GameState *> states;
 
     MIX_Mixer *m_Mixer = nullptr;

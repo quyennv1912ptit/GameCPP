@@ -13,6 +13,7 @@
 #include "Demon.h"
 #include "FindTarget.h"
 
+
 const std::map<std::string, std::string> avt_path = {
     {"Samurai", "resources/imgs/avt/samurai_avt.png"},
     {"Samurai Archer", "resources/imgs/avt/samurai_archer_avt.png"},

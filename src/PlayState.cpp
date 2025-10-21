@@ -39,53 +39,55 @@ void PlayState::HandleEvent(const SDL_Event &event)
         int mouseX = event.button.x;
         int mouseY = event.button.y;
 
-        // 1️⃣ Kiểm tra nút pause trước
+        // 1️⃣ Kiểm tra nút pause
         if (pauseBtn->getIsHovered())
         {
             m_Game->PushState(new PauseState(m_Game));
-            return; // không xử lý di chuyển nếu click nút
-        }
-
-        // 2️⃣ Nếu không click nút pause, di chuyển Samurai
-        if (!knights.empty())
-        {
-            Samurai *player = dynamic_cast<Samurai *>(knights[0]);
-            player->setTargetPos((float)mouseX, (float)mouseY);
-            // ưu tiên chuột
-            player->mouseControlActive = true;
         }
     }
 }
 
 void PlayState::Update(float dt)
 {
+    const bool *keys = SDL_GetKeyboardState(NULL);
+
+    SDL_Renderer *renderer = m_Game->GetRenderer();
+
     pauseBtn->update(m_Game->GetMousePos());
-    // --- Cập nhật knights ---
     for (IEntity *k : knights)
     {
-        k->update(); // di chuyển theo chuột hoặc update khác
-
-        Samurai *player = dynamic_cast<Samurai *>(k);
-        if (player)
+        Transform& transform = k->getTransform();
+        if (keys[SDL_SCANCODE_W])
         {
-            // 1️⃣ tìm target gần nhất
-            player->attackTarget = TargetingSystem::FindNearestTarget(player, enemies, player->attackRange);
-
-            // 2️⃣ di chuyển tới target nếu có trong phạm vi
-            TargetingSystem::MoveToTarget(player, 1.0f); // dt = 1.0 hoặc deltaTime
+            transform.pos.y -= 0.5;
         }
+        if (keys[SDL_SCANCODE_A])
+        {
+            transform.pos.x -= 0.5;
+        }
+        if (keys[SDL_SCANCODE_S])
+        {
+            transform.pos.y += 0.5;
+        }
+        if (keys[SDL_SCANCODE_D])
+        {
+            transform.pos.x += 0.5;
+        }
+
+        k->attackTarget = TargetingSystem::FindNearestTarget(k, enemies);
+
+        TargetingSystem::MoveToTarget(renderer, k, dt);
+
+        k->update();
     }
 
     for (IEntity *e : enemies)
     {
-        e->update();
+        e->attackTarget = TargetingSystem::FindNearestTarget(e, knights);
 
-        Demon *demon = dynamic_cast<Demon *>(e);
-        if (demon)
-        {
-            demon->attackTarget = TargetingSystem::FindNearestTarget(demon, knights, demon->attackRange);
-            TargetingSystem::MoveToTarget(demon, 1.0f);
-        }
+        TargetingSystem::MoveToTarget(renderer, e, dt);
+
+        e->update();
     }
 }
 

@@ -10,6 +10,7 @@ const std::map<EntityState, std::pair<const char *, int>> SamuraiAnimationPath =
     {SamuraiState::ATTACK3, {"resources/imgs/kinghts/Samurai/Attack_3.png", 4}},
     {SamuraiState::HURT, {"resources/imgs/kinghts/Samurai/Hurt.png", 3}},
     {SamuraiState::DEAD, {"resources/imgs/kinghts/Samurai/Dead.png", 6}},
+    {SamuraiState::IDLE, {"resources/imgs/kinghts/Samurai/Idle.png", 6}}
 };
 
 class Samurai : public IEntity

@@ -62,8 +62,8 @@ enum class EntityState
 
 namespace SamuraiState
 {
-    constexpr EntityState NONE = EntityState::NONE;
     constexpr EntityState WALK = EntityState::WALK;
+    constexpr EntityState IDLE = EntityState::IDLE;
     constexpr EntityState ATTACK1 = EntityState::SAMURAI_ATTACK1;
     constexpr EntityState ATTACK2 = EntityState::SAMURAI_ATTACK2;
     constexpr EntityState ATTACK3 = EntityState::SAMURAI_ATTACK3;
@@ -115,6 +115,7 @@ namespace DragonState
 namespace DemonState
 {
     constexpr EntityState NONE = EntityState::NONE;
+    constexpr EntityState IDLE = EntityState::IDLE;
     constexpr EntityState WALK = EntityState::WALK;
     constexpr EntityState ATTACK = EntityState::DEMON_ATTACK;
     constexpr EntityState HURT = EntityState::HURT;

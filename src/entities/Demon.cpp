@@ -11,7 +11,7 @@ Demon::Demon()
     transform.size = {100, 100};
 
     SDL_Color bg = {50, 50, 50, 255};
-    SDL_Color fg = {0, 200, 0, 255};
+    SDL_Color fg = {200, 0, 0, 255};
 
     curHP = maxHP = 80;
 

@@ -9,8 +9,8 @@ public:
     // seeker: entity đang tìm target
     // targets: danh sách entity khả dụng
     // attackRange: phạm vi tìm target
-    static IEntity* FindNearestTarget(IEntity* seeker, const std::vector<IEntity*>& targets, float attackRange);
+    static IEntity* FindNearestTarget(IEntity* seeker, const std::vector<IEntity*>& targets);
 
     // Di chuyển entity tới target nếu có
-    static void MoveToTarget(IEntity* seeker, float dt);
+    static void MoveToTarget(SDL_Renderer* renderer, IEntity* seeker, float dt);
 };

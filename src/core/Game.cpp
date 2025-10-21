@@ -159,16 +159,18 @@ void Game::PopState()
 
 void Game::Cleanup()
 {
-    // if (m_BGMTrack)
-    //     MIX_DestroyTrack(m_BGMTrack);
-    // if (m_BGMAudio)
-    //     MIX_DestroyAudio(m_BGMAudio);
-    // if (m_Mixer)
-    //     MIX_DestroyMixer(m_Mixer);
-    // if (m_AudioDevice)
-    //     SDL_CloseAudioDevice(m_AudioDevice);
+    if (m_BGMTrack)
+        MIX_DestroyTrack(m_BGMTrack);
+    if (m_BGMAudio)
+        MIX_DestroyAudio(m_BGMAudio);
+    if (m_Mixer)
+        MIX_DestroyMixer(m_Mixer);
+    if (m_AudioDevice)
+        SDL_CloseAudioDevice(m_AudioDevice);
 
-    // MIX_Quit();
+    SDL_DestroyProperties(props);
+
+    MIX_Quit();
 
     if (!states.empty())
     {

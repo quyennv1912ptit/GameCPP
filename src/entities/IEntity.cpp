@@ -28,30 +28,11 @@ void IEntity::setSize(float w, float h)
 
 void IEntity::update()
 {
-    if(moving)
-    {
-        float dx = targetPos.pos.x - transform.pos.x;
-        float dy = targetPos.pos.y - transform.pos.y;
-        float dist = sqrt(dx*dx + dy*dy);
 
-        if(dist < speed)
-        {
-            transform.pos = targetPos.pos;
-            moving = false;
-        }
-        else
-        {
-            transform.pos.x += speed * dx / dist;
-            transform.pos.y += speed * dy / dist;
-        }
+    const bool *keys = SDL_GetKeyboardState(NULL);
 
-        state = EntityState::WALK;
-        flip = (dx < 0);
-    }
-    else
-    {
-        state = EntityState::IDLE;
-    }
+
+
     hpbar->Update();
 
     animation->flip = flip;
@@ -70,10 +51,12 @@ Transform &IEntity::getTransform()
     return transform;
 }
 
-std::string IEntity::getName() {
+std::string IEntity::getName()
+{
     return name;
 }
 
-int IEntity::getCost() {
+int IEntity::getCost()
+{
     return cost;
 }
