@@ -28,10 +28,10 @@ void IEntity::setSize(float w, float h)
 
 void IEntity::update()
 {
-
-    const bool *keys = SDL_GetKeyboardState(NULL);
-
-
+    if (curHP <= 0)
+    {
+        isAlive = false;
+    }
 
     hpbar->Update();
 
@@ -49,6 +49,16 @@ void IEntity::render(SDL_Renderer *renderer)
 Transform &IEntity::getTransform()
 {
     return transform;
+}
+
+bool IEntity::getIsAlive()
+{
+    return isAlive;
+}
+
+void IEntity::takeDamage(const IEntity &e)
+{
+    curHP -= e.attackDamage;
 }
 
 std::string IEntity::getName()

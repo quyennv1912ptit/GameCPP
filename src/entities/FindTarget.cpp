@@ -1,7 +1,7 @@
 #include "FindTarget.h"
 #include <cmath>
 
-IEntity *TargetingSystem::FindNearestTarget(IEntity *seeker, const std::vector<IEntity *> &targets)
+void TargetingSystem::FindNearestTarget(IEntity *seeker, const std::vector<IEntity *> &targets)
 {
     IEntity *nearest = nullptr;
     float minDist = std::numeric_limits<float>::max();
@@ -19,31 +19,27 @@ IEntity *TargetingSystem::FindNearestTarget(IEntity *seeker, const std::vector<I
         }
     }
 
-    return nearest; // nullptr nếu không có target trong phạm vi
+    seeker->attackTarget = nearest;
 }
 
-void TargetingSystem::MoveToTarget(SDL_Renderer *renderer, IEntity *seeker, float dt)
+void TargetingSystem::MoveToTarget(SDL_Renderer *renderer, IEntity *seeker, std::vector<IEntity *> ar, float dt)
 {
-    if (!seeker->attackTarget)
-        return;
-    else
+    if (seeker->attackTarget == nullptr)
     {
-        SDL_Log("%s\n", seeker->attackTarget->getName().c_str());
+        seeker->setState(renderer, EntityState::IDLE);
+        return;
     }
-
     float dx = seeker->attackTarget->getTransform().pos.x - seeker->getTransform().pos.x;
     float dy = seeker->attackTarget->getTransform().pos.y - seeker->getTransform().pos.y;
     float distance = std::sqrt(dx * dx + dy * dy);
 
-    SDL_Log("%f\n", distance);
-
     if (distance <= seeker->AttackRanvge)
     {
-        seeker->setState(renderer, EntityState::WALK);
+        seeker->attack(renderer);
     }
     else
     {
-        seeker->setState(renderer, EntityState::IDLE);
+        seeker->setState(renderer, EntityState::WALK);
 
         float nx = dx / distance;
         float ny = dy / distance;
@@ -51,5 +47,26 @@ void TargetingSystem::MoveToTarget(SDL_Renderer *renderer, IEntity *seeker, floa
         seeker->getTransform().pos.add({nx * seeker->speed * dt, ny * seeker->speed * dt});
 
         seeker->flip = (dx < 0);
+    }
+
+    for (IEntity *other : ar)
+    {
+        if (other == seeker)
+            continue;
+
+        float dx2 = seeker->getTransform().pos.x - other->getTransform().pos.x;
+        float dy2 = seeker->getTransform().pos.y - other->getTransform().pos.y;
+        float dist2 = std::sqrt(dx2 * dx2 + dy2 * dy2);
+
+        float minDist = 20.0f;
+
+        if (dist2 < minDist && dist2 > 0.001f)
+        {
+            float pushX = dx2 / dist2 * (minDist - dist2) * 0.5f;
+            float pushY = dy2 / dist2 * (minDist - dist2) * 0.5f;
+
+            seeker->getTransform().pos.x += pushX;
+            seeker->getTransform().pos.y += pushY;
+        }
     }
 }

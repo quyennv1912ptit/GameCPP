@@ -16,4 +16,5 @@ private:
 public:
     Orc3();
     void setState(SDL_Renderer *renderer, EntityState newState) override;
+    void attack(SDL_Renderer *renderer) override {}
 };

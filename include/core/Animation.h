@@ -20,6 +20,14 @@ public:
 
     void setFrame(int index);
 
+    int getCurFrame() {
+        return curFrame;
+    }
+
+    int getFrameCount() {
+        return frameCount;
+    }
+
     void update();
 
     void render(SDL_Renderer *renderer);

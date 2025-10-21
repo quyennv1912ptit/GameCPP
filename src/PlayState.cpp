@@ -49,45 +49,79 @@ void PlayState::HandleEvent(const SDL_Event &event)
 
 void PlayState::Update(float dt)
 {
-    const bool *keys = SDL_GetKeyboardState(NULL);
+    // const bool *keys = SDL_GetKeyboardState(NULL);
 
     SDL_Renderer *renderer = m_Game->GetRenderer();
 
     pauseBtn->update(m_Game->GetMousePos());
-    for (IEntity *k : knights)
+    for (auto it = knights.begin(); it != knights.end();)
     {
-        Transform& transform = k->getTransform();
-        if (keys[SDL_SCANCODE_W])
-        {
-            transform.pos.y -= 0.5;
-        }
-        if (keys[SDL_SCANCODE_A])
-        {
-            transform.pos.x -= 0.5;
-        }
-        if (keys[SDL_SCANCODE_S])
-        {
-            transform.pos.y += 0.5;
-        }
-        if (keys[SDL_SCANCODE_D])
-        {
-            transform.pos.x += 0.5;
-        }
+        IEntity *k = *it;
 
-        k->attackTarget = TargetingSystem::FindNearestTarget(k, enemies);
+        if (!k->getIsAlive())
+        {
+            delete k;
+            it = knights.erase(it);
+            continue;
+        }
+        // Transform &transform = k->getTransform();
+        // if (keys[SDL_SCANCODE_W])
+        // {
+        //     transform.pos.y -= 0.5;
+        // }
+        // if (keys[SDL_SCANCODE_A])
+        // {
+        //     transform.pos.x -= 0.5;
+        // }
+        // if (keys[SDL_SCANCODE_S])
+        // {
+        //     transform.pos.y += 0.5;
+        // }
+        // if (keys[SDL_SCANCODE_D])
+        // {
+        //     transform.pos.x += 0.5;
+        // }
 
-        TargetingSystem::MoveToTarget(renderer, k, dt);
+        TargetingSystem::FindNearestTarget(k, enemies);
+
+        TargetingSystem::MoveToTarget(renderer, k, knights, dt);
 
         k->update();
+
+        ++it;
     }
 
-    for (IEntity *e : enemies)
+    for (auto it = enemies.begin(); it != enemies.end();)
     {
-        e->attackTarget = TargetingSystem::FindNearestTarget(e, knights);
+        IEntity *e = *it;
 
-        TargetingSystem::MoveToTarget(renderer, e, dt);
+        if (!e->getIsAlive())
+        {
+            delete e;
+            it = enemies.erase(it);
+
+            Demon *demon = new Demon();
+            demon->setState(renderer, DemonState::WALK);
+            int x_min = 0, x_max = 1280;
+            int y_min = 0, y_max = 720;
+
+            int x = x_min + rand() % (x_max - x_min + 1);
+            int y = y_min + rand() % (y_max - y_min + 1);
+
+            demon->setPos(x, y);
+
+            enemies.push_back(demon);
+
+            continue;
+        }
+
+        TargetingSystem::FindNearestTarget(e, knights);
+
+        TargetingSystem::MoveToTarget(renderer, e, enemies, dt);
 
         e->update();
+
+        ++it;
     }
 }
 
