@@ -23,7 +23,7 @@ void Arrow::render(SDL_Renderer* renderer)
 {
     const float arrowWidth = 60.0f;
     const float arrowHeight = 25.0f;
-    const float verticalOffset = 8.0f;
+
     SDL_FRect dest = {
         transform.pos.x - arrowWidth / 2.0f,
         transform.pos.y - arrowHeight / 2.0f,

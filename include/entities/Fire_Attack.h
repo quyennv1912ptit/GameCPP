@@ -1,14 +1,14 @@
 #pragma once
 #include "IEnitity.h"
 
-class Arrow
+class Fire_Attack
 {
 public:
     Transform transform;
     SDL_Texture* texture;
     float vx, vy;
     float angle=0;
-    float speed = 250;
+    float speed = 200;
 
     void init(SDL_Renderer* renderer, float x, float y, float dx, float dy);
     void update(float dt);

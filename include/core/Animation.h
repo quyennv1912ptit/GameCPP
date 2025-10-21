@@ -30,4 +30,7 @@ public:
 
     int getCurrentFrame() const { return curFrame; }
     int getTotalFrame() const { return frameCount;}
+
+    SDL_Texture* getTexture() const {return texture;}
+    SDL_FRect getSrcRect() const {return srcRect; }
 };
