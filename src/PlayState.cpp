@@ -3,10 +3,10 @@
 void PlayState::Enter()
 {
     SDL_Renderer *renderer = m_Game->GetRenderer();
-    Samurai *e1 = new Samurai();
-    Demon *e2 = new Demon();
+    e1 = new SamuraiArcher;
+    e2 = new Demon();
 
-    e1->setState(renderer, SamuraiState::ATTACK1);
+    e1->setState(renderer, SamuraiArcherState::SHOT);
     e1->setPos(100, 100);
     e2->setState(renderer, DemonState::ATTACK);
     e2->setPos(400, 400);
@@ -33,16 +33,26 @@ void PlayState::HandleEvent(const SDL_Event &event)
 void PlayState::Update(float dt)
 {
     pauseBtn->update(m_Game->GetMousePos());
+
+    if(knights.empty()||enemies.empty())
+        return;
+
     for (IEntity *k : knights)
     {
-        k->update();
+       if(auto archer = dynamic_cast<SamuraiArcher*>(k))
+            archer->update(enemies, m_Game->GetRenderer(), dt);
+        else
+            k->update();
     }
 
     for (IEntity *e : enemies)
     {
         e->update();
     }
+
 }
+
+
 
 void PlayState::Render()
 {
@@ -67,10 +77,19 @@ void PlayState::Exit()
     for (IEntity *k : knights)
     {
         delete k;
+    knights.clear();
     }
 
     for (IEntity *e : enemies)
     {
         delete e;
+    enemies.clear();
     }
+    for(Arrow *a : arrows)
+    {
+        delete a;
+    arrows.clear();
+    }
+    e1 = nullptr;
+    e2 = nullptr;
 }

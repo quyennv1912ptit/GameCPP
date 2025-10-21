@@ -65,3 +65,18 @@ Transform &IEntity::getTransform()
 {
     return transform;
 }
+
+const Transform &IEntity::getTransform() const
+{
+    return transform;
+}
+
+EntityState IEntity::getState() const
+{
+    return state;
+}
+
+Vector2 IEntity::getPos() const
+{
+    return transform.pos;
+}

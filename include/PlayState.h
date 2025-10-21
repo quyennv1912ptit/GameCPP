@@ -7,6 +7,7 @@
 #include "Image.h"
 #include "Samurai.h"
 #include "Samurai_Archer.h"
+#include "Arrow.h"
 #include "Demon.h"
 #include "Jinn.h"
 #include "Lizard.h"
@@ -18,6 +19,12 @@
 
 class PlayState : public GameState
 {
+private:
+    SamuraiArcher *e1 = nullptr;
+    Demon *e2 = nullptr;
+    std::vector<Arrow*> arrows;
+    float arrowTimer = 0.0f;
+     
 private:
     //ui
     //pause button

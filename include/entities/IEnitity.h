@@ -27,4 +27,7 @@ public:
     virtual void setPos(float x, float y);
     virtual void setSize(float w, float y);
     virtual Transform &getTransform();
+    virtual const Transform &getTransform() const;
+    virtual EntityState getState() const;
+    virtual Vector2 getPos() const;
 };

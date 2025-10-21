@@ -2,6 +2,7 @@
 
 #include <map>
 #include "IEnitity.h"
+#include "Arrow.h"
 
 const std::map<EntityState, std::pair<const char *, int>> SamuraiArcherAnimationPath = {
     {SamuraiArcherState::WALK, {"resources/imgs/kinghts/Samurai_Archer/Walk.png", 8}},
@@ -16,7 +17,14 @@ const std::map<EntityState, std::pair<const char *, int>> SamuraiArcherAnimation
 class SamuraiArcher : public IEntity
 {
 private:
+    float attackRange = 450.0f;
+    float attackCooldown = 1.0f;
+    float attackTimer = 0.0f;
+    std::vector<Arrow> arrows;
+
 public:
     SamuraiArcher();
     void setState(SDL_Renderer *renderer, EntityState newState) override;
+    void update(std::vector<IEntity*> &enemies, SDL_Renderer *renderer, float dt);
+    void render(SDL_Renderer *renderer);
 };

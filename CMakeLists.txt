@@ -9,7 +9,7 @@ include_directories(${CMAKE_SOURCE_DIR}/include/core)
 include_directories(${CMAKE_SOURCE_DIR}/include/entities)
 link_directories(${CMAKE_SOURCE_DIR}/lib)
 
-file(GLOB SRC_FILES src/*.cpp src/core/*.cpp src/entities/*.cpp)
+file(GLOB SRC_FILES src/*.cpp src/core/*.cpp src/entities/*.cpp src/projectiles/*.cpp)
 
 add_executable(${PROJECT_NAME} ${SRC_FILES})
 
