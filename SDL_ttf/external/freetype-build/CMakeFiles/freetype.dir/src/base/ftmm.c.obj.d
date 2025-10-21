@@ -1,0 +1,62 @@
+vendored/SDL_ttf/external/freetype-build/CMakeFiles/freetype.dir/src/base/ftmm.c.obj: \
+ C:\Code\CPP\vendored\SDL_ttf\external\freetype\src\base\ftmm.c \
+ C:/Code/CPP/vendored/SDL_ttf/external/freetype/include/freetype/internal/ftdebug.h \
+ C:/Code/CPP/vendored/SDL_ttf/external/freetype/include/ft2build.h \
+ C:/Code/CPP/vendored/SDL_ttf/external/freetype/include/freetype/config/ftheader.h \
+ C:/Code/CPP/build/vendored/SDL_ttf/external/freetype-build/include/freetype/config/ftconfig.h \
+ C:/Code/CPP/build/vendored/SDL_ttf/external/freetype-build/include/freetype/config/ftoption.h \
+ C:/Code/CPP/vendored/SDL_ttf/external/freetype/include/freetype/config/ftstdlib.h \
+ C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/stddef.h \
+ C:/msys64/ucrt64/include/stddef.h C:/msys64/ucrt64/include/crtdefs.h \
+ C:/msys64/ucrt64/include/corecrt.h C:/msys64/ucrt64/include/_mingw.h \
+ C:/msys64/ucrt64/include/_mingw_mac.h \
+ C:/msys64/ucrt64/include/_mingw_secapi.h \
+ C:/msys64/ucrt64/include/vadefs.h \
+ C:/msys64/ucrt64/include/sdks/_mingw_ddk.h \
+ C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/limits.h \
+ C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/syslimits.h \
+ C:/msys64/ucrt64/include/limits.h C:/msys64/ucrt64/include/string.h \
+ C:/msys64/ucrt64/include/sec_api/string_s.h \
+ C:/msys64/ucrt64/include/stdio.h \
+ C:/msys64/ucrt64/include/corecrt_stdio_config.h \
+ C:/msys64/ucrt64/include/_mingw_off_t.h \
+ C:/msys64/ucrt64/include/swprintf.inl \
+ C:/msys64/ucrt64/include/sec_api/stdio_s.h \
+ C:/msys64/ucrt64/include/stdlib.h \
+ C:/msys64/ucrt64/include/corecrt_wstdlib.h \
+ C:/msys64/ucrt64/include/sec_api/stdlib_s.h \
+ C:/msys64/ucrt64/include/malloc.h \
+ C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/mm_malloc.h \
+ C:/msys64/ucrt64/include/errno.h C:/msys64/ucrt64/include/setjmp.h \
+ C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/stdarg.h \
+ C:/msys64/ucrt64/include/stdarg.h \
+ C:/msys64/ucrt64/include/_mingw_stdarg.h \
+ C:/Code/CPP/vendored/SDL_ttf/external/freetype/include/freetype/config/integer-types.h \
+ C:/Code/CPP/vendored/SDL_ttf/external/freetype/include/freetype/config/public-macros.h \
+ C:/Code/CPP/vendored/SDL_ttf/external/freetype/include/freetype/config/mac-support.h \
+ C:/Code/CPP/vendored/SDL_ttf/external/freetype/include/freetype/freetype.h \
+ C:/Code/CPP/vendored/SDL_ttf/external/freetype/include/freetype/fttypes.h \
+ C:/Code/CPP/vendored/SDL_ttf/external/freetype/include/freetype/ftsystem.h \
+ C:/Code/CPP/vendored/SDL_ttf/external/freetype/include/freetype/ftimage.h \
+ C:/Code/CPP/vendored/SDL_ttf/external/freetype/include/freetype/fterrors.h \
+ C:/Code/CPP/vendored/SDL_ttf/external/freetype/include/freetype/ftmoderr.h \
+ C:/Code/CPP/vendored/SDL_ttf/external/freetype/include/freetype/fterrdef.h \
+ C:/Code/CPP/vendored/SDL_ttf/external/freetype/include/freetype/internal/compiler-macros.h \
+ C:/Code/CPP/vendored/SDL_ttf/external/freetype/include/freetype/ftmm.h \
+ C:/Code/CPP/vendored/SDL_ttf/external/freetype/include/freetype/internal/ftobjs.h \
+ C:/Code/CPP/vendored/SDL_ttf/external/freetype/include/freetype/ftrender.h \
+ C:/Code/CPP/vendored/SDL_ttf/external/freetype/include/freetype/ftmodapi.h \
+ C:/Code/CPP/vendored/SDL_ttf/external/freetype/include/freetype/ftglyph.h \
+ C:/Code/CPP/vendored/SDL_ttf/external/freetype/include/freetype/ftsizes.h \
+ C:/Code/CPP/vendored/SDL_ttf/external/freetype/include/freetype/ftlcdfil.h \
+ C:/Code/CPP/vendored/SDL_ttf/external/freetype/include/freetype/ftparams.h \
+ C:/Code/CPP/vendored/SDL_ttf/external/freetype/include/freetype/internal/ftmemory.h \
+ C:/Code/CPP/vendored/SDL_ttf/external/freetype/include/freetype/internal/ftgloadr.h \
+ C:/Code/CPP/vendored/SDL_ttf/external/freetype/include/freetype/internal/ftdrv.h \
+ C:/Code/CPP/vendored/SDL_ttf/external/freetype/include/freetype/internal/autohint.h \
+ C:/Code/CPP/vendored/SDL_ttf/external/freetype/include/freetype/internal/ftserv.h \
+ C:/Code/CPP/vendored/SDL_ttf/external/freetype/include/freetype/internal/ftcalc.h \
+ C:/Code/CPP/vendored/SDL_ttf/external/freetype/include/freetype/ftincrem.h \
+ C:/Code/CPP/vendored/SDL_ttf/external/freetype/include/freetype/internal/services/svmm.h \
+ C:/Code/CPP/vendored/SDL_ttf/external/freetype/include/freetype/internal/ftmmtypes.h \
+ C:/Code/CPP/vendored/SDL_ttf/external/freetype/include/freetype/internal/services/svmetric.h

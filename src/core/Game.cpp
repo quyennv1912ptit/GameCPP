@@ -2,7 +2,7 @@
 
 void Game::Init()
 {
-    if (!SDL_Init(SDL_INIT_VIDEO))
+    if (!SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO))
     {
         SDL_Log("SDL_Init Error: %s\n", SDL_GetError());
         return;
@@ -17,6 +17,60 @@ void Game::Init()
     if (!TTF_Init())
     {
         SDL_Log("TTF_Init Error: %s\n", SDL_GetError());
+        return;
+    }
+
+    if (!MIX_Init())
+    {
+        SDL_Log("MIX_Init %s\n", SDL_GetError());
+        return;
+    }
+
+    SDL_AudioSpec desired_spec;
+    SDL_zero(desired_spec);
+    desired_spec.freq = 48000;
+    desired_spec.format = SDL_AUDIO_F32;
+    desired_spec.channels = 2;
+
+    m_AudioDevice = SDL_OpenAudioDevice(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, &desired_spec);
+    if (!m_AudioDevice)
+    {
+        SDL_Log("SDL_OpenAudioDevice failed: %s", SDL_GetError());
+        MIX_Quit();
+        SDL_Quit();
+        return;
+    }
+
+    m_Mixer = MIX_CreateMixerDevice(m_AudioDevice, &desired_spec);
+    if (!m_Mixer)
+    {
+        SDL_Log("MIX_CreateMixerDevice failed: %s", SDL_GetError());
+        SDL_CloseAudioDevice(m_AudioDevice);
+        MIX_Quit();
+        SDL_Quit();
+        return;
+    }
+
+    const char *musicPath = "resources/musics/bg.ogg";
+    m_BGMAudio = MIX_LoadAudio(m_Mixer, musicPath, true);
+
+    if (!m_BGMAudio)
+    {
+        SDL_Log("MIX_LoadAudio failed: %s", SDL_GetError());
+        return;
+    }
+
+    m_BGMTrack = MIX_CreateTrack(m_Mixer);
+    MIX_SetTrackAudio(m_BGMTrack, m_BGMAudio);
+
+    props = SDL_CreateProperties();
+    SDL_SetNumberProperty(props, MIX_PROP_PLAY_LOOPS_NUMBER, -1);
+
+    if (!MIX_PlayTrack(m_BGMTrack, props))
+    {
+        SDL_Log("MIX_PlayTrack failed: %s", SDL_GetError());
+        SDL_DestroyProperties(props);
+        return;
     }
 
     IMGUI_CHECKVERSION();
@@ -105,6 +159,17 @@ void Game::PopState()
 
 void Game::Cleanup()
 {
+    // if (m_BGMTrack)
+    //     MIX_DestroyTrack(m_BGMTrack);
+    // if (m_BGMAudio)
+    //     MIX_DestroyAudio(m_BGMAudio);
+    // if (m_Mixer)
+    //     MIX_DestroyMixer(m_Mixer);
+    // if (m_AudioDevice)
+    //     SDL_CloseAudioDevice(m_AudioDevice);
+
+    // MIX_Quit();
+
     if (!states.empty())
     {
         for (auto state : states)

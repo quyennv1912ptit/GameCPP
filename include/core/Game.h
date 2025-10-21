@@ -4,6 +4,7 @@
 #include <vector>
 #include <imgui_impl_sdl3.h>
 #include <imgui_impl_sdlrenderer3.h>
+#include <SDL3_mixer/SDL_mixer.h>
 #include "MenuState.h"
 
 class Game
@@ -14,6 +15,12 @@ private:
     bool m_Quit = true;
 
     std::vector<GameState *> states;
+
+    MIX_Mixer *m_Mixer = nullptr;
+    MIX_Track *m_BGMTrack = nullptr;
+    MIX_Audio *m_BGMAudio = nullptr;
+    SDL_AudioDeviceID m_AudioDevice = 0;
+    SDL_PropertiesID props;
 
     Uint64 NOW = 0;
     Uint64 LAST = SDL_GetPerformanceCounter();

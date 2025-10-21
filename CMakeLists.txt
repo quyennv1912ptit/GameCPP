@@ -11,8 +11,8 @@ include_directories(${CMAKE_SOURCE_DIR}/include/imgui)
 include_directories(${CMAKE_SOURCE_DIR}/include/imgui/backends)
 link_directories(${CMAKE_SOURCE_DIR}/lib)
 
-file(GLOB_RECURSE SRC_FILES src/*.cpp src/entities/*.cpp)
+file(GLOB_RECURSE SRC_FILES src/*.cpp)
 
 add_executable(${PROJECT_NAME} ${SRC_FILES})
 
-target_link_libraries(${PROJECT_NAME} SDL3 SDL3_image SDL3_ttf)
+target_link_libraries(${PROJECT_NAME} SDL3 SDL3_image SDL3_ttf SDL3_mixer)
