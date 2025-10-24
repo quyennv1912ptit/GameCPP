@@ -28,6 +28,8 @@ void IEntity::setSize(float w, float h)
 
 void IEntity::update()
 {
+    transform.pos.y = std::clamp(transform.pos.y, minY, maxY);
+
     if (curHP <= 0)
     {
         isAlive = false;

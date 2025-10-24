@@ -1,5 +1,6 @@
 #include "MenuState.h"
 #include "PlayState.h"
+#include "SettingsState.h"
 #include "Button.h"
 
 void MenuState::Enter()
@@ -29,6 +30,7 @@ void MenuState::HandleEvent(const SDL_Event &event)
         }
         else if (settingBtn->getIsHovered())
         {
+            m_Game->PushState(new SettingsState(m_Game));
         }
         else if (exitBtn->getIsHovered())
         {

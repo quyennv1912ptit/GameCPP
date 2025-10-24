@@ -1,284 +1,234 @@
 #include "PlayState.h"
 
-void PlayState::Enter()
-{
-    SDL_Renderer *renderer = m_Game->GetRenderer();
-    Samurai *e1 = new Samurai();
-    e1->setState(renderer, SamuraiState::ATTACK1);
-    e1->setPos(100, 100);
+#include "SettingsState.h"
 
-    knights.push_back(e1);
+void PlayState::Enter() {
+	SDL_Renderer* renderer = m_Game->GetRenderer();
+	Samurai* e1 = new Samurai();
+	e1->setState(renderer, SamuraiState::ATTACK1);
+	e1->setPos(100, 100);
 
-    Demon *demon = new Demon();
-    demon->setState(renderer, DemonState::ATTACK);
-    demon->setPos(550, 250);
+	knights.push_back(e1);
 
-    enemies.push_back(demon);
+	Demon* demon = new Demon();
+	demon->setState(renderer, DemonState::ATTACK);
+	demon->setPos(550, 250);
 
-    pauseBtn = new ImageButton(renderer, "resources/imgs/ui/pauseBtn.png", "resources/imgs/ui/pauseBtn_hovered.png");
-    pauseBtn->setPos({1200, 30});
-    pauseBtn->setSize({50, 50});
+	enemies.push_back(demon);
 
-    for (auto kn : avt_path)
-    {
+	pauseBtn = new ImageButton(renderer, "resources/imgs/ui/pauseBtn.png",
+	                           "resources/imgs/ui/pauseBtn_hovered.png");
+	pauseBtn->setPos({1200, 30});
+	pauseBtn->setSize({50, 50});
 
-        SDL_Texture *texture = nullptr;
+	SettingBtn = new ImageButton(renderer, "resources/imgs/ui/settingBtn.png",
+	                             "resources/imgs/ui/settingBtn_hovered.png");
+	SettingBtn->setPos({1155, 35});
+	SettingBtn->setSize({40, 40});
 
-        texture = IMG_LoadTexture(renderer, kn.second.c_str());
+	for (auto kn : avt_path) {
+		SDL_Texture* texture = nullptr;
 
-        std::pair<std::string, SDL_Texture *> p = {kn.first, texture};
+		texture = IMG_LoadTexture(renderer, kn.second.c_str());
 
-        avts.push_back(p);
-    }
+		std::pair<std::string, SDL_Texture*> p = {kn.first, texture};
+
+		avts.push_back(p);
+	}
 }
 
-void PlayState::HandleEvent(const SDL_Event &event)
-{
-    if (event.type == SDL_EVENT_MOUSE_BUTTON_DOWN)
-    {
-        int mouseX = event.button.x;
-        int mouseY = event.button.y;
+void PlayState::HandleEvent(const SDL_Event& event) {
+	if (event.type == SDL_EVENT_MOUSE_BUTTON_DOWN) {
+		int mouseX = event.button.x;
+		int mouseY = event.button.y;
 
-        // 1️⃣ Kiểm tra nút pause
-        if (pauseBtn->getIsHovered())
-        {
-            m_Game->PushState(new PauseState(m_Game));
-        }
-    }
+		// 1️⃣ Kiểm tra nút pause
+		if (pauseBtn->getIsHovered()) {
+			m_Game->PushState(new PauseState(m_Game));
+		}
+		if (SettingBtn->getIsHovered()) {
+			m_Game->PushState(new SettingsState(m_Game));
+		}
+	}
 }
 
-void PlayState::Update(float dt)
-{
-    // const bool *keys = SDL_GetKeyboardState(NULL);
+void PlayState::Update(float dt) {
+	SDL_Renderer* renderer = m_Game->GetRenderer();
 
-    SDL_Renderer *renderer = m_Game->GetRenderer();
+	pauseBtn->update(m_Game->GetMousePos());
+	SettingBtn->update(m_Game->GetMousePos());
+	for (auto it = knights.begin(); it != knights.end();) {
+		IEntity* k = *it;
 
-    pauseBtn->update(m_Game->GetMousePos());
-    for (auto it = knights.begin(); it != knights.end();)
-    {
-        IEntity *k = *it;
+		if (!k->getIsAlive()) {
+			delete k;
+			it = knights.erase(it);
+			continue;
+		}
 
-        if (!k->getIsAlive())
-        {
-            delete k;
-            it = knights.erase(it);
-            continue;
-        }
-        // Transform &transform = k->getTransform();
-        // if (keys[SDL_SCANCODE_W])
-        // {
-        //     transform.pos.y -= 0.5;
-        // }
-        // if (keys[SDL_SCANCODE_A])
-        // {
-        //     transform.pos.x -= 0.5;
-        // }
-        // if (keys[SDL_SCANCODE_S])
-        // {
-        //     transform.pos.y += 0.5;
-        // }
-        // if (keys[SDL_SCANCODE_D])
-        // {
-        //     transform.pos.x += 0.5;
-        // }
+		TargetingSystem::FindNearestTarget(k, enemies);
 
-        TargetingSystem::FindNearestTarget(k, enemies);
+		TargetingSystem::MoveToTarget(renderer, k, knights, dt);
 
-        TargetingSystem::MoveToTarget(renderer, k, knights, dt);
+		k->update();
 
-        k->update();
+		++it;
+	}
 
-        ++it;
-    }
+	for (auto it = enemies.begin(); it != enemies.end();) {
+		IEntity* e = *it;
 
-    for (auto it = enemies.begin(); it != enemies.end();)
-    {
-        IEntity *e = *it;
+		if (!e->getIsAlive()) {
+			delete e;
+			it = enemies.erase(it);
 
-        if (!e->getIsAlive())
-        {
-            delete e;
-            it = enemies.erase(it);
+			Demon* demon = new Demon();
+			demon->setState(renderer, DemonState::WALK);
+			int x_min = 0, x_max = 1280;
+			int y_min = 0, y_max = 720;
 
-            Demon *demon = new Demon();
-            demon->setState(renderer, DemonState::WALK);
-            int x_min = 0, x_max = 1280;
-            int y_min = 0, y_max = 720;
+			int x = x_min + rand() % (x_max - x_min + 1);
+			int y = y_min + rand() % (y_max - y_min + 1);
 
-            int x = x_min + rand() % (x_max - x_min + 1);
-            int y = y_min + rand() % (y_max - y_min + 1);
+			demon->setPos(x, y);
 
-            demon->setPos(x, y);
+			enemies.push_back(demon);
 
-            enemies.push_back(demon);
+			continue;
+		}
 
-            continue;
-        }
+		TargetingSystem::FindNearestTarget(e, knights);
 
-        TargetingSystem::FindNearestTarget(e, knights);
+		TargetingSystem::MoveToTarget(renderer, e, enemies, dt);
 
-        TargetingSystem::MoveToTarget(renderer, e, enemies, dt);
+		e->update();
 
-        e->update();
-
-        ++it;
-    }
+		++it;
+	}
 }
 
-void PlayState::Render()
-{
-    SDL_Renderer *renderer = m_Game->GetRenderer();
-    // ui
-    pauseBtn->render();
+void PlayState::Render() {
+	SDL_Renderer* renderer = m_Game->GetRenderer();
+	// ui
+	pauseBtn->render();
+	SettingBtn->render();
 
-    // entities
-    for (IEntity *k : knights)
-    {
-        k->render(renderer);
-    }
+	// entities
+	for (IEntity* k : knights) {
+		k->render(renderer);
+	}
 
-    for (IEntity *e : enemies)
-    {
-        e->render(renderer);
-    }
+	for (IEntity* e : enemies) {
+		e->render(renderer);
+	}
 
-    ImGui_ImplSDLRenderer3_NewFrame();
-    ImGui_ImplSDL3_NewFrame();
+	ImGui::Begin("Hotbar", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
 
-    ImGui::NewFrame();
+	if (ImGui::BeginTable("buttons", slots.size(),
+	                      ImGuiTableFlags_SizingFixedFit)) {
+		ImGui::TableNextRow();
 
-    ImGui::Begin("Hotbar", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
+		for (int i = 0; i < slots.size(); i++) {
+			ImGui::TableSetColumnIndex(i);
+			if (ImGui::ImageButton(("btn" + std::to_string(i)).c_str(),
+			                       slots[i].second, ImVec2(64, 64))) {
+				printf("clicked %d\n", i + 1);
+				if (slots[i].second == nullptr) {
+					if (currentSlot == i) {
+						showSelector = !showSelector;
+					} else {
+						currentSlot = i;
+						showSelector = true;
+					}
+				} else {
+					IEntity* e;
 
-    if (ImGui::BeginTable("buttons", slots.size(), ImGuiTableFlags_SizingFixedFit))
-    {
-        ImGui::TableNextRow();
+					std::string name = slots[i].first;
 
-        for (int i = 0; i < slots.size(); i++)
-        {
-            ImGui::TableSetColumnIndex(i);
-            if (ImGui::ImageButton(("btn" + std::to_string(i)).c_str(), slots[i].second, ImVec2(64, 64)))
-            {
-                printf("clicked %d\n", i + 1);
-                if (slots[i].second == nullptr)
-                {
-                    if (currentSlot == i)
-                    {
-                        showSelector = !showSelector;
-                    }
-                    else
-                    {
-                        currentSlot = i;
-                        showSelector = true;
-                    }
-                }
-                else
-                {
-                    IEntity *e;
+					if (name == "Samurai") {
+						e = new Samurai();
+						e->setState(renderer, SamuraiState::ATTACK1);
+					} else if (name == "Samurai Archer") {
+						e = new SamuraiArcher();
+						e->setState(renderer, SamuraiArcherState::ATTACK1);
+					} else if (name == "Samurai Commander") {
+						e = new SamuraiCommander();
+						e->setState(renderer, SamuraiCommanderState::ATTACK1);
+					} else if (name == "Dragon") {
+						e = new Dragon();
+						e->setState(renderer, DragonState::ATTACK);
+					} else if (name == "Small Dragon") {
+						e = new SmallDragon();
+						e->setState(renderer, SmallDragonState::ATTACK);
+					}
 
-                    std::string name = slots[i].first;
+					int x_min = 0, x_max = 1280;
+					int y_min = 860/4, y_max = 1670/4;
 
-                    if (name == "Samurai")
-                    {
-                        e = new Samurai();
-                        e->setState(renderer, SamuraiState::ATTACK1);
-                    }
-                    else if (name == "Samurai Archer")
-                    {
-                        e = new SamuraiArcher();
-                        e->setState(renderer, SamuraiArcherState::ATTACK1);
-                    }
-                    else if (name == "Samurai Commander")
-                    {
-                        e = new SamuraiCommander();
-                        e->setState(renderer, SamuraiCommanderState::ATTACK1);
-                    }
-                    else if (name == "Dragon")
-                    {
-                        e = new Dragon();
-                        e->setState(renderer, DragonState::ATTACK);
-                    }
-                    else if (name == "Small Dragon")
-                    {
-                        e = new SmallDragon();
-                        e->setState(renderer, SmallDragonState::ATTACK);
-                    }
+					int x = x_min + rand() % (x_max - x_min + 1);
+					int y = y_min + rand() % (y_max - y_min + 1);
 
-                    int x_min = 0, x_max = 1280;
-                    int y_min = 0, y_max = 720;
+					e->setPos(x, y);
 
-                    int x = x_min + rand() % (x_max - x_min + 1);
-                    int y = y_min + rand() % (y_max - y_min + 1);
+					knights.push_back(e);
+				}
+			}
+		}
 
-                    e->setPos(x, y);
+		ImGui::TableNextRow();
 
-                    knights.push_back(e);
-                }
-            }
-        }
+		for (int i = 0; i < slots.size(); i++) {
+			ImGui::TableSetColumnIndex(i);
 
-        ImGui::TableNextRow();
+			ImGui::Text(slots[i].first.c_str());
+		}
 
-        for (int i = 0; i < slots.size(); i++)
-        {
-            ImGui::TableSetColumnIndex(i);
+		ImGui::TableNextRow();
 
-            ImGui::Text(slots[i].first.c_str());
-        }
+		for (int col = 0; col < slots.size(); col++) {
+			ImGui::TableSetColumnIndex(col);
 
-        ImGui::TableNextRow();
+			ImGui::Text("%d$", 500);
+		}
 
-        for (int col = 0; col < slots.size(); col++)
-        {
-            ImGui::TableSetColumnIndex(col);
+		ImGui::EndTable();
+	}
 
-            ImGui::Text("%d$", 500);
-        }
+	ImGui::End();
 
-        ImGui::EndTable();
-    }
+	if (showSelector) {
+		ImGui::Begin("Select Character", &showSelector,
+		             ImGuiWindowFlags_AlwaysAutoResize);
 
-    ImGui::End();
+		ImGui::Text("Select character for slot %d", currentSlot + 1);
+		if (ImGui::BeginTable("ch_sel", avts.size(),
+		                      ImGuiTableFlags_SizingFixedFit))
 
-    if (showSelector)
-    {
-        ImGui::Begin("Select Character", &showSelector, ImGuiWindowFlags_AlwaysAutoResize);
+			ImGui::TableNextRow();
 
-        ImGui::Text("Select character for slot %d", currentSlot + 1);
-        if (ImGui::BeginTable("ch_sel", avts.size(), ImGuiTableFlags_SizingFixedFit))
+		for (int i = 0; i < avts.size(); i++) {
+			ImGui::TableSetColumnIndex(i);
+			if (ImGui::ImageButton(("btn_avt" + std::to_string(i)).c_str(),
+			                       avts[i].second, ImVec2(64, 64))) {
+				slots[currentSlot] = avts[i];
+				showSelector = false;
+			}
+		}
 
-            ImGui::TableNextRow();
+		ImGui::EndTable();
 
-        for (int i = 0; i < avts.size(); i++)
-        {
-            ImGui::TableSetColumnIndex(i);
-            if (ImGui::ImageButton(("btn_avt" + std::to_string(i)).c_str(), avts[i].second, ImVec2(64, 64)))
-            {
-                slots[currentSlot] = avts[i];
-                showSelector = false;
-            }
-        }
-
-        ImGui::EndTable();
-
-        ImGui::End();
-    }
-
-    ImGui::Render();
-
-    ImGui_ImplSDLRenderer3_RenderDrawData(ImGui::GetDrawData(), renderer);
+		ImGui::End();
+	}
 }
 
-void PlayState::Exit()
-{
-    // SDL_DestroyTexture(texture);
+void PlayState::Exit() {
+	// SDL_DestroyTexture(texture);
 
-    for (IEntity *k : knights)
-    {
-        delete k;
-    }
+	for (IEntity* k : knights) {
+		delete k;
+	}
 
-    for (IEntity *e : enemies)
-    {
-        delete e;
-    }
+	for (IEntity* e : enemies) {
+		delete e;
+	}
 }

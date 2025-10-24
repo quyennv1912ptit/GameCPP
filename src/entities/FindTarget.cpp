@@ -58,7 +58,7 @@ void TargetingSystem::MoveToTarget(SDL_Renderer *renderer, IEntity *seeker, std:
         float dy2 = seeker->getTransform().pos.y - other->getTransform().pos.y;
         float dist2 = std::sqrt(dx2 * dx2 + dy2 * dy2);
 
-        float minDist = 20.0f;
+        float minDist = 30.0f;
 
         if (dist2 < minDist && dist2 > 0.001f)
         {

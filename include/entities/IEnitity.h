@@ -1,6 +1,6 @@
 #pragma once
 
-#include <SDL3/SDL.h>
+#include "SDL3/SDL.h"
 #include "Vector2.h"
 #include "HPBar.h"
 #include "EntityState.h"
@@ -11,10 +11,14 @@ class TargetingSystem;
 class IEntity
 {
 protected:
+    float minY = 860.0f /4.0f;
+    float maxY = 1670.0f/4.0f;
+
     std::string name = "";
     int cost = 0;
     float curHP, maxHP;
     Transform transform;
+    Vector2 centerPos;
     EntityState state;
     Animation *animation;
     HPBar *hpbar;

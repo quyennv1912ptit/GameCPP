@@ -1,14 +1,20 @@
 #include "Game.h"
+#include "Config.h"
+#include "Audio.h"
+
+SDL_Texture* tex = nullptr;
 
 void Game::Init()
 {
+    Config::Init();
+
     if (!SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO))
     {
         SDL_Log("SDL_Init Error: %s\n", SDL_GetError());
         return;
     }
 
-    if (!SDL_CreateWindowAndRenderer("GameCPP", 1280, 720, 0, &m_Window, &m_Renderer))
+    if (!SDL_CreateWindowAndRenderer("GameCPP", Config::GetWindowSize().x, Config::GetWindowSize().y, 0, &m_Window, &m_Renderer))
     {
         SDL_Log("SDL_CreateWindowAndRenderer Error: %s\n", SDL_GetError());
         return;
@@ -19,63 +25,26 @@ void Game::Init()
         SDL_Log("TTF_Init Error: %s\n", SDL_GetError());
         return;
     }
-
+    
     if (!MIX_Init())
     {
         SDL_Log("MIX_Init %s\n", SDL_GetError());
         return;
     }
-
-    SDL_AudioSpec desired_spec;
-    SDL_zero(desired_spec);
-    desired_spec.freq = 48000;
-    desired_spec.format = SDL_AUDIO_F32;
-    desired_spec.channels = 2;
-
-    m_AudioDevice = SDL_OpenAudioDevice(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, &desired_spec);
-    if (!m_AudioDevice)
-    {
-        SDL_Log("SDL_OpenAudioDevice failed: %s", SDL_GetError());
-        MIX_Quit();
-        SDL_Quit();
-        return;
-    }
-
-    m_Mixer = MIX_CreateMixerDevice(m_AudioDevice, &desired_spec);
-    if (!m_Mixer)
-    {
-        SDL_Log("MIX_CreateMixerDevice failed: %s", SDL_GetError());
-        SDL_CloseAudioDevice(m_AudioDevice);
-        MIX_Quit();
-        SDL_Quit();
-        return;
-    }
-
-    const char *musicPath = "resources/musics/bg.ogg";
-    m_BGMAudio = MIX_LoadAudio(m_Mixer, musicPath, true);
-
-    if (!m_BGMAudio)
-    {
-        SDL_Log("MIX_LoadAudio failed: %s", SDL_GetError());
-        return;
-    }
-
-    m_BGMTrack = MIX_CreateTrack(m_Mixer);
-    MIX_SetTrackAudio(m_BGMTrack, m_BGMAudio);
-
-    props = SDL_CreateProperties();
-    SDL_SetNumberProperty(props, MIX_PROP_PLAY_LOOPS_NUMBER, -1);
-
-    if (!MIX_PlayTrack(m_BGMTrack, props))
-    {
-        SDL_Log("MIX_PlayTrack failed: %s", SDL_GetError());
-        SDL_DestroyProperties(props);
-        return;
-    }
+    
+    tex = IMG_LoadTexture(m_Renderer, "resources/imgs/backgrounds/game_background_1/game_background_1.png");
+    Audio::Get().Init();
+    Audio::Get().PlayMusic(Config::GetMusic());
+    Audio::Get().LoadVolume(m_MasterMusicVolume);
 
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     ImGuiIO &io = ImGui::GetIO();
+
+    io.Fonts->AddFontFromFileTTF("resources/fonts/arial.ttf", 22.0f);
+    io.FontDefault = io.Fonts->Fonts.back();
+
+    m_BigFont = io.Fonts->AddFontFromFileTTF("resources/fonts/mightysouly.ttf", 28.0f);
 
     ImGui_ImplSDL3_InitForSDLRenderer(m_Window, m_Renderer);
     ImGui_ImplSDLRenderer3_Init(m_Renderer);
@@ -83,6 +52,7 @@ void Game::Init()
     m_Quit = false;
 
     ChangeState(new MenuState(this));
+
 }
 
 void Game::Run()
@@ -117,8 +87,19 @@ void Game::Run()
             SDL_SetRenderDrawColor(m_Renderer, 200, 200, 200, 255);
             SDL_RenderClear(m_Renderer);
 
+            SDL_FRect dest = {0, 0, Config::GetWindowSize().x, Config::GetWindowSize().y};
+            SDL_RenderTexture(m_Renderer, tex, NULL, &dest);
+            
+            ImGui_ImplSDL3_NewFrame();
+            ImGui_ImplSDLRenderer3_NewFrame();
+            ImGui::NewFrame();
+            
             for (auto state : states)
-                state->Render();
+            state->Render();
+            
+            ImGui::Render();
+            ImGui_ImplSDLRenderer3_RenderDrawData(ImGui::GetDrawData(), m_Renderer);
+            
 
             SDL_RenderPresent(m_Renderer);
         }
@@ -159,18 +140,6 @@ void Game::PopState()
 
 void Game::Cleanup()
 {
-    if (m_BGMTrack)
-        MIX_DestroyTrack(m_BGMTrack);
-    if (m_BGMAudio)
-        MIX_DestroyAudio(m_BGMAudio);
-    if (m_Mixer)
-        MIX_DestroyMixer(m_Mixer);
-    if (m_AudioDevice)
-        SDL_CloseAudioDevice(m_AudioDevice);
-
-    SDL_DestroyProperties(props);
-
-    MIX_Quit();
 
     if (!states.empty())
     {
@@ -187,6 +156,8 @@ void Game::Cleanup()
     ImGui_ImplSDLRenderer3_Shutdown();
     ImGui_ImplSDL3_Shutdown();
     ImGui::DestroyContext();
+
+    Audio::Get().Shutdown();
 
     if (m_Renderer)
     {

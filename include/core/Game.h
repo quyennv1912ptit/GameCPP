@@ -14,8 +14,7 @@ private:
     SDL_Renderer *m_Renderer = nullptr;
     bool m_Quit = true;
 
-    int musicIndex = 0;
-    int bgIndex = 0;
+	int m_MasterMusicVolume = 100;
 
     std::vector<GameState *> states;
 
@@ -29,6 +28,7 @@ private:
     Uint64 LAST = SDL_GetPerformanceCounter();
     float m_DeltaTime = 0;
     SDL_FPoint m_MousePos = {-1, -1};
+    ImFont* m_BigFont = nullptr;
     void Cleanup();
 
 public:
