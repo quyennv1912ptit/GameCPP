@@ -114,13 +114,15 @@ void PlayState::Render() {
 	SettingBtn->render();
 
 	// entities
-	for (IEntity* k : knights) {
-		k->render(renderer);
-	}
+	allEntities.clear();
+	allEntities.insert(allEntities.end(), knights.begin(), knights.end());
+	allEntities.insert(allEntities.end(), enemies.begin(), enemies.end());
+	std::sort(allEntities.begin(), allEntities.end(),
+	          [](IEntity* a, IEntity* b) {
+		          return a->getTransform().pos.y < b->getTransform().pos.y;
+	          });
 
-	for (IEntity* e : enemies) {
-		e->render(renderer);
-	}
+	for (IEntity* e : allEntities) e->render(renderer);
 
 	ImGui::Begin("Hotbar", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
 
@@ -163,7 +165,7 @@ void PlayState::Render() {
 					}
 
 					int x_min = 0, x_max = 1280;
-					int y_min = 860/4, y_max = 1670/4;
+					int y_min = 860 / 4, y_max = 1670 / 4;
 
 					int x = x_min + rand() % (x_max - x_min + 1);
 					int y = y_min + rand() % (y_max - y_min + 1);

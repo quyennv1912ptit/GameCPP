@@ -1,74 +1,51 @@
 #include "IEnitity.h"
 
-IEntity::IEntity()
-{
-    state = EntityState::NONE;
+IEntity::IEntity() {
+	state = EntityState::NONE;
 
-    transform.pos = {0, 0};
+	transform.pos = {0, 0};
 
-    flip = false;
+	flip = false;
 
-    animation = new Animation(transform);
+	animation = new Animation(transform);
 }
 
-IEntity::~IEntity()
-{
-    delete animation;
+IEntity::~IEntity() { delete animation; }
+
+void IEntity::setPos(float x, float y) { transform.pos = {x, y}; }
+
+void IEntity::setSize(float w, float h) { transform.size = {w, h}; }
+
+void IEntity::update() {
+	transform.pos.y = std::clamp(transform.pos.y, minY, maxY);
+
+	centerPos = {transform.pos.x + transform.size.x / 2,
+	             transform.pos.y + transform.size.y / 2};
+
+	if (curHP <= 0) {
+		isAlive = false;
+	}
+
+	hpbar->Update();
+
+	animation->flip = flip;
+	animation->update();
+	hpbar->Update();
 }
 
-void IEntity::setPos(float x, float y)
-{
-    transform.pos = {x, y};
+void IEntity::render(SDL_Renderer* renderer) {
+	animation->render(renderer);
+	hpbar->Render(renderer);
 }
 
-void IEntity::setSize(float w, float h)
-{
-    transform.size = {w, h};
-}
+Transform& IEntity::getTransform() { return transform; }
 
-void IEntity::update()
-{
-    transform.pos.y = std::clamp(transform.pos.y, minY, maxY);
+Vector2& IEntity::getCenterPos() { return centerPos; }
 
-    if (curHP <= 0)
-    {
-        isAlive = false;
-    }
+bool IEntity::getIsAlive() { return isAlive; }
 
-    hpbar->Update();
+void IEntity::takeDamage(const IEntity& e) { curHP -= e.attackDamage; }
 
-    animation->flip = flip;
-    animation->update();
-    hpbar->Update();
-}
+std::string IEntity::getName() { return name; }
 
-void IEntity::render(SDL_Renderer *renderer)
-{
-    animation->render(renderer);
-    hpbar->Render(renderer);
-}
-
-Transform &IEntity::getTransform()
-{
-    return transform;
-}
-
-bool IEntity::getIsAlive()
-{
-    return isAlive;
-}
-
-void IEntity::takeDamage(const IEntity &e)
-{
-    curHP -= e.attackDamage;
-}
-
-std::string IEntity::getName()
-{
-    return name;
-}
-
-int IEntity::getCost()
-{
-    return cost;
-}
+int IEntity::getCost() { return cost; }

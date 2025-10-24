@@ -36,6 +36,7 @@ class PlayState : public GameState {
 	// all entities
 	std::vector<IEntity*> knights;
 	std::vector<IEntity*> enemies;
+	std::vector<IEntity*> allEntities;
 
    public:
 	PlayState(Game* game)
