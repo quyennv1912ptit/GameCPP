@@ -1,6 +1,7 @@
 #pragma once
 
 #include <map>
+
 #include "IEnitity.h"
 
 const std::map<EntityState, std::pair<const char *, int>> Orc3AnimationPath = {
@@ -10,11 +11,10 @@ const std::map<EntityState, std::pair<const char *, int>> Orc3AnimationPath = {
     {Orc3State::DEAD, {"resources/imgs/enemies/orc1/orc3dead.png", 8}},
 };
 
-class Orc3 : public IEntity
-{
-private:
-public:
-    Orc3();
-    void setState(SDL_Renderer *renderer, EntityState newState) override;
-    void attack(SDL_Renderer *renderer) override {}
+class Orc3 : public IEntity {
+   private:
+   public:
+	Orc3();
+	void setState(SDL_Renderer *renderer, EntityState newState) override;
+	void attack(SDL_Renderer *renderer) override {}
 };

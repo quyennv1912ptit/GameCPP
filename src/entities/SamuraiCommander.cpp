@@ -1,31 +1,27 @@
 #include "SamuraiCommander.h"
 
-SamuraiCommander::SamuraiCommander()
-{
+SamuraiCommander::SamuraiCommander() {
+	// attributes
 
-    // attributes
+	transform.size = {100, 100};
 
-    transform.size = {100, 100};
+	name = "Samurai Commander";
 
-    name = "Samurai Commander";
+	cost = 50;
 
-    cost = 50;
+	SDL_Color bg = {50, 50, 50, 255};
+	SDL_Color fg = {0, 200, 0, 255};
 
-    SDL_Color bg = {50, 50, 50, 255};
-    SDL_Color fg = {0, 200, 0, 255};
+	curHP = maxHP = 100;
 
-    curHP = maxHP = 100;
-
-    hpbar = new HPBar(maxHP, curHP, transform, bg, fg, 5, -30, 60);
+	hpbar = new HPBar(maxHP, curHP, transform, bg, fg, 5, -30, 60);
 }
 
-void SamuraiCommander::setState(SDL_Renderer *renderer, EntityState newState)
-{
-    if (state == newState)
-        return;
+void SamuraiCommander::setState(SDL_Renderer *renderer, EntityState newState) {
+	if (state == newState) return;
 
-    state = newState;
-    auto p = SamuraiCommanderAnimationPath.at(state);
+	state = newState;
+	auto p = SamuraiCommanderAnimationPath.at(state);
 
-    animation->setAnim(renderer, p.first, p.second, 150);
+	animation->setAnim(renderer, p.first, p.second, 150);
 }

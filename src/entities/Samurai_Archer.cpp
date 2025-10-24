@@ -1,31 +1,27 @@
 #include "Samurai_Archer.h"
 
-SamuraiArcher::SamuraiArcher()
-{
+SamuraiArcher::SamuraiArcher() {
+	// attributes
 
-    // attributes
+	name = "Samurai Archer";
 
-    name = "Samurai Archer";
+	cost = 50;
 
-    cost = 50;
+	transform.size = {100, 100};
 
-    transform.size = {100, 100};
+	SDL_Color bg = {50, 50, 50, 255};
+	SDL_Color fg = {0, 200, 0, 255};
 
-    SDL_Color bg = {50, 50, 50, 255};
-    SDL_Color fg = {0, 200, 0, 255};
+	curHP = maxHP = 80;
 
-    curHP = maxHP = 80;
-
-    hpbar = new HPBar(maxHP, curHP, transform, bg, fg, 5, -30, 60);
+	hpbar = new HPBar(maxHP, curHP, transform, bg, fg, 5, -30, 60);
 }
 
-void SamuraiArcher::setState(SDL_Renderer *renderer, EntityState newState)
-{
-    if (state == newState)
-        return;
+void SamuraiArcher::setState(SDL_Renderer *renderer, EntityState newState) {
+	if (state == newState) return;
 
-    state = newState;
-    auto p = SamuraiArcherAnimationPath.at(state);
+	state = newState;
+	auto p = SamuraiArcherAnimationPath.at(state);
 
-    animation->setAnim(renderer, p.first, p.second, 180);
+	animation->setAnim(renderer, p.first, p.second, 180);
 }

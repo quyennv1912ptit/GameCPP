@@ -1,9 +1,5 @@
 #include "Timer.h"
 
-void Timer::start() {
-    startTime = (int)SDL_GetTicks();
-}
+void Timer::start() { startTime = (int)SDL_GetTicks(); }
 
-int Timer::elapsedTime() {
-    return (int)SDL_GetTicks() - startTime;
-}
+int Timer::elapsedTime() { return (int)SDL_GetTicks() - startTime; }
