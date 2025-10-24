@@ -15,8 +15,8 @@ void Config::Init() {
 
 	file.read(ini);
 
-	m_WindowSize = {std::stoi(ini["window"]["width"]),
-	                std::stoi(ini["window"]["height"])};
+	m_WindowSize = {(float)std::stoi(ini["window"]["width"]),
+	                (float)std::stoi(ini["window"]["height"])};
 
 	m_MusicIndex = std::stoi(ini["music"]["index"]);
 

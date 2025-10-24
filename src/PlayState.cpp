@@ -134,7 +134,6 @@ void PlayState::Render() {
 			ImGui::TableSetColumnIndex(i);
 			if (ImGui::ImageButton(("btn" + std::to_string(i)).c_str(),
 			                       slots[i].second, ImVec2(64, 64))) {
-				printf("clicked %d\n", i + 1);
 				if (slots[i].second == nullptr) {
 					if (currentSlot == i) {
 						showSelector = !showSelector;
