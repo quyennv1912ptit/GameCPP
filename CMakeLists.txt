@@ -7,10 +7,16 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/$<CONFIGURATION>")
 include_directories(${CMAKE_SOURCE_DIR}/include)
 include_directories(${CMAKE_SOURCE_DIR}/include/core)
 include_directories(${CMAKE_SOURCE_DIR}/include/entities)
+include_directories(${CMAKE_SOURCE_DIR}/include/imgui)
+include_directories(${CMAKE_SOURCE_DIR}/include/imgui/backends)
+include_directories(${CMAKE_SOURCE_DIR}/include/imgui/mini)
+
 link_directories(${CMAKE_SOURCE_DIR}/lib)
 
-file(GLOB SRC_FILES src/*.cpp src/core/*.cpp src/entities/*.cpp src/projectiles/*.cpp)
+
+file(GLOB_RECURSE SRC_FILES src/*.cpp)
+
 
 add_executable(${PROJECT_NAME} ${SRC_FILES})
 
-target_link_libraries(${PROJECT_NAME} SDL3 SDL3_image SDL3_ttf)
+target_link_libraries(${PROJECT_NAME} SDL3 SDL3_image SDL3_ttf SDL3_mixer)

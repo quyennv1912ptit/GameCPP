@@ -1,43 +1,52 @@
 #pragma once
 
 #include <vector>
-#include "GameState.h"
-#include "PauseState.h"
+
 #include "Animation.h"
-#include "Image.h"
-#include "Samurai.h"
-#include "Samurai_Archer.h"
-#include "Arrow.h"
 #include "Demon.h"
-#include "Jinn.h"
-#include "Lizard.h"
-#include "Medusa.h"
-#include "Orc1.h"
-#include "Orc2.h"
-#include "Orc3.h"
+#include "Dragon.h"
+#include "FindTarget.h"
+#include "GameState.h"
+#include "Image.h"
+#include "PauseState.h"
+#include "Samurai.h"
 
+#include "SamuraiCommander.h"
+#include "Samurai_Archer.h"
+#include "SmallDragon.h"
 
-class PlayState : public GameState
-{
-private:
-    SamuraiArcher *e1 = nullptr;
-    Demon *e2 = nullptr;
-    std::vector<Arrow*> arrows;
-    float arrowTimer = 0.0f;
-     
-private:
-    //ui
-    //pause button
-    ImageButton* pauseBtn;
-    //all entities
-    std::vector<IEntity*> knights;
-    std::vector<IEntity*> enemies; 
+const std::map<std::string, std::string> avt_path = {
+    {"Samurai", "resources/imgs/avt/samurai_avt.png"},
+    {"Samurai Archer", "resources/imgs/avt/samurai_archer_avt.png"},
+    {"Samurai Commander", "resources/imgs/avt/samurai_commander_avt.png"},
+    {"Small Dragon", "resources/imgs/avt/small_dragon_avt.png"},
+    {"Dragon", "resources/imgs/avt/dragon_avt.png"},
+};
 
-public:
-    PlayState(Game *game) { m_Game = game; }
-    void Enter() override;
-    void HandleEvent(const SDL_Event &event) override;
-    void Update(float dt) override;
-    void Render() override;
-    void Exit() override;
+class PlayState : public GameState {
+   private:
+	// ui
+	// pause button
+	ImageButton* pauseBtn;
+	ImageButton* SettingBtn;
+	// hotbar
+	std::vector<std::pair<std::string, SDL_Texture*>> avts;
+	std::vector<std::pair<std::string, SDL_Texture*>> slots;
+	int currentSlot = -1;
+	bool showSelector = false;
+	// all entities
+	std::vector<IEntity*> knights;
+	std::vector<IEntity*> enemies;
+	std::vector<IEntity*> allEntities;
+
+   public:
+	PlayState(Game* game)
+	    : slots(5, std::pair<std::string, SDL_Texture*>("None", nullptr)) {
+		m_Game = game;
+	}
+	void Enter() override;
+	void HandleEvent(const SDL_Event& event) override;
+	void Update(float dt) override;
+	void Render() override;
+	void Exit() override;
 };

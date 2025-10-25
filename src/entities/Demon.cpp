@@ -1,27 +1,36 @@
 #include "Demon.h"
 
-Demon::Demon()
-{
 
-    // attributes
+Demon::Demon() {
+	// attributes
+	name = "Demon";
 
-    transform.size = {130, 130};
+	cost = 0;
 
-    SDL_Color bg = {50, 50, 50, 255};
-    SDL_Color fg = {0, 200, 0, 255};
+	transform.size = {200, 200};
 
-    curHP = maxHP = 80;
+	SDL_Color bg = {50, 50, 50, 255};
+	SDL_Color fg = {200, 0, 0, 255};
 
-    hpbar = new HPBar(maxHP, curHP, transform, bg, fg, 5, -30, 60);
+	curHP = maxHP = 200;
+
+	hpbar = new HPBar(maxHP, curHP, transform, bg, fg, 5, -50, 100);
 }
 
-void Demon::setState(SDL_Renderer *renderer, EntityState newState)
-{
-    if (state == newState)
-        return;
+void Demon::setState(SDL_Renderer *renderer, EntityState newState) {
+	if (state == newState) return;
 
-    state = newState;
-    auto p = DemonAnimationPath.at(state);
+	state = newState;
+	auto p = DemonAnimationPath.at(state);
 
-    animation->setAnim(renderer, p.first, p.second, 180);
+	animation->setAnim(renderer, p.first, p.second, 150);
+}
+
+void Demon::attack(SDL_Renderer *renderer) {
+	setState(renderer, DemonState::ATTACK);
+
+	if (getAnimCurFrame() == 0) {
+		attackTarget->takeDamage(attackDamage);
+	}
+
 }
