@@ -1,4 +1,5 @@
 #include "IEnitity.h"
+#include "Config.h"
 
 IEntity::IEntity() {
 	state = EntityState::NONE;
@@ -8,6 +9,7 @@ IEntity::IEntity() {
 	flip = false;
 
 	animation = new Animation(transform);
+
 }
 
 IEntity::~IEntity() { delete animation; }
@@ -19,8 +21,10 @@ void IEntity::setSize(float w, float h) { transform.size = {w, h}; }
 void IEntity::update() {
 	transform.pos.y = std::clamp(transform.pos.y, minY, maxY);
 
+	transform.pos.x = std::clamp(transform.pos.x, 0.0f, Config::GetWindowSize().x - 200);
+
 	centerPos = {transform.pos.x + transform.size.x / 2,
-	             transform.pos.y + transform.size.y / 2};
+	             transform.pos.y + transform.size.y};
 
 	if (curHP <= 0) {
 		isAlive = false;

@@ -21,9 +21,6 @@ void Animation::setAnim(SDL_Renderer* renderer, const char* path, int count,
 
 	srcRect = {0, 0, texW / frameCount, texH};
 
-	entityTransform.size.x = srcRect.w;
-	entityTransform.size.y = srcRect.h;
-
 	curFrame = 0;
 	innerTimer->start();
 }

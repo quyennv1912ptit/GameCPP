@@ -40,7 +40,7 @@ void Config::UpdateMusic(int MusicIndex) {
 
 	file.write(ini);
 
-	std::cout << " config written successfully\n";
+	std::cout << "config written successfully\n";
 }
 
 void Config::UpdateVolume(int MusicVolume) {
@@ -58,7 +58,7 @@ void Config::UpdateVolume(int MusicVolume) {
 
 	file.write(ini);
 
-	std::cout << " config written successfully\n";
+	std::cout << "config written successfully\n";
 }
 
 void Config::UpdateBackground(int BGIndex) {
@@ -76,5 +76,5 @@ void Config::UpdateBackground(int BGIndex) {
 
 	file.write(ini);
 
-	std::cout << " config written successfully\n";
+	std::cout << "config written successfully\n";
 }

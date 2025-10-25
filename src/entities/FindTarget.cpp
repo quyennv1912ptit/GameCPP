@@ -22,7 +22,7 @@ void TargetingSystem::FindNearestTarget(IEntity* seeker,
 }
 
 void TargetingSystem::MoveToTarget(SDL_Renderer* renderer, IEntity* seeker,
-                                   std::vector<IEntity*> ar, float dt) {
+                                   std::vector<IEntity*>& ar, float dt) {
 	if (seeker->attackTarget == nullptr) {
 		seeker->setState(renderer, EntityState::IDLE);
 		return;

@@ -32,7 +32,7 @@ void Game::Init() {
 
 	tex = IMG_LoadTexture(
 	    m_Renderer,
-	    "resources/imgs/backgrounds/game_background_1/game_background_1.png");
+	    "resources/imgs/backgrounds/game_background_2/game_background_2.png");
 	Audio::Get().Init();
 	Audio::Get().PlayMusic(Config::GetMusic());
 	Audio::Get().LoadVolume(m_MasterMusicVolume);
