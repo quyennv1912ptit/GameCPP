@@ -14,7 +14,7 @@ void FireAttackD::init(SDL_Renderer* renderer, float x , float y, float dx, floa
     lifeTime = 2.0f; 
     
     animation = new Animation(transform);
-    animation->setAnim(renderer,"resources/imgs/kinghts/dragon/Fire_Attack.png", 6,100); 
+    animation->setAnim(renderer,"resources/imgs/kinghts/dragon/Fire_Attack.png", 6,250); 
     transform.size = {64, 64}; 
     animation->reset(); 
 } 

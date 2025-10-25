@@ -10,7 +10,7 @@ public:
 
     float vx, vy; 
     float angle=0; 
-    float speed = 50.0f; 
+    float speed = 90.0f; 
     float damage = 0.0f; 
     float lifeTime = 3.0f; 
     

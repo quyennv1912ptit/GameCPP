@@ -28,9 +28,8 @@ Dragon::Dragon()
 
 void Dragon::update(std::vector<IEntity*>& enemies, SDL_Renderer* renderer, float dt)
 {
-    int prevFrame = animation->getCurrentFrame();
+  
 	animation->update();
-	int curFrame = animation->getCurrentFrame();
 	hpbar->Update();
 
     attackTimer += dt;
@@ -125,15 +124,7 @@ void Dragon::update(std::vector<IEntity*>& enemies, SDL_Renderer* renderer, floa
                 hasFiredThisAnim = false;
             }
 
-        if(!hasFiredThisAnim && prevFrame == 1 && curFrame == 2 )
-		{
-			attackTarget = target;
-			attack(renderer);
-			attackTarget = nullptr;
-
-			hasFiredThisAnim = true;
-			attackTimer = 0.0f;
-		}
+            handleFireAttack(renderer, target);
            
             break;
 
@@ -148,6 +139,20 @@ void Dragon::update(std::vector<IEntity*>& enemies, SDL_Renderer* renderer, floa
     updateFireAttacks(enemies, dt);
 }
 
+
+void Dragon::handleFireAttack(SDL_Renderer* renderer, IEntity* target)
+{
+    const int fireFrame = 1;
+    if(!hasFiredThisAnim && animation->getCurrentFrame() == fireFrame)
+    {
+        attackTarget = target;
+        attack(renderer);
+        attackTarget = nullptr;
+
+        hasFiredThisAnim = true;
+        attackTimer = 0.0f;
+    }
+}
 
 void Dragon::updateFireAttacks(std::vector<IEntity*>& enemies, float dt)
 {
@@ -186,8 +191,8 @@ void Dragon::attack(SDL_Renderer* renderer)
     Vector2 targetCenter = { targetT.pos.x + targetT.size.x * 0.5f,
                              targetT.pos.y + targetT.size.y * 0.5f };
 
-    float baseX = transform.pos.x + transform.size.x * (flip ? 0.25f : 0.75f );
-    float baseY = transform.pos.y + transform.size.y * 0.05f;
+    float baseX = transform.pos.x + transform.size.x * (flip ? 0.1f : 0.9f );
+    float baseY = transform.pos.y + transform.size.y * 0.35f;
 
     float dx = targetCenter.x - baseX;
     float dy = targetCenter.y - baseY;
@@ -222,7 +227,7 @@ void Dragon::setState(SDL_Renderer *renderer, EntityState newState)
     {
         auto p = DragonAnimationPath.at(state);
 
-        animation->setAnim(renderer, p.first, p.second, 450);
+        animation->setAnim(renderer, p.first, p.second, 400);
         animation->reset();
     }
 }
