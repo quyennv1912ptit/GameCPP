@@ -1,6 +1,7 @@
-#include "IEnitity.h"
-#include "Config.h"
 #include <iostream>
+
+#include "Config.h"
+#include "IEnitity.h"
 
 IEntity::IEntity() {
 	state = EntityState::NONE;
@@ -10,7 +11,6 @@ IEntity::IEntity() {
 	flip = false;
 
 	animation = new Animation(transform);
-
 }
 
 IEntity::~IEntity() { delete animation; }
@@ -20,22 +20,23 @@ void IEntity::setPos(float x, float y) { transform.pos = {x, y}; }
 void IEntity::setSize(float w, float h) { transform.size = {w, h}; }
 
 void IEntity::update() {
-	
-	//transform.pos.y = std::clamp(transform.pos.y, minY, maxY);
-
-	// transform.pos.x = std::clamp(transform.pos.x, 0.0f, Config::GetWindowSize().x - 200);
-
-	centerPos = {transform.pos.x + transform.size.x / 2,
-	             transform.pos.y + transform.size.y / 2};
+	if (name == "Castle") {
+		if (!flip) {
+			hitPos = {transform.pos.x + 20, transform.pos.y + transform.size.y - 90};
+		} else {
+			hitPos = {transform.pos.x + transform.size.x -20,
+			          transform.pos.y + transform.size.y - 90};
+		}
+	} else {
+		hitPos = {transform.pos.x + transform.size.x / 2,
+		          transform.pos.y + transform.size.y / 2};
+	}
 
 	if (curHP <= 0) {
 		isAlive = false;
 	}
 
-//std::cout<<name<<" "<<transform.pos.x<<" "<<transform.pos.y<<"\n";
-
 	animation->flip = flip;
-	std::cout<<flip<<"\n";
 	animation->update();
 	hpbar->Update();
 }
@@ -47,7 +48,7 @@ void IEntity::render(SDL_Renderer* renderer) {
 
 Transform& IEntity::getTransform() { return transform; }
 
-Vector2& IEntity::getCenterPos() { return centerPos; }
+Vector2& IEntity::GetHitPos() { return hitPos; }
 
 bool IEntity::getIsAlive() { return isAlive; }
 

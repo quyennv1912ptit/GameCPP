@@ -9,8 +9,8 @@ void TargetingSystem::FindNearestTarget(IEntity* seeker,
 	float minDist = std::numeric_limits<float>::max();
 
 	for (IEntity* t : targets) {
-		float dx = t->getCenterPos().x - seeker->getCenterPos().x;
-		float dy = t->getCenterPos().y - seeker->getCenterPos().y;
+		float dx = t->GetHitPos().x - seeker->GetHitPos().x;
+		float dy = t->GetHitPos().y - seeker->GetHitPos().y;
 		float dist = std::sqrt(dx * dx + dy * dy);
 
 		if (dist <= minDist) {
@@ -29,9 +29,9 @@ void TargetingSystem::MoveToTarget(SDL_Renderer* renderer, IEntity* seeker,
 		return;
 	}
 	float dx =
-	    seeker->attackTarget->getCenterPos().x - seeker->getCenterPos().x;
+	    seeker->attackTarget->GetHitPos().x - seeker->GetHitPos().x;
 	float dy =
-	    seeker->attackTarget->getCenterPos().y - seeker->getCenterPos().y;
+	    seeker->attackTarget->GetHitPos().y - seeker->GetHitPos().y;
 	float distance = std::sqrt(dx * dx + dy * dy);
 
 	if (distance <= seeker->AttackRanvge) {
@@ -51,11 +51,11 @@ void TargetingSystem::MoveToTarget(SDL_Renderer* renderer, IEntity* seeker,
 	for (IEntity* other : ar) {
 		if (other == seeker) continue;
 
-		float dx2 = seeker->getCenterPos().x - other->getCenterPos().x;
-		float dy2 = seeker->getCenterPos().y - other->getCenterPos().y;
+		float dx2 = seeker->GetHitPos().x - other->GetHitPos().x;
+		float dy2 = seeker->GetHitPos().y - other->GetHitPos().y;
 		float dist2 = std::sqrt(dx2 * dx2 + dy2 * dy2);
 
-		float minDist = 30.0f;
+		float minDist = 10.0f;
 
 		if (dist2 < minDist && dist2 > 0.001f) {
 			float pushX = dx2 / dist2 * (minDist - dist2) * 0.5f;

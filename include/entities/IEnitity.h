@@ -17,7 +17,7 @@ class IEntity {
 	int cost = 0;
 	float curHP, maxHP;
 	Transform transform;
-	Vector2 centerPos;
+	Vector2 hitPos;
 	EntityState state;
 	Animation* animation;
 	HPBar* hpbar;
@@ -29,8 +29,6 @@ class IEntity {
 	bool attacking = false;
 	float attackDamage = 0.1f;
 	float speed = 80.0f;
-
-	
 
    public:
 	IEntity();
@@ -52,7 +50,7 @@ class IEntity {
 	virtual int getCost();
 	virtual bool getIsAlive();
 	virtual Transform& getTransform();
-	virtual Vector2& getCenterPos();
+	virtual Vector2& GetHitPos();
 
 	virtual int getAnimCurFrame() { return animation->getCurFrame(); }
 

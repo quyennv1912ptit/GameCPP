@@ -3,18 +3,18 @@
 #include <vector>
 
 #include "Animation.h"
+#include "Castle.h"
 #include "Demon.h"
 #include "Dragon.h"
 #include "FindTarget.h"
 #include "GameState.h"
 #include "Image.h"
+#include "Lizard.h"
 #include "PauseState.h"
 #include "Samurai.h"
 #include "SamuraiCommander.h"
 #include "Samurai_Archer.h"
 #include "SmallDragon.h"
-#include "Lizard.h"
-#include "Castle.h"
 
 const std::map<std::string, std::string> avt_path = {
     {"Samurai", "resources/imgs/avt/samurai_avt.png"},
@@ -41,24 +41,22 @@ class PlayState : public GameState {
 	std::vector<IEntity*> allEntities;
 
 	// --- Bộ đếm thời gian tổng của game ---
-    float gameTime = 0.0f;  // tổng thời gian kể từ lúc bắt đầu game (giây)
+	float gameTime = 0.0f;  // tổng thời gian kể từ lúc bắt đầu game (giây)
 
-    //TIME SPAWN
-    float demonTimer = 0.0f;
-    float demonInterval = 5.0f;
+	// TIME SPAWN
+	float demonTimer = 0.0f;
+	float demonInterval = 5.0f;
 
-    float lizardTimer = 0.0f;
-    float lizardInterval = 3.0f;
+	float lizardTimer = 0.0f;
+	float lizardInterval = 3.0f;
 
-    // --- Mốc thời gian mở khóa ---
-    float unlockdemonTime = 60.0f;       // sau 60s (1 phút) mở khóa demon
-    
+	// --- Mốc thời gian mở khóa ---
+	float unlockdemonTime = 60.0f;  // sau 60s (1 phút) mở khóa demon
 
-    bool demonUnlocked = false;     //điều kiện mở quái
+	bool demonUnlocked = false;  // điều kiện mở quái
 	// thành lũy (điều kiện win/lose)
 	Castle* playerCastle;
-    Castle* enemyCastle;
-
+	Castle* enemyCastle;
 
    public:
 	PlayState(Game* game)

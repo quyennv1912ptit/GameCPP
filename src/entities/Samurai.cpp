@@ -1,4 +1,5 @@
 #include "Samurai.h"
+
 #include <iostream>
 Samurai::Samurai() {
 	// attributes

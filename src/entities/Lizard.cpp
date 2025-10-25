@@ -1,4 +1,5 @@
 #include "Lizard.h"
+
 #include <iostream>
 Lizard::Lizard() {
 	// attributes
@@ -24,11 +25,9 @@ void Lizard::setState(SDL_Renderer *renderer, EntityState newState) {
 	auto p = LizardAnimationPath.at(state);
 
 	animation->setAnim(renderer, p.first, p.second, 180);
-	
 }
 void Lizard::attack(SDL_Renderer *renderer) {
 	setState(renderer, LizardState::ATTACK);
-//std::cout<<attackTarget->getName()<<"\n";
 	if (getAnimCurFrame() == 0) {
 		attackTarget->takeDamage(*(IEntity *)this);
 	}

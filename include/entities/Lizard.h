@@ -14,7 +14,7 @@ const std::map<EntityState, std::pair<const char *, int>> LizardAnimationPath =
          {"resources/imgs/enemies/lizard/lizardhurt.png", 2}},
         {LizardState::DEAD,
          {"resources/imgs/enemies/lizard/lizarddead.png", 6}},
-         {LizardState::IDLE,
+        {LizardState::IDLE,
          {"resources/imgs/enemies/lizard/lizardidle.png", 3}},
 };
 

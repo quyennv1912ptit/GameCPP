@@ -7,13 +7,13 @@ void PlayState::Enter() {
 
 	// ✅ Thêm castle 2 bên
 	playerCastle = new Castle(false);
-	playerCastle->setPos(0, -50);  // bên trái
+	playerCastle->setPos(0, 0);  // bên trái
 	playerCastle->setState(renderer, (EntityState)CastleState::IDLE);
 	knights.push_back(playerCastle);
 
 	// ✅ Castle của kẻ địch
 	enemyCastle = new Castle(true);
-	enemyCastle->setPos(1050, -50);
+	enemyCastle->setPos(1000, 0);
 	enemyCastle->setState(renderer, (EntityState)CastleState::IDLE);
 	enemies.push_back(enemyCastle);
 

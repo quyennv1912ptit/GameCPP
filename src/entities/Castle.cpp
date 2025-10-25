@@ -7,7 +7,6 @@ void Castle::setState(SDL_Renderer *renderer, EntityState newState) {
 	auto c = CastleAnimationPath.at(state);
 
 	animation->setAnim(renderer, c.first, c.second, 150);
-    
 }
 
 void Castle::attack(SDL_Renderer *renderer) {
@@ -18,37 +17,29 @@ void Castle::attack(SDL_Renderer *renderer) {
 	}
 }
 
-void Castle::setFlip(bool value) {
-    flip = value;
-}
-
+void Castle::setFlip(bool value) { flip = value; }
 
 Castle::Castle(bool Is_Enemy) {
 	// attributes
 	name = "Castle";
-	this->Is_Enemy=Is_Enemy;
-
+	this->Is_Enemy = Is_Enemy;
 
 	cost = 0;
 
-	transform.size = {227,955};
+	transform.size = {278, 566};
 
 	SDL_Color bg = {50, 50, 50, 255};
 	SDL_Color fg;
-	if(this->Is_Enemy){
-		
+	if (this->Is_Enemy) {
 		fg = {200, 0, 0, 255};
-		flip=false;
-	}
-	else{
-		flip=true;
+		flip = false;
+	} else {
+		flip = true;
 		fg = {0, 200, 0, 255};
 	}
 
 	curHP = maxHP = 200;
 
-	hpbar = new HPBar(maxHP, curHP, transform, bg, fg, 10, -80, 150);
-    //flip=true;
-	
-
+	hpbar = new HPBar(maxHP, curHP, transform, bg, fg, 10, -20, 200);
+	// flip=true;
 }
