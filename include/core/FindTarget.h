@@ -12,6 +12,9 @@ class TargetingSystem {
 	static void FindNearestTarget(IEntity *seeker,
 	                              const std::vector<IEntity *> &targets);
 
+
+	
+
 	// Di chuyển entity tới target nếu có
 	static void MoveToTarget(SDL_Renderer *renderer, IEntity *seeker,
 	                         std::vector<IEntity *> ar, float dt);

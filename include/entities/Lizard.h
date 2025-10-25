@@ -14,6 +14,8 @@ const std::map<EntityState, std::pair<const char *, int>> LizardAnimationPath =
          {"resources/imgs/enemies/lizard/lizardhurt.png", 2}},
         {LizardState::DEAD,
          {"resources/imgs/enemies/lizard/lizarddead.png", 6}},
+         {LizardState::IDLE,
+         {"resources/imgs/enemies/lizard/lizardidle.png", 3}},
 };
 
 class Lizard : public IEntity {
@@ -21,5 +23,5 @@ class Lizard : public IEntity {
    public:
 	Lizard();
 	void setState(SDL_Renderer *renderer, EntityState newState) override;
-	void attack(SDL_Renderer *renderer) override {}
+	void attack(SDL_Renderer *renderer) override;
 };

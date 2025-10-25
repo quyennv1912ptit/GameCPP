@@ -28,13 +28,16 @@ class IEntity {
 
 	bool attacking = false;
 	float attackDamage = 0.1f;
-
-	bool flip;
-
 	float speed = 80.0f;
+
+	
 
    public:
 	IEntity();
+	IEntity* playerCastle = nullptr;
+	IEntity* enemyCastle = nullptr;
+
+	bool flip;
 	virtual ~IEntity();
 
 	virtual void update();
