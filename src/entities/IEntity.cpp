@@ -1,5 +1,6 @@
 #include "IEnitity.h"
 #include "Config.h"
+#include <iostream>
 
 IEntity::IEntity() {
 	state = EntityState::NONE;
@@ -19,7 +20,8 @@ void IEntity::setPos(float x, float y) { transform.pos = {x, y}; }
 void IEntity::setSize(float w, float h) { transform.size = {w, h}; }
 
 void IEntity::update() {
-	transform.pos.y = std::clamp(transform.pos.y, minY, maxY);
+	
+	//transform.pos.y = std::clamp(transform.pos.y, minY, maxY);
 
 	transform.pos.x = std::clamp(transform.pos.x, 0.0f, Config::GetWindowSize().x - 200);
 
@@ -30,9 +32,10 @@ void IEntity::update() {
 		isAlive = false;
 	}
 
-	hpbar->Update();
+//std::cout<<name<<" "<<transform.pos.x<<" "<<transform.pos.y<<"\n";
 
 	animation->flip = flip;
+	std::cout<<flip<<"\n";
 	animation->update();
 	hpbar->Update();
 }

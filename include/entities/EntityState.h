@@ -57,6 +57,11 @@ enum class EntityState {
 	// Orc3
 	ORC3_ATTACK,
 
+	//Castle
+	DAMAGED,
+    DESTROYED,
+	CASTLE_ATTACK,
+
 };
 
 namespace SamuraiState {
@@ -129,6 +134,7 @@ constexpr EntityState WALK = EntityState::WALK;
 constexpr EntityState ATTACK = EntityState::LIZARD_ATTACK;
 constexpr EntityState HURT = EntityState::HURT;
 constexpr EntityState DEAD = EntityState::DEAD;
+constexpr EntityState IDLE = EntityState::IDLE;
 }  // namespace LizardState
 
 namespace MedusaState {
@@ -162,3 +168,14 @@ constexpr EntityState ATTACK = EntityState::ORC3_ATTACK;
 constexpr EntityState HURT = EntityState::HURT;
 constexpr EntityState DEAD = EntityState::DEAD;
 }  // namespace Orc3State
+
+namespace CastleState{
+	constexpr EntityState IDLE = EntityState::IDLE;
+	constexpr EntityState DAMAGED  = EntityState::DAMAGED;
+	constexpr EntityState DESTROYED = EntityState::DESTROYED;
+	constexpr EntityState HURT = EntityState::HURT;
+	constexpr EntityState ATTACK  = EntityState::CASTLE_ATTACK;
+	constexpr EntityState DEAD = EntityState::DEAD;
+	constexpr EntityState WALK = EntityState::WALK;
+	constexpr EntityState NONE  = EntityState::NONE;
+}

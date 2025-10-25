@@ -1,5 +1,5 @@
 #include "Demon.h"
-#include "iostream"
+#include<iostream>
 
 Demon::Demon() {
 	// attributes
@@ -29,10 +29,7 @@ void Demon::setState(SDL_Renderer *renderer, EntityState newState) {
 void Demon::attack(SDL_Renderer *renderer) {
 	setState(renderer, DemonState::ATTACK);
 
-	if(attackTarget->getName() == "Demon") std::cout << 0 << "\n";
-
-	// std::cout << attackTarget->getName() << "\n";
-
+std::cout<<attackTarget->getName()<<"\n";
 	if (getAnimCurFrame() == 0) {
 		attackTarget->takeDamage(*(IEntity *)this);
 	}

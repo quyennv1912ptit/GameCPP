@@ -1,5 +1,5 @@
 #include "Lizard.h"
-
+#include <iostream>
 Lizard::Lizard() {
 	// attributes
 
@@ -7,12 +7,12 @@ Lizard::Lizard() {
 
 	cost = 0;
 
-	transform.size = {100, 100};
+	transform.size = {150, 150};
 
 	SDL_Color bg = {50, 50, 50, 255};
-	SDL_Color fg = {0, 200, 0, 255};
+	SDL_Color fg = {200, 0, 0, 255};
 
-	curHP = maxHP = 80;
+	curHP = maxHP = 10;
 
 	hpbar = new HPBar(maxHP, curHP, transform, bg, fg, 5, -30, 60);
 }
@@ -24,4 +24,12 @@ void Lizard::setState(SDL_Renderer *renderer, EntityState newState) {
 	auto p = LizardAnimationPath.at(state);
 
 	animation->setAnim(renderer, p.first, p.second, 180);
+	
+}
+void Lizard::attack(SDL_Renderer *renderer) {
+	setState(renderer, LizardState::ATTACK);
+//std::cout<<attackTarget->getName()<<"\n";
+	if (getAnimCurFrame() == 0) {
+		attackTarget->takeDamage(*(IEntity *)this);
+	}
 }
