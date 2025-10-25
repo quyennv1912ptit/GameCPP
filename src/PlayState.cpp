@@ -4,30 +4,18 @@
 
 void PlayState::Enter() {
 	SDL_Renderer* renderer = m_Game->GetRenderer();
-	
+
 	// ✅ Thêm castle 2 bên
-    playerCastle = new Castle(false);
-    playerCastle->setPos(0,-50);  // bên trái
-    playerCastle->setState(renderer, (EntityState)CastleState::IDLE);
+	playerCastle = new Castle(false);
+	playerCastle->setPos(0, -50);  // bên trái
+	playerCastle->setState(renderer, (EntityState)CastleState::IDLE);
 	knights.push_back(playerCastle);
 
-    // ✅ Castle của kẻ địch
-    enemyCastle = new Castle(true);
-    enemyCastle->setPos(1200,-50);
-    enemyCastle->setState(renderer, (EntityState)CastleState::IDLE);
+	// ✅ Castle của kẻ địch
+	enemyCastle = new Castle(true);
+	enemyCastle->setPos(1050, -50);
+	enemyCastle->setState(renderer, (EntityState)CastleState::IDLE);
 	enemies.push_back(enemyCastle);
-
-
-	for (auto* k : knights) {
-    k->playerCastle = playerCastle;
-    k->enemyCastle = enemyCastle;
-	}
-	for (auto* e : enemies) {
-    e->playerCastle = playerCastle;
-    e->enemyCastle = enemyCastle;
-	}
-
-	
 
 	pauseBtn = new ImageButton(renderer, "resources/imgs/ui/pauseBtn.png",
 	                           "resources/imgs/ui/pauseBtn_hovered.png");
@@ -71,7 +59,7 @@ void PlayState::Update(float dt) {
 	pauseBtn->update(m_Game->GetMousePos());
 	SettingBtn->update(m_Game->GetMousePos());
 
-	//cập nhật knights
+	// cập nhật knights
 	for (auto it = knights.begin(); it != knights.end();) {
 		IEntity* k = *it;
 
@@ -80,10 +68,6 @@ void PlayState::Update(float dt) {
 			it = knights.erase(it);
 			continue;
 		}
-
-		// ✅ Tạo danh sách mục tiêu cho enemy: gồm knights + playerCastle
-    std::vector<IEntity*> knightsTargets = enemies;
-    knightsTargets.push_back(enemyCastle);
 
 		TargetingSystem::FindNearestTarget(k, enemies);
 
@@ -94,62 +78,42 @@ void PlayState::Update(float dt) {
 		++it;
 	}
 
-	//chỉnh spawn quái
+	// chỉnh spawn quái
 
-        // --- Bộ đếm thời gian sinh quái ---
-    static float gameTime = 0.0f;   // Tổng thời gian đã trôi qua trong game
-    gameTime += dt;
-        // --- Bộ đếm thời gian sinh quái ---
-    demonTimer += dt;
-    lizardTimer += dt;
-        // Demon sinh mỗi 3 giây
-    if(gameTime>=60.0f)
-    {
-        if (demonTimer >= demonInterval)
-    {
-        demonTimer = 0.0f;
-        SpawnEnemy("Demon");
-    }
-    }
-    
-    
-    
-    if(lizardTimer >= lizardInterval)
-    {   
-        lizardTimer = 0.0f;
-        SpawnEnemy("Lizard");
-    }   
-    
-    
+	// --- Bộ đếm thời gian sinh quái ---
+	static float gameTime = 0.0f;  // Tổng thời gian đã trôi qua trong game
+	gameTime += dt;
+	// --- Bộ đếm thời gian sinh quái ---
+	demonTimer += dt;
+	lizardTimer += dt;
+	// Demon sinh mỗi 3 giây
+	// if (gameTime >= 60.0f) {
+	// 	if (demonTimer >= demonInterval) {
+	// 		demonTimer = 0.0f;
+	// 		SpawnEnemy("Demon");
+	// 	}
+	// }
 
+	// if (lizardTimer >= lizardInterval) {
+	// 	lizardTimer = 0.0f;
+	// 	SpawnEnemy("Lizard");
+	// }
 
+	// cập nhật enemies
+	for (auto it = enemies.begin(); it != enemies.end();) {
+		IEntity* e = *it;
+		if (!e->getIsAlive()) {
+			delete e;
+			it = enemies.erase(it);
+			continue;
+		}
 
-    // cập nhật enemies
-for (auto it = enemies.begin(); it != enemies.end();)
-{
-    IEntity *e = *it;
-    if (!e->getIsAlive())
-    {
-        delete e;
-        it = enemies.erase(it);
-        continue;
-    }
-	e->flip=true;
+		TargetingSystem::FindNearestTarget(e, knights);
+		TargetingSystem::MoveToTarget(renderer, e, enemies, dt);
+		e->update();
 
-    // ✅ Tạo danh sách mục tiêu cho enemy: gồm knights + playerCastle
-    std::vector<IEntity*> enemyTargets = knights;
-    enemyTargets.push_back(playerCastle);
-
-    // ✅ Tìm và di chuyển theo mục tiêu
-    TargetingSystem::FindNearestTarget(e, enemyTargets);
-    TargetingSystem::MoveToTarget(renderer, e, enemies, dt);
-    e->update();
-
-    ++it;
-}
-
-
-
+		++it;
+	}
 }
 
 void PlayState::Render() {
@@ -157,8 +121,6 @@ void PlayState::Render() {
 	// ui
 	pauseBtn->render();
 	SettingBtn->render();
-	playerCastle->render(renderer);
-	enemyCastle->render(renderer);
 	// entities
 	allEntities.clear();
 	allEntities.insert(allEntities.end(), knights.begin(), knights.end());
@@ -209,14 +171,14 @@ void PlayState::Render() {
 						e->setState(renderer, SmallDragonState::ATTACK);
 					}
 
-					//Vị trí xuất hiện của người chơi (bên trái màn hình)
-                    int x_min = 200, x_max = 630;
-                    int y_min = 0, y_max = 720;
+					// Vị trí xuất hiện của người chơi (bên trái màn hình)
+					int x_min = 200, x_max = 630;
+					int y_min = 0, y_max = 720;
 
-                    int x = x_min + rand() % (x_max - x_min + 1);
-                    int y = y_min + rand() % (y_max - y_min + 1);
+					int x = x_min + rand() % (x_max - x_min + 1);
+					int y = y_min + rand() % (y_max - y_min + 1);
 
-                    e->setPos(x, y);
+					e->setPos(x, y);
 
 					knights.push_back(e);
 				}
@@ -267,7 +229,6 @@ void PlayState::Render() {
 
 		ImGui::End();
 	}
-
 }
 
 void PlayState::Exit() {
@@ -280,46 +241,37 @@ void PlayState::Exit() {
 	for (IEntity* e : enemies) {
 		delete e;
 	}
-
-	
-	
 }
 
-void PlayState::SpawnEnemy(const std::string& type)
-{
-    SDL_Renderer* renderer = m_Game->GetRenderer();
-    IEntity* enemy = nullptr;
+void PlayState::SpawnEnemy(const std::string& type) {
+	SDL_Renderer* renderer = m_Game->GetRenderer();
+	IEntity* enemy = nullptr;
 
-    if (type == "Demon")
-    {
-        Demon* d = new Demon();
-        d->setState(renderer, DemonState::IDLE);
-        
-        enemy = d;
-    }
-   
-    else if (type == "Lizard") 
-    {
-        Lizard* l = new Lizard();
-        l->setState(renderer, LizardState::IDLE);
-        enemy = l;
-    }
+	if (type == "Demon") {
+		Demon* d = new Demon();
+		d->setState(renderer, DemonState::IDLE);
 
-    if (enemy)
-    {
+		enemy = d;
+	}
 
-        //Kích thước sprite trung bình
-        const float enemyWidth = 64.0f;
-        const float enemyHeight = 64.0f;
+	else if (type == "Lizard") {
+		Lizard* l = new Lizard();
+		l->setState(renderer, LizardState::IDLE);
+		enemy = l;
+	}
 
-        // Giới hạn spawn trong nửa phải màn hình, không vượt biên
-        float spawnX = 640 + rand() % int(1280 - 640 - enemyWidth);
-        float spawnY = rand() % int(720 - enemyHeight);
+	if (enemy) {
+		// Kích thước sprite trung bình
+		const float enemyWidth = 64.0f;
+		const float enemyHeight = 64.0f;
 
-        // Đặt vị trí
-        enemy->getTransform().pos = { spawnX, spawnY };
+		// Giới hạn spawn trong nửa phải màn hình, không vượt biên
+		float spawnX = 640 + rand() % int(1280 - 640 - enemyWidth);
+		float spawnY = rand() % int(720 - enemyHeight);
 
+		// Đặt vị trí
+		enemy->getTransform().pos = {spawnX, spawnY};
 
-        enemies.push_back(enemy);
-    }
+		enemies.push_back(enemy);
+	}
 }

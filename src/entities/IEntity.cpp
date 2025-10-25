@@ -23,10 +23,10 @@ void IEntity::update() {
 	
 	//transform.pos.y = std::clamp(transform.pos.y, minY, maxY);
 
-	transform.pos.x = std::clamp(transform.pos.x, 0.0f, Config::GetWindowSize().x - 200);
+	// transform.pos.x = std::clamp(transform.pos.x, 0.0f, Config::GetWindowSize().x - 200);
 
 	centerPos = {transform.pos.x + transform.size.x / 2,
-	             transform.pos.y + transform.size.y};
+	             transform.pos.y + transform.size.y / 2};
 
 	if (curHP <= 0) {
 		isAlive = false;
