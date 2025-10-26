@@ -2,11 +2,12 @@
 
 #include <SDL3/SDL.h>
 
-class Timer {
-   private:
-	int startTime;
+class Timer
+{
+private:
+    int startTime;
 
-   public:
-	void start();
-	int elapsedTime();
+public:
+    void start();
+    int elapsedTime();
 };

@@ -4,9 +4,13 @@
 
 #include "Vector2.h"
 
-struct Transform {
-	Vector2 pos;
-	Vector2 size;
-	float scale;
-	SDL_FRect toRect() { return (SDL_FRect){pos.x, pos.y, size.x, size.y}; }
+struct Transform
+{
+    Vector2 pos;
+    Vector2 size;
+    float scale;
+    SDL_FRect toRect()
+    {
+        return (SDL_FRect){pos.x, pos.y, size.x, size.y};
+    }
 };

@@ -11,36 +11,51 @@
 
 class GameState;
 
-class Game {
-   private:
-	SDL_Window* m_Window = nullptr;
-	SDL_Renderer* m_Renderer = nullptr;
-	bool m_Quit = true;
+class Game
+{
+private:
+    SDL_Window *m_Window = nullptr;
+    SDL_Renderer *m_Renderer = nullptr;
+    bool m_Quit = true;
 
-	int m_MasterMusicVolume = 100;
+    std::vector<GameState *> states;
+    // background
+    SDL_Texture *m_BGTexture = nullptr;
+    int curBG = 0;
+    // audio
+    int m_MasterMusicVolume = 0;
+    MIX_Mixer *m_Mixer = nullptr;
+    MIX_Track *m_BGMTrack = nullptr;
+    MIX_Audio *m_BGMAudio = nullptr;
+    SDL_AudioDeviceID m_AudioDevice = 0;
+    SDL_PropertiesID props;
+    // timer
+    Uint64 NOW = 0;
+    Uint64 LAST = SDL_GetPerformanceCounter();
+    float m_DeltaTime = 0;
 
-	std::vector<GameState*> states;
+    SDL_FPoint m_MousePos = {-1, -1};
+    ImFont *m_BigFont = nullptr;
 
-	MIX_Mixer* m_Mixer = nullptr;
-	MIX_Track* m_BGMTrack = nullptr;
-	MIX_Audio* m_BGMAudio = nullptr;
-	SDL_AudioDeviceID m_AudioDevice = 0;
-	SDL_PropertiesID props;
+    void Cleanup();
 
-	Uint64 NOW = 0;
-	Uint64 LAST = SDL_GetPerformanceCounter();
-	float m_DeltaTime = 0;
-	SDL_FPoint m_MousePos = {-1, -1};
-	ImFont* m_BigFont = nullptr;
-	void Cleanup();
-
-   public:
-	SDL_Renderer* GetRenderer() { return m_Renderer; }
-	SDL_FPoint* GetMousePos() { return &m_MousePos; }
-	void Init();
-	void Run();
-	void Quit();
-	void ChangeState(GameState*);
-	void PushState(GameState*);
-	void PopState();
+public:
+    SDL_Renderer *GetRenderer()
+    {
+        return m_Renderer;
+    }
+    SDL_FPoint *GetMousePos()
+    {
+        return &m_MousePos;
+    }
+    void Init();
+    void Run();
+    void Quit();
+    void ChangeState(GameState *);
+    void PushState(GameState *);
+    void PopState();
+    GameState *GetTopState()
+    {
+        return states.back();
+    }
 };

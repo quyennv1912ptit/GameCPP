@@ -5,31 +5,37 @@
 #include "Image.h"
 #include "Timer.h"
 
-class Animation : public Image {
-   private:
-	Timer *innerTimer;
-	int curFrame, frameCount;
-	int deltaTime;
-	SDL_FRect srcRect;
-	Transform &entityTransform;
+class Animation : public Image
+{
+private:
+    Timer *innerTimer;
+    int curFrame, frameCount;
+    int deltaTime;
+    SDL_FRect srcRect;
+    Transform &entityTransform;
 
-   public:
-	Animation(Transform &EntityTransform);
+public:
+    Animation(Transform &EntityTransform);
 
-	~Animation();
+    ~Animation();
 
-	void setFrame(int index);
+    void setFrame(int index);
 
-	int getCurFrame() { return curFrame; }
+    int getCurFrame()
+    {
+        return curFrame;
+    }
 
-	int getFrameCount() { return frameCount; }
+    int getFrameCount()
+    {
+        return frameCount;
+    }
 
-	void update();
+    void update();
 
-	void render(SDL_Renderer *renderer);
+    void render(SDL_Renderer *renderer);
 
-	void setAnim(SDL_Renderer *renderer, const char *path, int framecount,
-	             int dt);
+    void setAnim(SDL_Renderer *renderer, const char *path, int framecount, int dt);
 
-	SDL_FRect getRect();
+    SDL_FRect getRect();
 };

@@ -11,10 +11,11 @@ const std::map<EntityState, std::pair<const char *, int>> Orc2AnimationPath = {
     {Orc2State::DEAD, {"resources/imgs/enemies/orc1/orc2dead.png", 8}},
 };
 
-class Orc2 : public IEntity {
-   private:
-   public:
-	Orc2();
-	void setState(SDL_Renderer *renderer, EntityState newState) override;
-	void attack(SDL_Renderer *renderer) override {}
+class Orc2 : public IEntity
+{
+private:
+public:
+    Orc2();
+    void setState(SDL_Renderer *renderer, EntityState newState) override;
+    void attack(SDL_Renderer *renderer) override {}
 };

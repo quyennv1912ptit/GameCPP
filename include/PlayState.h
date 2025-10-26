@@ -24,50 +24,53 @@ const std::map<std::string, std::string> avt_path = {
     {"Dragon", "resources/imgs/avt/dragon_avt.png"},
 };
 
-class PlayState : public GameState {
-   private:
-	// ui
-	// pause button
-	ImageButton* pauseBtn;
-	ImageButton* SettingBtn;
-	// hotbar
-	std::vector<std::pair<std::string, SDL_Texture*>> avts;
-	std::vector<std::pair<std::string, SDL_Texture*>> slots;
-	int currentSlot = -1;
-	bool showSelector = false;
-	// all entities
-	std::vector<IEntity*> knights;
-	std::vector<IEntity*> enemies;
-	std::vector<IEntity*> allEntities;
+class PlayState : public GameState
+{
+private:
+    // ui
+    // pause button
+    ImageButton *pauseBtn;
+    ImageButton *SettingBtn;
+    // hotbar
+    std::vector<std::pair<std::string, SDL_Texture *>> avts;
+    std::vector<std::pair<std::string, SDL_Texture *>> slots;
+    int currentSlot = -1;
+    bool showSelector = false;
+    // all entities
+    std::vector<IEntity *> knights;
+    std::vector<IEntity *> enemies;
+    std::vector<IEntity *> allEntities;
 
-	// --- Bộ đếm thời gian tổng của game ---
-	float gameTime = 0.0f;  // tổng thời gian kể từ lúc bắt đầu game (giây)
+    std::map<std::string, int> diedKnights;
+    std::map<std::string, int> diedEnemies;
 
-	// TIME SPAWN
-	float demonTimer = 0.0f;
-	float demonInterval = 5.0f;
+    float gameTime = 0.0f;
 
-	float lizardTimer = 0.0f;
-	float lizardInterval = 3.0f;
+    // TIME SPAWN
+    float demonTimer = 0.0f;
+    float demonInterval = 5.0f;
 
-	// --- Mốc thời gian mở khóa ---
-	float unlockdemonTime = 60.0f;  // sau 60s (1 phút) mở khóa demon
+    float lizardTimer = 0.0f;
+    float lizardInterval = 1.0f;
 
-	bool demonUnlocked = false;  // điều kiện mở quái
-	// thành lũy (điều kiện win/lose)
-	Castle* playerCastle;
-	Castle* enemyCastle;
+    // --- Mốc thời gian mở khóa ---
+    float unlockdemonTime = 60.0f; // sau 60s (1 phút) mở khóa demon
 
-   public:
-	PlayState(Game* game)
-	    : slots(5, std::pair<std::string, SDL_Texture*>("None", nullptr)) {
-		m_Game = game;
-	}
-	void Enter() override;
-	void HandleEvent(const SDL_Event& event) override;
-	void Update(float dt) override;
-	void Render() override;
-	void Exit() override;
+    bool demonUnlocked = false; // điều kiện mở quái
+    // thành lũy (điều kiện win/lose)
+    Castle *playerCastle;
+    Castle *enemyCastle;
 
-	void SpawnEnemy(const std::string& type);
+public:
+    PlayState(Game *game) : slots(5, std::pair<std::string, SDL_Texture *>("None", nullptr))
+    {
+        m_Game = game;
+    }
+    void Enter() override;
+    void HandleEvent(const SDL_Event &event) override;
+    void Update(float dt) override;
+    void Render() override;
+    void Exit() override;
+
+    void SpawnEnemy(const std::string &type);
 };
