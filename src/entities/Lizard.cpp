@@ -7,8 +7,6 @@ Lizard::Lizard()
 
     name = "Lizard";
 
-    cost = 0;
-
     transform.size = {150, 150};
 
     SDL_Color bg = {50, 50, 50, 255};
@@ -29,11 +27,17 @@ void Lizard::setState(SDL_Renderer *renderer, EntityState newState)
 
     animation->setAnim(renderer, p.first, p.second, 180);
 }
+
 void Lizard::attack(SDL_Renderer *renderer)
 {
     setState(renderer, LizardState::ATTACK);
     if (getAnimCurFrame() == 0)
     {
+        attacking = true;
+    }
+    if (attacking && getAnimCurFrame() == getAnimFrameCount() - 1)
+    {
         attackTarget->takeDamage(*(IEntity *)this);
+        attacking = false;
     }
 }

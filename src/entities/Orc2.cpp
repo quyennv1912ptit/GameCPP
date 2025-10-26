@@ -6,8 +6,6 @@ Orc2::Orc2()
 
     name = "Orc2";
 
-    cost = 0;
-
     transform.size = {100, 100};
 
     SDL_Color bg = {50, 50, 50, 255};
@@ -27,4 +25,18 @@ void Orc2::setState(SDL_Renderer *renderer, EntityState newState)
     auto p = Orc2AnimationPath.at(state);
 
     animation->setAnim(renderer, p.first, p.second, 180);
+}
+
+void Orc2::attack(SDL_Renderer *renderer)
+{
+    setState(renderer, Orc2State::ATTACK);
+    if (getAnimCurFrame() == 0)
+    {
+        attacking = true;
+    }
+    if (attacking && getAnimCurFrame() == getAnimFrameCount() - 1)
+    {
+        attackTarget->takeDamage(*(IEntity *)this);
+        attacking = false;
+    }
 }

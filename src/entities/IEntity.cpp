@@ -87,8 +87,3 @@ std::string IEntity::getName()
 {
     return name;
 }
-
-int IEntity::getCost()
-{
-    return cost;
-}

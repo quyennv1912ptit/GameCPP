@@ -6,8 +6,6 @@ Orc3::Orc3()
 
     name = "Orc3";
 
-    cost = 0;
-
     transform.size = {100, 100};
 
     SDL_Color bg = {50, 50, 50, 255};
@@ -27,4 +25,18 @@ void Orc3::setState(SDL_Renderer *renderer, EntityState newState)
     auto p = Orc3AnimationPath.at(state);
 
     animation->setAnim(renderer, p.first, p.second, 180);
+}
+
+void Orc3::attack(SDL_Renderer *renderer)
+{
+    setState(renderer, Orc3State::ATTACK);
+    if (getAnimCurFrame() == 0)
+    {
+        attacking = true;
+    }
+    if (attacking && getAnimCurFrame() == getAnimFrameCount() - 1)
+    {
+        attackTarget->takeDamage(*(IEntity *)this);
+        attacking = false;
+    }
 }

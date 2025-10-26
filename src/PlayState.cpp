@@ -2,6 +2,7 @@
 
 #include "GameOverState.h"
 #include "SettingsState.h"
+#include "iostream"
 
 void PlayState::Enter()
 {
@@ -26,6 +27,9 @@ void PlayState::Enter()
     SettingBtn->setPos({1155, 35});
     SettingBtn->setSize({40, 40});
 
+    strCoin = std::to_string(Coin) + "$";
+    coinTextBox = new TextBox(renderer, "resources/fonts/mightysouly.ttf", strCoin, 80);
+    coinTextBox->setPos({300, 50});
     for (auto kn : avt_path)
     {
         SDL_Texture *texture = nullptr;
@@ -62,6 +66,8 @@ void PlayState::Update(float dt)
 
     pauseBtn->update(m_Game->GetMousePos());
     SettingBtn->update(m_Game->GetMousePos());
+    strCoin = std::to_string(Coin) + "$";
+    coinTextBox->setText(strCoin);
 
     for (auto it = knights.begin(); it != knights.end();)
     {
@@ -114,6 +120,8 @@ void PlayState::Update(float dt)
             diedEnemies[e->getName()]++;
             if (e->getName() == "Castle")
                 m_Game->PushState(new GameOverState(m_Game, true, playerCastle, diedKnights, diedEnemies));
+            else
+                Coin += cost_map.at(e->getName());
             delete e;
             it = enemies.erase(it);
             continue;
@@ -133,6 +141,7 @@ void PlayState::Render()
     // ui
     pauseBtn->render();
     SettingBtn->render();
+    coinTextBox->render();
     // entities
     allEntities.clear();
     allEntities.insert(allEntities.end(), knights.begin(), knights.end());
@@ -173,41 +182,46 @@ void PlayState::Render()
 
                     std::string name = slots[i].first;
 
-                    if (name == "Samurai")
+                    if (Coin >= cost_map.at(name))
                     {
-                        e = new Samurai();
-                        e->setState(renderer, SamuraiState::ATTACK1);
-                    }
-                    else if (name == "Samurai Archer")
-                    {
-                        e = new SamuraiArcher();
-                        e->setState(renderer, SamuraiArcherState::ATTACK1);
-                    }
-                    else if (name == "Samurai Commander")
-                    {
-                        e = new SamuraiCommander();
-                        e->setState(renderer, SamuraiCommanderState::ATTACK1);
-                    }
-                    else if (name == "Dragon")
-                    {
-                        e = new Dragon();
-                        e->setState(renderer, DragonState::ATTACK);
-                    }
-                    else if (name == "Small Dragon")
-                    {
-                        e = new SmallDragon();
-                        e->setState(renderer, SmallDragonState::ATTACK);
-                    }
+                        if (name == "Samurai")
+                        {
+                            e = new Samurai();
+                            e->setState(renderer, SamuraiState::ATTACK1);
+                        }
+                        else if (name == "Samurai Archer")
+                        {
+                            e = new SamuraiArcher();
+                            e->setState(renderer, SamuraiArcherState::ATTACK1);
+                        }
+                        else if (name == "Samurai Commander")
+                        {
+                            e = new SamuraiCommander();
+                            e->setState(renderer, SamuraiCommanderState::ATTACK1);
+                        }
+                        else if (name == "Dragon")
+                        {
+                            e = new Dragon();
+                            e->setState(renderer, DragonState::ATTACK);
+                        }
+                        else if (name == "Small Dragon")
+                        {
+                            e = new SmallDragon();
+                            e->setState(renderer, SmallDragonState::ATTACK);
+                        }
 
-                    int x_min = 200, x_max = 630;
-                    int y_min = 0, y_max = 720;
+                        int x_min = 200, x_max = 630;
+                        int y_min = 0, y_max = 720;
 
-                    int x = x_min + rand() % (x_max - x_min + 1);
-                    int y = y_min + rand() % (y_max - y_min + 1);
+                        int x = x_min + rand() % (x_max - x_min + 1);
+                        int y = y_min + rand() % (y_max - y_min + 1);
 
-                    e->setPos(x, y);
+                        e->setPos(x, y);
 
-                    knights.push_back(e);
+                        knights.push_back(e);
+
+                        Coin -= cost_map.at(name);
+                    }
                 }
             }
         }
@@ -223,11 +237,14 @@ void PlayState::Render()
 
         ImGui::TableNextRow();
 
-        for (int col = 0; col < slots.size(); col++)
+        for (int i = 0; i < slots.size(); i++)
         {
-            ImGui::TableSetColumnIndex(col);
+            ImGui::TableSetColumnIndex(i);
+            std::string name = slots[i].first;
 
-            ImGui::Text("%d$", 500);
+            int coin = cost_map.at(name);
+
+            ImGui::Text("%d$", coin);
         }
 
         ImGui::EndTable();

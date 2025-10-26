@@ -8,8 +8,6 @@ SamuraiCommander::SamuraiCommander()
 
     name = "Samurai Commander";
 
-    cost = 50;
-
     SDL_Color bg = {50, 50, 50, 255};
     SDL_Color fg = {0, 200, 0, 255};
 
@@ -27,4 +25,15 @@ void SamuraiCommander::setState(SDL_Renderer *renderer, EntityState newState)
     auto p = SamuraiCommanderAnimationPath.at(state);
 
     animation->setAnim(renderer, p.first, p.second, 150);
+}
+
+void SamuraiCommander::attack(SDL_Renderer *renderer)
+{
+    setState(renderer, atks[atk_index]);
+
+    if (getAnimCurFrame() == getAnimFrameCount() - 1)
+    {
+        attackTarget->takeDamage(*(IEntity *)this);
+        atk_index = (atk_index + 1) % atks.size();
+    }
 }

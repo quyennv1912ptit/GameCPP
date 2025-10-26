@@ -15,7 +15,6 @@ protected:
     float maxY = 1670.0f / 4.0f;
 
     std::string name = "";
-    int cost = 0;
     float curHP, maxHP;
     Transform transform;
     Vector2 hitPos;
@@ -26,9 +25,8 @@ protected:
 
     IEntity *attackTarget = nullptr;
     float AttackRanvge = 20.0f;
-
     bool attacking = false;
-    float attackDamage = 0.1f;
+    float attackDamage = 5.0f;
     float speed = 80.0f;
 
 public:
@@ -50,7 +48,6 @@ public:
     virtual std::string getName();
     virtual float getCurHP() { return curHP; }
     virtual float getMaxHP() { return maxHP; }
-    virtual int getCost();
     virtual bool getIsAlive();
     virtual Transform &getTransform();
     virtual Vector2 &GetHitPos();

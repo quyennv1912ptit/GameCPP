@@ -9,8 +9,6 @@ Samurai::Samurai()
 
     name = "Samurai";
 
-    cost = 50;
-
     SDL_Color bg = {50, 50, 50, 255};
     SDL_Color fg = {0, 200, 0, 255};
 
@@ -33,13 +31,14 @@ void Samurai::setState(SDL_Renderer *renderer, EntityState newState)
 void Samurai::attack(SDL_Renderer *renderer)
 {
     setState(renderer, atks[atk_index]);
-
     if (getAnimCurFrame() == 0)
     {
-        attackTarget->takeDamage(*(IEntity *)this);
+        attacking = true;
     }
-    if (getAnimCurFrame() == getAnimFrameCount() - 1)
+    if (attacking && getAnimCurFrame() == getAnimFrameCount() - 1)
     {
+        attackTarget->takeDamage(*(IEntity *)this);
         atk_index = (atk_index + 1) % atks.size();
+        attacking = false;
     }
 }

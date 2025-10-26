@@ -32,8 +32,6 @@ Castle::Castle(bool Is_Enemy)
     name = "Castle";
     this->Is_Enemy = Is_Enemy;
 
-    cost = 0;
-
     transform.size = {278, 566};
 
     SDL_Color bg = {50, 50, 50, 255};

@@ -7,8 +7,6 @@ Demon::Demon()
     // attributes
     name = "Demon";
 
-    cost = 0;
-
     transform.size = {200, 200};
 
     SDL_Color bg = {50, 50, 50, 255};

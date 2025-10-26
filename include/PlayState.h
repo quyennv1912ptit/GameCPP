@@ -24,6 +24,20 @@ const std::map<std::string, std::string> avt_path = {
     {"Dragon", "resources/imgs/avt/dragon_avt.png"},
 };
 
+const std::map<std::string, int> cost_map = {
+    {"None", 0},
+    {"Samurai", 50},
+    {"Small Dragon", 75},
+    {"Samurai Commander", 70},
+    {"Samurai Archer", 80},
+    {"Dragon", 160},
+    {"Demon", 50},
+    {"Lizard", 50},
+    {"Jinn", 50},
+    {"Orc1", 50},
+    {"Orc2", 50},
+    {"Orc3", 50}};
+
 class PlayState : public GameState
 {
 private:
@@ -60,6 +74,11 @@ private:
     // thành lũy (điều kiện win/lose)
     Castle *playerCastle;
     Castle *enemyCastle;
+
+    int Coin = 150;
+    std::string strCoin;
+
+    TextBox *coinTextBox = nullptr;
 
 public:
     PlayState(Game *game) : slots(5, std::pair<std::string, SDL_Texture *>("None", nullptr))

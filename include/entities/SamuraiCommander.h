@@ -16,8 +16,11 @@ const std::map<EntityState, std::pair<const char *, int>> SamuraiCommanderAnimat
 class SamuraiCommander : public IEntity
 {
 private:
+    int atk_index = 0;
+    const std::vector<EntityState> atks = {SamuraiCommanderState::ATTACK1, SamuraiCommanderState::ATTACK2, SamuraiCommanderState::ATTACK3};
+
 public:
     SamuraiCommander();
     void setState(SDL_Renderer *renderer, EntityState newState) override;
-    void attack(SDL_Renderer *renderer) override {}
+    void attack(SDL_Renderer *renderer) override;
 };
