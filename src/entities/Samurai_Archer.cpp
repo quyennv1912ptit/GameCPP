@@ -15,8 +15,10 @@ SamuraiArcher::SamuraiArcher()
 	SDL_Color bg = {50, 50, 50, 255}; 
 	SDL_Color fg = {0, 200, 0, 255}; 
 	
-	curHP = maxHP = 80; 
-	attackDamage = 25;
+	curHP = maxHP =80; 
+
+
+	cost = 80;
 	
 	hpbar = new HPBar(maxHP, curHP, transform, bg, fg, 5, -30, 60);
 } 
@@ -110,7 +112,7 @@ void SamuraiArcher::update(std::vector<IEntity*> &enemies, SDL_Renderer* rendere
 		 {
 			if(checkCollision(it->getRect(), e->getTransform()))
 			{
-				e->takeDamage(it->damage);
+				e->takeDamage(30);
 				hit = true;
 				break;
 			}
@@ -126,6 +128,7 @@ void SamuraiArcher::update(std::vector<IEntity*> &enemies, SDL_Renderer* rendere
 void SamuraiArcher::attack(SDL_Renderer *renderer) 
 {
 	 if(!attackTarget) return; 
+	 float attackDamage = 25;
 	 
 	 Transform targetT = attackTarget->getTransform(); 
 	 Vector2 targetCenter = { targetT.pos.x + targetT.size.x * 0.5f, 
@@ -165,7 +168,7 @@ void SamuraiArcher::setState(SDL_Renderer *renderer, EntityState newState)
 	
 	state = newState; 
 	auto p = SamuraiArcherAnimationPath.at(state); 
-	animation->setAnim(renderer, p.first, p.second, 180); 
+	animation->setAnim(renderer, p.first, p.second, 220); 
 
 } 
 

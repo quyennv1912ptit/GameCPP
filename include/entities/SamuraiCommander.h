@@ -24,7 +24,7 @@ const std::map<EntityState, std::pair<const char *, int>>
 
 class SamuraiCommander : public IEntity {
    private:
-
+    float attackDamage;
 	int atk_index = 0;
 	const std::vector<EntityState> atks = {
 	    SamuraiCommanderState::ATTACK1, SamuraiCommanderState::ATTACK2, SamuraiCommanderState::ATTACK3};

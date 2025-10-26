@@ -14,7 +14,7 @@ Lizard::Lizard() {
 	SDL_Color bg = {50, 50, 50, 255};
 	SDL_Color fg = {0, 200, 0, 255};
 
-	curHP = maxHP = 80;
+	curHP = maxHP = 70;
 
 	hpbar = new HPBar(maxHP, curHP, transform, bg, fg, 5, -30, 60);
 }
@@ -25,6 +25,21 @@ void Lizard::setState(SDL_Renderer *renderer, EntityState newState) {
 	state = newState;
 	auto p = LizardAnimationPath.at(state);
 
-	animation->setAnim(renderer, p.first, p.second, 180);
+	animation->setAnim(renderer, p.first, p.second, 190);
 
+}
+
+void Lizard::attack(SDL_Renderer *renderer)
+{
+	setState(renderer, LizardState::ATTACK);
+	if(getAnimCurFrame() == 0) 
+	{
+		hasAttackedThisAnim = false;
+	}
+
+	if(!hasAttackedThisAnim && getAnimCurFrame() == 3 )
+	{
+		attackTarget->takeDamage(20.0f);
+		hasAttackedThisAnim = true;
+	}
 }

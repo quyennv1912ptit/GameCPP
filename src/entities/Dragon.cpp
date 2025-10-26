@@ -11,19 +11,19 @@ Dragon::Dragon()
 
     name = "Small Dragon";
 
-    cost = 100;
+    cost = 160;
 
     SDL_Color bg = {50, 50, 50, 255};
     SDL_Color fg = {0, 200, 0, 255};
 
-    curHP = maxHP = 100;
+    curHP = maxHP = 280;
 
-    AttackRange = 200.0f;
+    AttackRange = 150.0f;
 
     state = DragonState::WALK;
 
 
-    hpbar = new HPBar(maxHP, curHP, transform, bg, fg, 5, -60, 60);
+    hpbar = new HPBar(maxHP, curHP, transform, bg, fg, 5, -70, 60);
 }
 
 void Dragon::update(std::vector<IEntity*>& enemies, SDL_Renderer* renderer, float dt)
@@ -138,7 +138,7 @@ void Dragon::attack(SDL_Renderer* renderer)
     if(!hasFiredThisAnim && animation->getCurFrame() == fireFrame)
     {
         if(target && target->getIsAlive())
-            target->takeDamage(40);
+            target->takeDamage(45);
 
         hasFiredThisAnim = true;
     }
@@ -162,7 +162,7 @@ void Dragon::setState(SDL_Renderer *renderer, EntityState newState)
     {
         auto p = DragonAnimationPath.at(state);
 
-        animation->setAnim(renderer, p.first, p.second, 400);
+        animation->setAnim(renderer, p.first, p.second, 280);
         animation->reset();
     }
 

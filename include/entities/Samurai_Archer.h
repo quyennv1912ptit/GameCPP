@@ -16,7 +16,7 @@ const std::map<EntityState, std::pair<const char *, int>> SamuraiArcherAnimation
 
 class SamuraiArcher : public IEntity 
 {
-private: float attackRange = 800.0f; 
+private: float attackRange = 500.0f; 
      float attackCooldown = 2.3f; 
      float attackTimer = 0.0f; 
      std::vector<Arrow> arrows; 

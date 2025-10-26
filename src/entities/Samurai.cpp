@@ -14,6 +14,7 @@ Samurai::Samurai() {
 
 	curHP = maxHP = 100;
 
+
 	hpbar = new HPBar(maxHP, curHP, transform, bg, fg, 5, -30, 60);
 }
 
@@ -23,16 +24,20 @@ void Samurai::setState(SDL_Renderer *renderer, EntityState newState) {
 	state = newState;
 	auto p = SamuraiAnimationPath.at(state);
 
-	animation->setAnim(renderer, p.first, p.second, 100);
+	animation->setAnim(renderer, p.first, p.second, 250);
 }
 
-void Samurai::attack(SDL_Renderer *renderer) {
-	setState(renderer, atks[atk_index]);
-
-	if (getAnimCurFrame() == 0) {
-		attackTarget->takeDamage(this->attackDamage);
+void Samurai::attack(SDL_Renderer *renderer)
+{
+	setState(renderer, SamuraiState::ATTACK1);
+	if(getAnimCurFrame() == 0) 
+	{
+		hasAttackedThisAnim = false;
 	}
-	if (getAnimCurFrame() == getAnimFrameCount() - 1) {
-		atk_index = (atk_index + 1) % atks.size();
+
+	if(!hasAttackedThisAnim && getAnimCurFrame() == 2 )
+	{
+		attackTarget->takeDamage(20.0f);
+		hasAttackedThisAnim = true;
 	}
 }

@@ -14,7 +14,7 @@ Jinn::Jinn() {
 	SDL_Color bg = {50, 50, 50, 255};
 	SDL_Color fg = {0, 200, 0, 255};
 
-	curHP = maxHP = 80;
+	curHP = maxHP = 100.0f;
 
 	hpbar = new HPBar(maxHP, curHP, transform, bg, fg, 5, -20, 60);
 }
@@ -25,16 +25,21 @@ void Jinn::setState(SDL_Renderer *renderer, EntityState newState) {
 	state = newState;
 	auto p = JinnAnimationPath.at(state);
 
-	animation->setAnim(renderer, p.first, p.second, 180);
+	animation->setAnim(renderer, p.first, p.second, 80);
 
 }
 
 void Jinn::attack(SDL_Renderer *renderer)
 {
 	setState(renderer, JinnState::ATTACK);
-
-	if(getAnimCurFrame() == 11)
+	if(getAnimCurFrame() == 0) 
 	{
-		attackTarget->takeDamage(attackDamage);
+		hasAttackedThisAnim = false;
+	}
+
+	if(!hasAttackedThisAnim && getAnimCurFrame() == 11 )
+	{
+		attackTarget->takeDamage(35.0f);
+		hasAttackedThisAnim = true;
 	}
 }

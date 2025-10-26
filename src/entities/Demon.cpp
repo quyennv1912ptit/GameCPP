@@ -23,14 +23,21 @@ void Demon::setState(SDL_Renderer *renderer, EntityState newState) {
 	state = newState;
 	auto p = DemonAnimationPath.at(state);
 
-	animation->setAnim(renderer, p.first, p.second, 150);
+	animation->setAnim(renderer, p.first, p.second, 300);
 }
 
 void Demon::attack(SDL_Renderer *renderer) {
-	setState(renderer, DemonState::ATTACK);
 
-	if (getAnimCurFrame() == 0) {
-		attackTarget->takeDamage(attackDamage);
+	setState(renderer, DemonState::ATTACK);
+	if(getAnimCurFrame() == 0) 
+	{
+		hasAttackedThisAnim = false;
+	}
+
+	if(!hasAttackedThisAnim && getAnimCurFrame() == 2 )
+	{
+		attackTarget->takeDamage(40.0f);
+		hasAttackedThisAnim = true;
 	}
 
 }

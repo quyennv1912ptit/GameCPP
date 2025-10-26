@@ -19,6 +19,7 @@ const std::map<EntityState, std::pair<const char *, int>> SamuraiAnimationPath =
 class Samurai : public IEntity {
    private:
 	int atk_index = 0;
+   float attackDamage = 1.0f;
 	const std::vector<EntityState> atks = {
 	    SamuraiState::ATTACK1, SamuraiState::ATTACK2, SamuraiState::ATTACK3};
 

@@ -37,6 +37,6 @@ public:
 	SDL_FRect getSrcRect() const {return srcRect; } 
 	
 	bool isLastFrame() const; 
-
+	bool hasAttackedThisAnim = false;
 
 };

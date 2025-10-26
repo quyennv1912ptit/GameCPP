@@ -12,15 +12,15 @@ SmallDragon::SmallDragon()
 
     name = "Small Dragon";
 
-    cost = 100;
+    cost = 75;
 
 
     SDL_Color bg = {50, 50, 50, 255};
     SDL_Color fg = {0, 200, 0, 255};
 
-    curHP = maxHP = 100;
+    curHP = maxHP = 130;
 
-    AttackRange = 200.0f;
+    AttackRange = 100.0f;
 
     state = SmallDragonState::WALK;
 
@@ -165,7 +165,7 @@ void SmallDragon::setState(SDL_Renderer *renderer, EntityState newState)
     {
         auto p = SmallDragonAnimationPath.at(state);
 
-        animation->setAnim(renderer, p.first, p.second, 300);
+        animation->setAnim(renderer, p.first, p.second, 200);
         animation->reset();
     }
 

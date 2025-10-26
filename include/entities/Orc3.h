@@ -13,6 +13,7 @@ const std::map<EntityState, std::pair<const char *, int>> Orc3AnimationPath = {
 
 class Orc3 : public IEntity {
    private:
+    float attackDamage;
    public:
 	Orc3();
 	void setState(SDL_Renderer *renderer, EntityState newState) override;

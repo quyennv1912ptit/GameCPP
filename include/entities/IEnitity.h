@@ -27,7 +27,6 @@ class IEntity {
 	float AttackRange = 20.0f;
 
 	bool attacking = false;
-	float attackDamage = 0.1f;
 
 	bool flip;
 	bool hasIdle = true;
@@ -62,5 +61,7 @@ class IEntity {
 	virtual int getAnimFrameCount() { return animation->getFrameCount(); }
 
 	friend class TargetingSystem;
+
+	bool hasAttackedThisAnim = false;
 
 };

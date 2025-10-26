@@ -12,8 +12,10 @@ const std::map<EntityState, std::pair<const char *, int>> JinnAnimationPath = {
 
 class Jinn : public IEntity {
    private:
+    float attackDamage = 0.5f;
    public:
 	Jinn();
 	void setState(SDL_Renderer *renderer, EntityState newState) override;
 	void attack(SDL_Renderer *renderer) override ;
+    bool hasAttackedThisAnim = false;
 };

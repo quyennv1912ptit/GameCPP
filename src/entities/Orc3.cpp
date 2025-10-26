@@ -14,7 +14,7 @@ Orc3::Orc3() {
 	SDL_Color bg = {50, 50, 50, 255};
 	SDL_Color fg = {0, 200, 0, 255};
 
-	curHP = maxHP = 80;
+	curHP = maxHP = 65;
 
 	hpbar = new HPBar(maxHP, curHP, transform, bg, fg, 5, -30, 60);
 }
@@ -29,11 +29,17 @@ void Orc3::setState(SDL_Renderer *renderer, EntityState newState) {
 
 }
 
-void Orc3::attack(SDL_Renderer *renderer) {
+void Orc3::attack(SDL_Renderer *renderer)
+{
 	setState(renderer, Orc3State::ATTACK);
-
-	if (getAnimCurFrame() == 0) {
-		attackTarget->takeDamage(attackDamage);
+	if(getAnimCurFrame() == 0) 
+	{
+		hasAttackedThisAnim = false;
 	}
 
+	if(!hasAttackedThisAnim && getAnimCurFrame() == 6 )
+	{
+		attackTarget->takeDamage(20.0f);
+		hasAttackedThisAnim = true;
+	}
 }
