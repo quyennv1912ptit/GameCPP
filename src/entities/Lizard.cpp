@@ -3,6 +3,7 @@
 
 Lizard::Lizard() {
 	// attributes
+	hasIdle = false;
 
 	name = "Lizard";
 

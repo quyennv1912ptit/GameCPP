@@ -2,6 +2,7 @@
 
 Orc2::Orc2() {
 	// attributes
+	hasIdle = false;
 
 	name = "Orc2";
 
@@ -24,5 +25,14 @@ void Orc2::setState(SDL_Renderer *renderer, EntityState newState) {
 	auto p = Orc2AnimationPath.at(state);
 
 	animation->setAnim(renderer, p.first, p.second, 180);
+
+}
+
+void Orc2::attack(SDL_Renderer *renderer) {
+	setState(renderer, Orc2State::ATTACK);
+
+	if (getAnimCurFrame() == 0) {
+		attackTarget->takeDamage(attackDamage);
+	}
 
 }

@@ -3,6 +3,7 @@
 
 Orc3::Orc3() {
 	// attributes
+	hasIdle = false;
 
 	name = "Orc3";
 
@@ -25,5 +26,14 @@ void Orc3::setState(SDL_Renderer *renderer, EntityState newState) {
 	auto p = Orc3AnimationPath.at(state);
 
 	animation->setAnim(renderer, p.first, p.second, 180);
+
+}
+
+void Orc3::attack(SDL_Renderer *renderer) {
+	setState(renderer, Orc3State::ATTACK);
+
+	if (getAnimCurFrame() == 0) {
+		attackTarget->takeDamage(attackDamage);
+	}
 
 }

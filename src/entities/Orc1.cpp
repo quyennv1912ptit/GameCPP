@@ -3,12 +3,13 @@
 
 Orc1::Orc1() {
 	// attributes
+	hasIdle =false;
 
 	name = "Orc1";
 
 	cost = 0;
 
-	transform.size = {100, 100};
+	transform.size = {64, 64};
 
 	SDL_Color bg = {50, 50, 50, 255};
 	SDL_Color fg = {0, 200, 0, 255};
@@ -25,5 +26,14 @@ void Orc1::setState(SDL_Renderer *renderer, EntityState newState) {
 	auto p = Orc1AnimationPath.at(state);
 
 	animation->setAnim(renderer, p.first, p.second, 180);
+
+}
+
+void Orc1::attack(SDL_Renderer *renderer) {
+	setState(renderer, Orc1State::ATTACK);
+
+	if (getAnimCurFrame() == 0) {
+		attackTarget->takeDamage(attackDamage);
+	}
 
 }

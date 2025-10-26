@@ -30,6 +30,7 @@ class IEntity {
 	float attackDamage = 0.1f;
 
 	bool flip;
+	bool hasIdle = true;
 
 	float speed = 80.0f;
 

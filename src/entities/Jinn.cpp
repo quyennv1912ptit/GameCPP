@@ -6,6 +6,7 @@ Jinn::Jinn() {
 
 	name = "Jinn";
 
+	hasIdle = false;
 	cost = 0;
 
 	transform.size = {100, 100};
@@ -15,7 +16,7 @@ Jinn::Jinn() {
 
 	curHP = maxHP = 80;
 
-	hpbar = new HPBar(maxHP, curHP, transform, bg, fg, 5, -30, 60);
+	hpbar = new HPBar(maxHP, curHP, transform, bg, fg, 5, -20, 60);
 }
 
 void Jinn::setState(SDL_Renderer *renderer, EntityState newState) {
@@ -26,4 +27,14 @@ void Jinn::setState(SDL_Renderer *renderer, EntityState newState) {
 
 	animation->setAnim(renderer, p.first, p.second, 180);
 
+}
+
+void Jinn::attack(SDL_Renderer *renderer)
+{
+	setState(renderer, JinnState::ATTACK);
+
+	if(getAnimCurFrame() == 11)
+	{
+		attackTarget->takeDamage(attackDamage);
+	}
 }

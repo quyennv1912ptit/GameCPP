@@ -4,6 +4,11 @@
 
 #include "Animation.h"
 #include "Demon.h"
+#include "Orc1.h"
+#include "Orc2.h"
+#include "Orc3.h"
+#include "Jinn.h"
+#include "Medusa.h"
 #include "Dragon.h"
 #include "FindTarget.h"
 #include "GameState.h"

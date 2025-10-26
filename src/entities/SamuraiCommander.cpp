@@ -25,3 +25,14 @@ void SamuraiCommander::setState(SDL_Renderer *renderer, EntityState newState) {
 
 	animation->setAnim(renderer, p.first, p.second, 150);
 }
+
+void SamuraiCommander::attack(SDL_Renderer *renderer) {
+	setState(renderer, atks[atk_index]);
+
+	if (getAnimCurFrame() == 0) {
+		attackTarget->takeDamage(this->attackDamage);
+	}
+	if (getAnimCurFrame() == getAnimFrameCount() - 1) {
+		atk_index = (atk_index + 1) % atks.size();
+	}
+}

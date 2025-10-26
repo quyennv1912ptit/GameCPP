@@ -11,11 +11,11 @@ void PlayState::Enter() {
 
 	knights.push_back(e1);
 
-	Demon* demon = new Demon();
-	demon->setState(renderer, DemonState::ATTACK);
-	demon->setPos(550, 250);
+	Jinn* jinn = new Jinn();
+	jinn->setState(renderer, JinnState::ATTACK);
+	jinn->setPos(550, 250);
 
-	enemies.push_back(demon);
+	enemies.push_back(jinn);
 
 	pauseBtn = new ImageButton(renderer, "resources/imgs/ui/pauseBtn.png",
 	                           "resources/imgs/ui/pauseBtn_hovered.png");
@@ -69,7 +69,7 @@ void PlayState::Update(float dt) {
 		}
 		SamuraiArcher* archer = dynamic_cast<SamuraiArcher*>(k); 
 		SmallDragon* smallDragon = dynamic_cast<SmallDragon*>(k); 
-		Dragon* dragon = dynamic_cast<Dragon*>(k);
+		Dragon* dragon = dynamic_cast<Dragon*>(k); 
 		if(archer) 
 		{
 			 archer->update(enemies, renderer, dt); 
@@ -78,7 +78,7 @@ void PlayState::Update(float dt) {
 		{
 			smallDragon->update(enemies, renderer, dt);
 		}
-		else if (dragon)
+		else if(dragon)
 		{
 			dragon->update(enemies, renderer, dt);
 		}
@@ -101,17 +101,17 @@ void PlayState::Update(float dt) {
 			delete e;
 			it = enemies.erase(it);
 
-			Demon* demon = new Demon();
-			demon->setState(renderer, DemonState::WALK);
+			Jinn* jinn = new Jinn();
+			jinn->setState(renderer, JinnState::WALK);
 			int x_min = 0, x_max = 1280;
 			int y_min = 0, y_max = 720;
 
 			int x = x_min + rand() % (x_max - x_min + 1);
 			int y = y_min + rand() % (y_max - y_min + 1);
 
-			demon->setPos(x, y);
+			jinn->setPos(x, y);
 
-			enemies.push_back(demon);
+			enemies.push_back(jinn);
 
 			continue;
 		}

@@ -1,6 +1,5 @@
 #include "Dragon.h"
 
-#include "FireAttackD.h"
 #include <cmath>
 
 Dragon::Dragon()
@@ -19,12 +18,12 @@ Dragon::Dragon()
 
     curHP = maxHP = 100;
 
-    AttackRange = 700.0f;
+    AttackRange = 200.0f;
 
     state = DragonState::WALK;
 
 
-    hpbar = new HPBar(maxHP, curHP, transform, bg, fg, 5, -30, 60);
+    hpbar = new HPBar(maxHP, curHP, transform, bg, fg, 5, -60, 60);
 }
 
 void Dragon::update(std::vector<IEntity*>& enemies, SDL_Renderer* renderer, float dt)
@@ -32,8 +31,6 @@ void Dragon::update(std::vector<IEntity*>& enemies, SDL_Renderer* renderer, floa
   
 	animation->update();
 	hpbar->Update();
-
-    attackTimer += dt;
 
     bool hasAliveEnemies = false;
 
@@ -53,13 +50,12 @@ void Dragon::update(std::vector<IEntity*>& enemies, SDL_Renderer* renderer, floa
         {
             setState(renderer, DragonState::WALK);
         }
-        updateFireAttacks(enemies, dt);
         return;
     }
 
-    IEntity* target = nullptr;
+    this->target = nullptr;
     float minDist = 1e9f;
-    Vector2 myCenter = { transform.pos.x + transform.size.x * 0.3f,
+    Vector2 myCenter = { transform.pos.x + transform.size.x * 0.5f,
                          transform.pos.y + transform.size.y * 0.5f };
 
     for(IEntity* e : enemies)
@@ -70,7 +66,7 @@ void Dragon::update(std::vector<IEntity*>& enemies, SDL_Renderer* renderer, floa
         float dx = targetCenter.x - myCenter.x;
         float dy = targetCenter.y - myCenter.y;
         float dist = sqrt(dx*dx + dy*dy);
-        if(dist < minDist) { minDist = dist; target = e; }
+        if(dist < minDist) { minDist = dist; this->target = e; }
     }
 
     if(!target || !target->getIsAlive())
@@ -80,7 +76,6 @@ void Dragon::update(std::vector<IEntity*>& enemies, SDL_Renderer* renderer, floa
             setState(renderer, DragonState::WALK);
         }
 
-        updateFireAttacks(enemies, dt);
         return;
     }
 
@@ -116,7 +111,6 @@ void Dragon::update(std::vector<IEntity*>& enemies, SDL_Renderer* renderer, floa
         case DragonState::WALK:
             setState(renderer, DragonState::ATTACK);
             hasFiredThisAnim = false;
-            attackTimer = 0.0f;
             break;
 
         case DragonState::ATTACK:
@@ -125,98 +119,37 @@ void Dragon::update(std::vector<IEntity*>& enemies, SDL_Renderer* renderer, floa
                 hasFiredThisAnim = false;
             }
 
-            handleFireAttack(renderer, target);
+            attack(renderer);
            
             break;
 
         default:
             setState(renderer, DragonState::ATTACK);
             hasFiredThisAnim = false;
-            attackTimer = 0.0f;
             break;
         }
     }
-
-    updateFireAttacks(enemies, dt);
 }
 
 
-void Dragon::handleFireAttack(SDL_Renderer* renderer, IEntity* target)
-{
-    const int fireFrame = 1;
-    if(!hasFiredThisAnim && animation->getCurrentFrame() == fireFrame)
-    {
-        attackTarget = target;
-        attack(renderer);
-        attackTarget = nullptr;
-
-        hasFiredThisAnim = true;
-        attackTimer = 0.0f;
-    }
-}
-
-void Dragon::updateFireAttacks(std::vector<IEntity*>& enemies, float dt)
-{
-    for(auto it = fireAttacks.begin(); it != fireAttacks.end();)
-    {
-        it->update(dt);
-        bool hit = false;
-        for (IEntity* e : enemies)
-        {
-            if(!e->getIsAlive()) continue;
-            SDL_Rect a = it->getRect();
-            Transform b = e->getTransform();
-            SDL_Rect rectB = { (int)b.pos.x, (int)b.pos.y, (int)b.size.x, (int)b.size.y };
-            if(SDL_HasRectIntersection(&a, &rectB))
-            {
-                e->takeDamage(it->damage);
-                hit = true;
-                break;
-            }
-        }
-        if(hit || it->lifeTime <= 0.0f)
-        {
-            it = fireAttacks.erase(it);
-        }
-        else
-        {
-            ++it;
-        }
-    }
-}
 void Dragon::attack(SDL_Renderer* renderer)
 {
-    if(!attackTarget) return;
+    const int fireFrame = 6;
+    if(!hasFiredThisAnim && animation->getCurFrame() == fireFrame)
+    {
+        if(target && target->getIsAlive())
+            target->takeDamage(40);
 
-    Transform targetT = attackTarget->getTransform();
-    Vector2 targetCenter = { targetT.pos.x + targetT.size.x * 0.5f,
-                             targetT.pos.y + targetT.size.y * 0.5f };
-
-    float baseX = transform.pos.x + transform.size.x * (flip ? 0.1f : 0.9f );
-    float baseY = transform.pos.y + transform.size.y * 0.35f;
-
-    float dx = targetCenter.x - baseX;
-    float dy = targetCenter.y - baseY;
-
-    FireAttackD fire;
-    fire.init(renderer, baseX, baseY, dx, dy, 20.0f);
-    fire.animation->flip = flip;
-    fireAttacks.push_back(fire);
+        hasFiredThisAnim = true;
+    }
 }
+
 
 void Dragon::render(SDL_Renderer* renderer)
 {
-	renderFireAttacks(renderer);
     animation->render(renderer);
     hpbar->Render(renderer);
 }
-
-void Dragon::renderFireAttacks(SDL_Renderer* renderer)
-{
-    for(auto& f : fireAttacks)
-        f.render(renderer);
-}
-
 
 void Dragon::setState(SDL_Renderer *renderer, EntityState newState)
 {
