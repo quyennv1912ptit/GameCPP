@@ -9,6 +9,8 @@ Lizard::Lizard()
 
     transform.size = {150, 150};
 
+    attackDamage = 20.0f;
+
     SDL_Color bg = {50, 50, 50, 255};
     SDL_Color fg = {200, 0, 0, 255};
 

@@ -83,19 +83,9 @@ void PlayState::Update(float dt)
             continue;
         }
         SamuraiArcher *archer = dynamic_cast<SamuraiArcher *>(k);
-        SmallDragon *smallDragon = dynamic_cast<SmallDragon *>(k);
-        Dragon *dragon = dynamic_cast<Dragon *>(k);
         if (archer)
         {
             archer->update(enemies, renderer, dt);
-        }
-        else if (smallDragon)
-        {
-            smallDragon->update(enemies, renderer, dt);
-        }
-        else if (dragon)
-        {
-            dragon->update(enemies, renderer, dt);
         }
         else
         {
@@ -114,7 +104,7 @@ void PlayState::Update(float dt)
     demonTimer += dt;
     lizardTimer += dt;
 
-    if (gameTime >= 60.0f)
+    if (gameTime >= 5.0f)
     {
         if (demonTimer >= demonInterval)
         {
@@ -122,17 +112,12 @@ void PlayState::Update(float dt)
             SpawnEnemy("Demon");
         }
     }
-    // =======
-    // 			Jinn* jinn = new Jinn();
-    // 			jinn->setState(renderer, JinnState::WALK);
-    // 			int x_min = 0, x_max = 1280;
-    // 			int y_min = 0, y_max = 720;
 
-    if (lizardTimer >= lizardInterval)
-    {
-        lizardTimer = 0.0f;
-        SpawnEnemy("Lizard");
-    }
+    // if (lizardTimer >= lizardInterval)
+    // {
+    //     lizardTimer = 0.0f;
+    //     SpawnEnemy("Lizard");
+    // }
 
     for (auto it = enemies.begin(); it != enemies.end();)
     {
@@ -152,11 +137,6 @@ void PlayState::Update(float dt)
         TargetingSystem::FindNearestTarget(e, knights);
         TargetingSystem::MoveToTarget(renderer, e, enemies, dt);
         e->update();
-        // =======
-        // 			jinn->setPos(x, y);
-
-        // 			enemies.push_back(jinn);
-        // >>>>>>> nhanvat
 
         ++it;
     }
@@ -165,10 +145,7 @@ void PlayState::Update(float dt)
 void PlayState::Render()
 {
     SDL_Renderer *renderer = m_Game->GetRenderer();
-    // ui
-    pauseBtn->render();
-    SettingBtn->render();
-    coinTextBox->render();
+
     // entities
     allEntities.clear();
     allEntities.insert(allEntities.end(), knights.begin(), knights.end());
@@ -311,6 +288,11 @@ void PlayState::Render()
 
         ImGui::End();
     }
+
+    // ui
+    pauseBtn->render();
+    SettingBtn->render();
+    coinTextBox->render();
 }
 
 void PlayState::Exit()

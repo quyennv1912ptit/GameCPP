@@ -13,6 +13,13 @@ Animation::~Animation()
     delete innerTimer;
 }
 
+void Animation::reset()
+{
+    curFrame = 0;
+    innerTimer->start();
+    setFrame(curFrame);
+}
+
 void Animation::setAnim(SDL_Renderer *renderer, const char *path, int count, int dt)
 {
     loadTexture(renderer, path);

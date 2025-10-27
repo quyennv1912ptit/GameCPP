@@ -29,11 +29,6 @@ void IEntity::setSize(float w, float h)
     transform.size = {w, h};
 }
 
-// Transform& IEntity::getTransform() { return transform; }
-// const Transform &IEntity::getTransform() const { return transform; }
-EntityState IEntity::getState() const { return state; }
-Vector2 IEntity::getPos() const { return transform.pos; }
-
 void IEntity::update()
 {
     if (name == "Castle")
@@ -56,17 +51,15 @@ void IEntity::update()
     {
         isAlive = false;
     }
+
+    animation->flip = flip;
+    animation->update();
+    hpbar->Update();
 }
 
 void IEntity::takeDamage(float dmg)
 {
     curHP -= dmg;
-    if (curHP <= 0)
-    {
-        curHP = 0;
-        isAlive = false;
-    }
-    hpbar->Update();
 }
 
 void IEntity::render(SDL_Renderer *renderer)

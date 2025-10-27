@@ -81,7 +81,7 @@ private:
     Castle *playerCastle;
     Castle *enemyCastle;
 
-    int Coin = 150;
+    int Coin = 1500;
     std::string strCoin;
 
     TextBox *coinTextBox = nullptr;

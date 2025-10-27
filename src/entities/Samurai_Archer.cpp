@@ -25,6 +25,13 @@ void SamuraiArcher::update(std::vector<IEntity *> &enemies, SDL_Renderer *render
     animation->update();
     hpbar->Update();
 
+    if (curHP <= 0)
+    {
+        isAlive = false;
+    }
+
+    hitPos = {transform.pos.x + transform.size.x * 0.5f, transform.pos.y + transform.size.y * 0.5f};
+
     attackTimer += dt;
 
     if (enemies.empty())
@@ -35,8 +42,7 @@ void SamuraiArcher::update(std::vector<IEntity *> &enemies, SDL_Renderer *render
     float minDist = 1e9f;
     Vector2 myCenter = {
         transform.pos.x + transform.size.x * 0.5f,
-        transform.pos.y + transform.size.y * 0.5f,
-    };
+        transform.pos.y + transform.size.y * 0.5f};
     for (IEntity *e : enemies)
     {
         Transform t = e->getTransform();
@@ -82,7 +88,7 @@ void SamuraiArcher::update(std::vector<IEntity *> &enemies, SDL_Renderer *render
         if (state != SamuraiArcherState::WALK)
         {
             setState(renderer, SamuraiArcherState::WALK);
-            attacking = true;
+            hasShotThisAnim = false;
         }
     }
     else
@@ -90,21 +96,21 @@ void SamuraiArcher::update(std::vector<IEntity *> &enemies, SDL_Renderer *render
         if (state != SamuraiArcherState::SHOT)
         {
             setState(renderer, SamuraiArcherState::SHOT);
-            attacking = true;
+            hasShotThisAnim = false;
         }
         const int fireFrame = 12;
-        if (attacking && animation->getCurFrame() == fireFrame && attackTimer >= attackCooldown)
+        if (!hasShotThisAnim && getAnimCurFrame() == fireFrame && attackTimer >= attackCooldown)
         {
             attackTarget = target;
             attack(renderer);
             attackTarget = nullptr;
 
-            attacking = false;
+            hasShotThisAnim = true;
             attackTimer = 0.0f;
         }
 
-        if (animation->getCurFrame() == 0)
-            attacking = true;
+        if (getAnimCurFrame() == 0)
+            hasShotThisAnim = false;
     }
 
     for (auto it = arrows.begin(); it != arrows.end();)
@@ -180,6 +186,7 @@ void SamuraiArcher::setState(SDL_Renderer *renderer, EntityState newState)
 
 bool SamuraiArcher::checkCollision(const SDL_Rect &a, const Transform &b)
 {
+
     SDL_Rect rectB = {(int)b.pos.x, (int)b.pos.y, (int)b.size.x, (int)b.size.y};
     return SDL_HasRectIntersection(&a, &rectB);
 }

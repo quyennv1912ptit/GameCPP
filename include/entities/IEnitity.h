@@ -19,9 +19,10 @@ protected:
     Transform transform;
     Vector2 hitPos;
     EntityState state;
-    Animation *animation;
-    HPBar *hpbar;
+    Animation *animation = nullptr;
+    HPBar *hpbar = nullptr;
     bool isAlive = true;
+
     IEntity *attackTarget = nullptr;
     float AttackRange = 20.0f;
     bool attacking = false;
@@ -39,6 +40,7 @@ public:
 
     virtual void update();
     virtual void render(SDL_Renderer *renderer);
+    virtual void takeDamage(float dmg);
     virtual void attack(SDL_Renderer *renderer) = 0;
 
     virtual void setState(SDL_Renderer *renderer, EntityState newState) = 0;
@@ -60,11 +62,9 @@ public:
     {
         return animation->getFrameCount();
     }
-    virtual void takeDamage(float dmg);
 
-    virtual EntityState getState() const;
-    virtual Vector2 getPos() const;
-    virtual void specialUpdate(std::vector<IEntity *> &enemies, SDL_Renderer *renderer, float dt) {}
+    virtual EntityState getState() const { return state; }
+    virtual Vector2 getPos() const { return transform.pos; }
     virtual float getAttackRange() const { return AttackRange; }
 
     friend class TargetingSystem;

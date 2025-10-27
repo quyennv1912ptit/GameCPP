@@ -37,5 +37,7 @@ public:
 
     void setAnim(SDL_Renderer *renderer, const char *path, int framecount, int dt);
 
+    void reset();
+
     SDL_FRect getRect();
 };

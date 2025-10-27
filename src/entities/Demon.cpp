@@ -7,6 +7,8 @@ Demon::Demon()
     // attributes
     name = "Demon";
 
+    attackDamage = 35.0f;
+
     transform.size = {200, 200};
 
     SDL_Color bg = {50, 50, 50, 255};
@@ -35,11 +37,11 @@ void Demon::attack(SDL_Renderer *renderer)
     if (getAnimCurFrame() == 0)
     {
         attacking = true;
-        attackTarget->takeDamage(attackDamage);
     }
 
     if (attacking && getAnimCurFrame() == getAnimFrameCount() - 1)
     {
+        attackTarget->takeDamage(attackDamage);
         attacking = false;
     }
 }

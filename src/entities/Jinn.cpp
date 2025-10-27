@@ -6,10 +6,10 @@ Jinn::Jinn()
 
     name = "Jinn";
 
-    hasIdle = false;
-
     SDL_Color bg = {50, 50, 50, 255};
     SDL_Color fg = {0, 200, 0, 255};
+
+    attackDamage = 35.0f;
 
     curHP = maxHP = 80;
 
@@ -39,7 +39,7 @@ void Jinn::attack(SDL_Renderer *renderer)
 
     if (attacking && getAnimCurFrame() == 11)
     {
-        attackTarget->takeDamage(35.0f);
+        attackTarget->takeDamage(attackDamage);
         attacking = false;
     }
 }

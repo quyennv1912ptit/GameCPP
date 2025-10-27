@@ -14,6 +14,8 @@ Orc3::Orc3()
 
     curHP = maxHP = 65;
 
+    attackDamage = 20.0f;
+
     hpbar = new HPBar(maxHP, curHP, transform, bg, fg, 5, -30, 60);
 }
 

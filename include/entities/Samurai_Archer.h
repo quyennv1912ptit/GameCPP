@@ -31,4 +31,6 @@ public:
      void render(SDL_Renderer *renderer); 
      void attack(SDL_Renderer *renderer) override; 
      bool checkCollision(const SDL_Rect& a, const Transform& b); 
+
+
 };

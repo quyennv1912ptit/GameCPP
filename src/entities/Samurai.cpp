@@ -14,6 +14,8 @@ Samurai::Samurai()
 
     curHP = maxHP = 100;
 
+    attackDamage = 20.0f;
+
     hpbar = new HPBar(maxHP, curHP, transform, bg, fg, 5, -30, 60);
 }
 

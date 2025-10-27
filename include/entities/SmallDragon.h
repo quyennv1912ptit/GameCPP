@@ -13,17 +13,8 @@ const std::map<EntityState, std::pair<const char *, int>> SmallDragonAnimationPa
 class SmallDragon : public IEntity
 {
 private:
-    bool hasFiredThisAnim = false;
-
-    float moveSpeed = 80.0f;
-
-    IEntity *target = nullptr;
-
 public:
     SmallDragon();
-
     void setState(SDL_Renderer *renderer, EntityState newState) override;
-    void update(std::vector<IEntity *> &enemies, SDL_Renderer *renderer, float dt);
-    void render(SDL_Renderer *renderer);
     void attack(SDL_Renderer *renderer) override;
 };
