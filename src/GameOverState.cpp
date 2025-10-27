@@ -6,10 +6,11 @@
 #include "PlayState.h"
 #include "iostream"
 
-GameOverState::GameOverState(Game *game, bool isWin, IEntity *playerCastle, std::map<std::string, int> &diedKnights, std::map<std::string, int> &diedEnemies)
+GameOverState::GameOverState(Game *game, bool isWin, float playerCastleCurHP, float playerCastleMaxHP, std::map<std::string, int> &diedKnights, std::map<std::string, int> &diedEnemies)
     : m_IsWin(isWin),
-      m_PlayerCastle(playerCastle),
       m_DiedKinghts(diedKnights),
+      m_PlayerCastleCurHP(playerCastleCurHP),
+      m_PlayerCastleMaxHP(playerCastleMaxHP),
       m_DiedEnemies(diedEnemies)
 {
     m_Game = game;
@@ -19,7 +20,7 @@ void GameOverState::Enter()
 {
     winConditions[0].first = m_IsWin;
 
-    winConditions[1].first = (m_PlayerCastle->getCurHP() / m_PlayerCastle->getMaxHP()) >= 0.5f;
+    winConditions[1].first = (m_PlayerCastleCurHP / m_PlayerCastleMaxHP) >= 0.5f;
 
     int cnt1 = -0, cnt2 = -0;
 
@@ -32,7 +33,6 @@ void GameOverState::Enter()
     {
         cnt2 += it->second;
     }
-    std::cout << cnt1 << " " << cnt2 << std::endl;
     winConditions[2].first = cnt1 <= cnt2;
 
     for (int i = 0; i < winConditions.size(); i++)

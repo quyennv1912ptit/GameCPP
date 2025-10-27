@@ -29,6 +29,7 @@ void TargetingSystem::MoveToTarget(SDL_Renderer *renderer, IEntity *seeker, std:
 {
     if (seeker->attackTarget == nullptr)
     {
+        std::string name = seeker->getName();
         seeker->setState(renderer, EntityState::IDLE);
         return;
     }

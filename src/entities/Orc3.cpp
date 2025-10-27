@@ -3,14 +3,12 @@
 Orc3::Orc3()
 {
     // attributes
-    hasIdle = false;
-
     name = "Orc3";
 
     transform.size = {100, 100};
 
     SDL_Color bg = {50, 50, 50, 255};
-    SDL_Color fg = {0, 200, 0, 255};
+    SDL_Color fg = {200, 0, 0, 255};
 
     curHP = maxHP = 65;
 
@@ -29,6 +27,7 @@ void Orc3::setState(SDL_Renderer *renderer, EntityState newState)
 
     animation->setAnim(renderer, p.first, p.second, 180);
 }
+
 
 void Orc3::attack(SDL_Renderer *renderer)
 {

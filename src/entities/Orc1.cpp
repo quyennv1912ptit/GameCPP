@@ -3,19 +3,17 @@
 Orc1::Orc1()
 {
     // attributes
-    hasIdle = false;
-
     name = "Orc1";
 
     SDL_Color bg = {50, 50, 50, 255};
-    SDL_Color fg = {0, 200, 0, 255};
-    transform.size = {64, 64};
+    SDL_Color fg = {200, 0, 0, 255};
+    transform.size = {128, 128};
 
     curHP = maxHP = 60;
 
     attackDamage = 15.0f;
 
-    hpbar = new HPBar(maxHP, curHP, transform, bg, fg, 5, -30, 60);
+    hpbar = new HPBar(maxHP, curHP, transform, bg, fg, 5, -10, 60);
 }
 
 void Orc1::setState(SDL_Renderer *renderer, EntityState newState)

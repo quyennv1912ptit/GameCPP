@@ -36,7 +36,6 @@ public:
 
     bool flip;
     virtual ~IEntity();
-    bool hasIdle = true;
 
     virtual void update();
     virtual void render(SDL_Renderer *renderer);

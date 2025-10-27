@@ -59,6 +59,7 @@ enum class EntityState
 
     // Orc3
     ORC3_ATTACK,
+
     // Castle
     DAMAGED,
     DESTROYED,
@@ -137,6 +138,7 @@ namespace JinnState
     constexpr EntityState ATTACK = EntityState::JINN_ATTACK;
     constexpr EntityState HURT = EntityState::HURT;
     constexpr EntityState DEAD = EntityState::DEAD;
+    constexpr EntityState IDLE = EntityState::IDLE;
 } // namespace JinnState
 
 namespace LizardState
@@ -165,6 +167,7 @@ namespace Orc1State
     constexpr EntityState ATTACK = EntityState::ORC1_ATTACK;
     constexpr EntityState HURT = EntityState::HURT;
     constexpr EntityState DEAD = EntityState::DEAD;
+    constexpr EntityState IDLE = EntityState::IDLE;
 } // namespace Orc1State
 
 namespace Orc2State
@@ -174,6 +177,7 @@ namespace Orc2State
     constexpr EntityState ATTACK = EntityState::ORC2_ATTACK;
     constexpr EntityState HURT = EntityState::HURT;
     constexpr EntityState DEAD = EntityState::DEAD;
+    constexpr EntityState IDLE = EntityState::IDLE;
 } // namespace Orc2State
 
 namespace Orc3State
@@ -183,6 +187,7 @@ namespace Orc3State
     constexpr EntityState ATTACK = EntityState::ORC3_ATTACK;
     constexpr EntityState HURT = EntityState::HURT;
     constexpr EntityState DEAD = EntityState::DEAD;
+    constexpr EntityState IDLE = EntityState::IDLE;
 } // namespace Orc3State
 
 namespace CastleState

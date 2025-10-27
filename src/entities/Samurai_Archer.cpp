@@ -10,7 +10,7 @@ SamuraiArcher::SamuraiArcher()
 
     transform.size = {100, 100};
 
-    name = "SamuraiArcher";
+    name = "Samurai Archer";
 
     SDL_Color bg = {50, 50, 50, 255};
     SDL_Color fg = {0, 200, 0, 255};

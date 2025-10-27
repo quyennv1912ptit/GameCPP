@@ -13,9 +13,7 @@ include_directories(${CMAKE_SOURCE_DIR}/include/imgui/mini)
 
 link_directories(${CMAKE_SOURCE_DIR}/lib)
 
-
 file(GLOB_RECURSE SRC_FILES src/*.cpp)
-
 
 add_executable(${PROJECT_NAME} ${SRC_FILES})
 

@@ -39,7 +39,7 @@ Castle::Castle(bool Is_Enemy)
         fg = {0, 200, 0, 255};
     }
 
-    curHP = maxHP = 200;
+    curHP = maxHP = 1000;
 
     hpbar = new HPBar(maxHP, curHP, transform, bg, fg, 10, -20, 200);
     // flip=true;

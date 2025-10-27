@@ -5,16 +5,16 @@
 #include "Animation.h"
 #include "Castle.h"
 #include "Demon.h"
-#include "Orc1.h"
-#include "Orc2.h"
-#include "Orc3.h"
-#include "Jinn.h"
-#include "Medusa.h"
 #include "Dragon.h"
 #include "FindTarget.h"
 #include "GameState.h"
 #include "Image.h"
+#include "Jinn.h"
 #include "Lizard.h"
+#include "Medusa.h"
+#include "Orc1.h"
+#include "Orc2.h"
+#include "Orc3.h"
 #include "PauseState.h"
 #include "Samurai.h"
 
@@ -32,17 +32,35 @@ const std::map<std::string, std::string> avt_path = {
 
 const std::map<std::string, int> cost_map = {
     {"None", 0},
-    {"Samurai", 50},
-    {"Small Dragon", 75},
+    {"Samurai", 35},
+    {"Small Dragon", 100},
     {"Samurai Commander", 70},
-    {"Samurai Archer", 80},
+    {"Samurai Archer", 50},
     {"Dragon", 160},
     {"Demon", 50},
-    {"Lizard", 50},
-    {"Jinn", 50},
-    {"Orc1", 50},
-    {"Orc2", 50},
-    {"Orc3", 50}};
+    {"Lizard", 25},
+    {"Jinn", 20},
+    {"Orc1", 5},
+    {"Orc2", 7},
+    {"Orc3", 9}};
+
+static std::map<std::string, std::pair<float, float>> timeInterval = {
+    {"Demon", {15, 0}},
+    {"Lizard", {7.5, 0}},
+    {"Jinn", {10, 0}},
+    {"Orc1", {3, 0}},
+    {"Orc2", {5, 0}},
+    {"Orc3", {6, 0}}
+};
+
+const std::map<std::string, std::pair<float, float>> wave = {
+    {"Demon", {100, 1e9}},
+    {"Lizard", {80, 240}},
+    {"Jinn", {75, 300}},
+    {"Orc1", {0, 60}},
+    {"Orc2", {5, 120}},
+    {"Orc3", {10, 200}}
+};
 
 class PlayState : public GameState
 {
@@ -61,27 +79,19 @@ private:
     std::vector<IEntity *> enemies;
     std::vector<IEntity *> allEntities;
 
+    const int addCoin = 10;
+    const float addCoinTime = 4.0f;
+    float addCoinTimer = 0.0f;
+
     std::map<std::string, int> diedKnights;
     std::map<std::string, int> diedEnemies;
 
     float gameTime = 0.0f;
 
-    // TIME SPAWN
-    float demonTimer = 0.0f;
-    float demonInterval = 5.0f;
-
-    float lizardTimer = 0.0f;
-    float lizardInterval = 1.0f;
-
-    // --- Mốc thời gian mở khóa ---
-    float unlockdemonTime = 60.0f; // sau 60s (1 phút) mở khóa demon
-
-    bool demonUnlocked = false; // điều kiện mở quái
-    // thành lũy (điều kiện win/lose)
     Castle *playerCastle;
     Castle *enemyCastle;
 
-    int Coin = 1500;
+    int Coin = 150;
     std::string strCoin;
 
     TextBox *coinTextBox = nullptr;
@@ -97,5 +107,5 @@ public:
     void Render() override;
     void Exit() override;
 
-    void SpawnEnemy(const std::string &type);
+    void SpawnEnemy(std::string type);
 };

@@ -13,13 +13,13 @@ SmallDragon::SmallDragon()
     SDL_Color bg = {50, 50, 50, 255};
     SDL_Color fg = {0, 200, 0, 255};
 
-    curHP = maxHP = 130;
+    curHP = maxHP = 150;
 
     AttackRange = 100.0f;
 
     speed = 80.0f;
 
-    attackDamage = 25.0f;
+    attackDamage = 35.0f;
 
     state = SmallDragonState::WALK;
 

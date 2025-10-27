@@ -8,6 +8,7 @@ const std::map<EntityState, std::pair<const char *, int>> JinnAnimationPath = {
     {JinnState::ATTACK, {"resources/imgs/enemies/jinn/JinAttack.png", 16}},
     {JinnState::HURT, {"resources/imgs/enemies/jinn/jiinhurt.png", 2}},
     {JinnState::DEAD, {"resources/imgs/enemies/jinn/jiindead.png", 6}},
+    {JinnState::IDLE, {"resources/imgs/enemies/jinn/jiinidle.png", 3}},
 };
 
 class Jinn : public IEntity {

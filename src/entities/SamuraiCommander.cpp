@@ -13,7 +13,7 @@ SamuraiCommander::SamuraiCommander()
 
     curHP = maxHP = 180;
 
-    attackDamage = 30.0f;
+    attackDamage = 35.0f;
 
     hpbar = new HPBar(maxHP, curHP, transform, bg, fg, 5, -30, 60);
 }

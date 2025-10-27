@@ -4,6 +4,8 @@
 #include "SettingsState.h"
 #include "iostream"
 
+float timer = 0;
+
 void PlayState::Enter()
 {
     SDL_Renderer *renderer = m_Game->GetRenderer();
@@ -77,7 +79,7 @@ void PlayState::Update(float dt)
         {
             diedKnights[k->getName()]++;
             if (k->getName() == "Castle")
-                m_Game->PushState(new GameOverState(m_Game, false, k, diedKnights, diedEnemies));
+                m_Game->PushState(new GameOverState(m_Game, false, 0, playerCastle->getMaxHP(), diedKnights, diedEnemies));
             delete k;
             it = knights.erase(it);
             continue;
@@ -99,25 +101,31 @@ void PlayState::Update(float dt)
         ++it;
     }
 
-    static float gameTime = 0.0f;
     gameTime += dt;
-    demonTimer += dt;
-    lizardTimer += dt;
 
-    if (gameTime >= 5.0f)
+    for (auto &m : timeInterval)
     {
-        if (demonTimer >= demonInterval)
+        std::string name = m.first;
+        float &interval = m.second.first;
+        float &timer = m.second.second;
+        if (gameTime >= wave.at(name).first && gameTime <= wave.at(name).second)
         {
-            demonTimer = 0.0f;
-            SpawnEnemy("Demon");
+            timer += dt;
+            if (timer >= interval)
+            {
+                timer = 0;
+                SpawnEnemy(m.first);
+            }
         }
     }
 
-    // if (lizardTimer >= lizardInterval)
-    // {
-    //     lizardTimer = 0.0f;
-    //     SpawnEnemy("Lizard");
-    // }
+    addCoinTimer += dt;
+
+    if (addCoinTimer >= addCoinTime)
+    {
+        addCoinTimer = 0.0f;
+        Coin += addCoin;
+    }
 
     for (auto it = enemies.begin(); it != enemies.end();)
     {
@@ -126,7 +134,7 @@ void PlayState::Update(float dt)
         {
             diedEnemies[e->getName()]++;
             if (e->getName() == "Castle")
-                m_Game->PushState(new GameOverState(m_Game, true, playerCastle, diedKnights, diedEnemies));
+                m_Game->PushState(new GameOverState(m_Game, true, playerCastle->getCurHP(), playerCastle->getMaxHP(), diedKnights, diedEnemies));
             else
                 Coin += cost_map.at(e->getName());
             delete e;
@@ -223,8 +231,8 @@ void PlayState::Render()
                             e->setState(renderer, SmallDragonState::ATTACK);
                         }
 
-                        int x_min = 200, x_max = 630;
-                        int y_min = 0, y_max = 720;
+                        int x_min = 200, x_max = 350;
+                        int y_min = 200, y_max = 500;
 
                         int x = x_min + rand() % (x_max - x_min + 1);
                         int y = y_min + rand() % (y_max - y_min + 1);
@@ -308,7 +316,7 @@ void PlayState::Exit()
     }
 }
 
-void PlayState::SpawnEnemy(const std::string &type)
+void PlayState::SpawnEnemy(std::string type)
 {
     SDL_Renderer *renderer = m_Game->GetRenderer();
     IEntity *enemy = nullptr;
@@ -316,27 +324,53 @@ void PlayState::SpawnEnemy(const std::string &type)
     if (type == "Demon")
     {
         Demon *d = new Demon();
-        d->setState(renderer, DemonState::IDLE);
+        d->setState(renderer, EntityState::IDLE);
 
         enemy = d;
     }
-
     else if (type == "Lizard")
     {
         Lizard *l = new Lizard();
-        l->setState(renderer, LizardState::IDLE);
+        l->setState(renderer, EntityState::IDLE);
+
         enemy = l;
+    }
+    else if (type == "Jinn")
+    {
+        Jinn *j = new Jinn();
+        j->setState(renderer, EntityState::IDLE);
+
+        enemy = j;
+    }
+    else if (type == "Orc1")
+    {
+        Orc1 *o1 = new Orc1();
+        o1->setState(renderer, EntityState::IDLE);
+
+        enemy = o1;
+    }
+    else if (type == "Orc2")
+    {
+        Orc2 *o2 = new Orc2();
+        o2->setState(renderer, EntityState::IDLE);
+
+        enemy = o2;
+    }
+    else if (type == "Orc3")
+    {
+        Orc3 *o3 = new Orc3();
+        o3->setState(renderer, EntityState::IDLE);
+        enemy = o3;
     }
 
     if (enemy)
     {
-        const float enemyWidth = 64.0f;
-        const float enemyHeight = 64.0f;
+        int y_min = 200, y_max = 500;
 
-        float spawnX = 640 + rand() % int(1280 - 640 - enemyWidth);
-        float spawnY = rand() % int(720 - enemyHeight);
+        int x = enemyCastle->GetHitPos().x - 100;
+        int y = y_min + rand() % (y_max - y_min + 1);
 
-        enemy->getTransform().pos = {spawnX, spawnY};
+        enemy->setPos(x, y);
 
         enemies.push_back(enemy);
     }
