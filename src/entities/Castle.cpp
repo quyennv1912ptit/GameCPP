@@ -11,15 +11,7 @@ void Castle::setState(SDL_Renderer *renderer, EntityState newState)
     animation->setAnim(renderer, c.first, c.second, 150);
 }
 
-void Castle::attack(SDL_Renderer *renderer)
-{
-    setState(renderer, CastleState::IDLE);
-
-    if (getAnimCurFrame() == 0)
-    {
-        attackTarget->takeDamage(*(IEntity *)this);
-    }
-}
+void Castle::attack(SDL_Renderer *renderer) {}
 
 void Castle::setFlip(bool value)
 {

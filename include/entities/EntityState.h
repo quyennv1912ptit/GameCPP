@@ -30,11 +30,13 @@ enum class EntityState
 
     // SMALL_DDRAGON
 
-    SMALL_DDRAGON_ATTACK,
+    SMALL_DRAGON_ATTACK,
+    SMALL_DRAGON_FIRE,
 
     // DRAGON
 
     DRAGON_ATTACK,
+    DRAGON_FIRE,
 
     // Demon
 
@@ -57,7 +59,6 @@ enum class EntityState
 
     // Orc3
     ORC3_ATTACK,
-
     // Castle
     DAMAGED,
     DESTROYED,
@@ -96,15 +97,17 @@ namespace SamuraiCommanderState
     constexpr EntityState ATTACK3 = EntityState::SAMURAI_COMMANDER_ATTACK3;
     constexpr EntityState HURT = EntityState::HURT;
     constexpr EntityState DEAD = EntityState::DEAD;
+    constexpr EntityState IDLE = EntityState::IDLE;
 } // namespace SamuraiCommanderState
 
 namespace SmallDragonState
 {
     constexpr EntityState NONE = EntityState::NONE;
     constexpr EntityState WALK = EntityState::WALK;
-    constexpr EntityState ATTACK = EntityState::SMALL_DDRAGON_ATTACK;
+    constexpr EntityState ATTACK = EntityState::SMALL_DRAGON_ATTACK;
     constexpr EntityState HURT = EntityState::HURT;
     constexpr EntityState DEAD = EntityState::DEAD;
+    constexpr EntityState FIRE = EntityState::SMALL_DRAGON_FIRE;
 } // namespace SmallDragonState
 
 namespace DragonState
@@ -114,6 +117,7 @@ namespace DragonState
     constexpr EntityState ATTACK = EntityState::DRAGON_ATTACK;
     constexpr EntityState HURT = EntityState::HURT;
     constexpr EntityState DEAD = EntityState::DEAD;
+    constexpr EntityState FIRE = EntityState::DRAGON_FIRE;
 } // namespace DragonState
 
 namespace DemonState

@@ -5,10 +5,10 @@
 #include "IEnitity.h"
 
 const std::map<EntityState, std::pair<const char *, int>> Orc1AnimationPath = {
-    {Orc1State::WALK, {"resources/imgs/enemies/orc1/orc1walk.png", 6}},
-    {Orc1State::ATTACK, {"resources/imgs/enemies/orc1/orc1attack.png", 8}},
-    {Orc1State::HURT, {"resources/imgs/enemies/orc1/orc1hurt.png", 6}},
-    {Orc1State::DEAD, {"resources/imgs/enemies/orc1/orc1dead.png", 8}},
+    {Orc1State::WALK, {"resources/imgs/enemies/orc1/orc1_walk_full .png", 6}},
+    {Orc1State::ATTACK, {"resources/imgs/enemies/orc1/orc1_attack_full.png", 8}},
+    {Orc1State::HURT, {"resources/imgs/enemies/orc1/orc1_hurt_full.png", 6}},
+    {Orc1State::DEAD, {"resources/imgs/enemies/orc1/orc1_death_full.png", 8}},
 };
 
 class Orc1 : public IEntity

@@ -22,9 +22,8 @@ protected:
     Animation *animation;
     HPBar *hpbar;
     bool isAlive = true;
-
     IEntity *attackTarget = nullptr;
-    float AttackRanvge = 20.0f;
+    float AttackRange = 20.0f;
     bool attacking = false;
     float attackDamage = 5.0f;
     float speed = 80.0f;
@@ -36,10 +35,10 @@ public:
 
     bool flip;
     virtual ~IEntity();
+    bool hasIdle = true;
 
     virtual void update();
     virtual void render(SDL_Renderer *renderer);
-    virtual void takeDamage(const IEntity &e);
     virtual void attack(SDL_Renderer *renderer) = 0;
 
     virtual void setState(SDL_Renderer *renderer, EntityState newState) = 0;
@@ -61,6 +60,12 @@ public:
     {
         return animation->getFrameCount();
     }
+    virtual void takeDamage(float dmg);
+
+    virtual EntityState getState() const;
+    virtual Vector2 getPos() const;
+    virtual void specialUpdate(std::vector<IEntity *> &enemies, SDL_Renderer *renderer, float dt) {}
+    virtual float getAttackRange() const { return AttackRange; }
 
     friend class TargetingSystem;
 };

@@ -25,7 +25,7 @@ void Samurai::setState(SDL_Renderer *renderer, EntityState newState)
     state = newState;
     auto p = SamuraiAnimationPath.at(state);
 
-    animation->setAnim(renderer, p.first, p.second, 100);
+    animation->setAnim(renderer, p.first, p.second, 250);
 }
 
 void Samurai::attack(SDL_Renderer *renderer)
@@ -37,7 +37,7 @@ void Samurai::attack(SDL_Renderer *renderer)
     }
     if (attacking && getAnimCurFrame() == getAnimFrameCount() - 1)
     {
-        attackTarget->takeDamage(*(IEntity *)this);
+        attackTarget->takeDamage(attackDamage);
         atk_index = (atk_index + 1) % atks.size();
         attacking = false;
     }

@@ -1,9 +1,9 @@
 #include "Lizard.h"
 
-#include <iostream>
 Lizard::Lizard()
 {
     // attributes
+    // hasIdle = false;
 
     name = "Lizard";
 
@@ -12,7 +12,7 @@ Lizard::Lizard()
     SDL_Color bg = {50, 50, 50, 255};
     SDL_Color fg = {200, 0, 0, 255};
 
-    curHP = maxHP = 10;
+    curHP = maxHP = 70;
 
     hpbar = new HPBar(maxHP, curHP, transform, bg, fg, 5, -30, 60);
 }
@@ -25,7 +25,7 @@ void Lizard::setState(SDL_Renderer *renderer, EntityState newState)
     state = newState;
     auto p = LizardAnimationPath.at(state);
 
-    animation->setAnim(renderer, p.first, p.second, 180);
+    animation->setAnim(renderer, p.first, p.second, 190);
 }
 
 void Lizard::attack(SDL_Renderer *renderer)
@@ -37,7 +37,7 @@ void Lizard::attack(SDL_Renderer *renderer)
     }
     if (attacking && getAnimCurFrame() == getAnimFrameCount() - 1)
     {
-        attackTarget->takeDamage(*(IEntity *)this);
+        attackTarget->takeDamage(attackDamage);
         attacking = false;
     }
 }

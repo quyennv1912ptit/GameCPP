@@ -34,6 +34,12 @@ void Demon::attack(SDL_Renderer *renderer)
 
     if (getAnimCurFrame() == 0)
     {
-        attackTarget->takeDamage(*(IEntity *)this);
+        attacking = true;
+        attackTarget->takeDamage(attackDamage);
+    }
+
+    if (attacking && getAnimCurFrame() == getAnimFrameCount() - 1)
+    {
+        attacking = false;
     }
 }

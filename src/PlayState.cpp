@@ -82,12 +82,29 @@ void PlayState::Update(float dt)
             it = knights.erase(it);
             continue;
         }
+        SamuraiArcher *archer = dynamic_cast<SamuraiArcher *>(k);
+        SmallDragon *smallDragon = dynamic_cast<SmallDragon *>(k);
+        Dragon *dragon = dynamic_cast<Dragon *>(k);
+        if (archer)
+        {
+            archer->update(enemies, renderer, dt);
+        }
+        else if (smallDragon)
+        {
+            smallDragon->update(enemies, renderer, dt);
+        }
+        else if (dragon)
+        {
+            dragon->update(enemies, renderer, dt);
+        }
+        else
+        {
+            TargetingSystem::FindNearestTarget(k, enemies);
 
-        TargetingSystem::FindNearestTarget(k, enemies);
+            TargetingSystem::MoveToTarget(renderer, k, knights, dt);
 
-        TargetingSystem::MoveToTarget(renderer, k, knights, dt);
-
-        k->update();
+            k->update();
+        }
 
         ++it;
     }
@@ -105,6 +122,11 @@ void PlayState::Update(float dt)
             SpawnEnemy("Demon");
         }
     }
+    // =======
+    // 			Jinn* jinn = new Jinn();
+    // 			jinn->setState(renderer, JinnState::WALK);
+    // 			int x_min = 0, x_max = 1280;
+    // 			int y_min = 0, y_max = 720;
 
     if (lizardTimer >= lizardInterval)
     {
@@ -130,6 +152,11 @@ void PlayState::Update(float dt)
         TargetingSystem::FindNearestTarget(e, knights);
         TargetingSystem::MoveToTarget(renderer, e, enemies, dt);
         e->update();
+        // =======
+        // 			jinn->setPos(x, y);
+
+        // 			enemies.push_back(jinn);
+        // >>>>>>> nhanvat
 
         ++it;
     }
@@ -150,6 +177,15 @@ void PlayState::Render()
               [](IEntity *a, IEntity *b)
               { return a->getTransform().pos.y < b->getTransform().pos.y; });
 
+    // entities
+    allEntities.clear();
+    allEntities.insert(allEntities.end(), knights.begin(), knights.end());
+    allEntities.insert(allEntities.end(), enemies.begin(), enemies.end());
+    std::sort(allEntities.begin(), allEntities.end(),
+              [](IEntity *a, IEntity *b)
+              {
+                  return a->getTransform().pos.y < b->getTransform().pos.y;
+              });
     for (IEntity *e : allEntities)
         e->render(renderer);
 

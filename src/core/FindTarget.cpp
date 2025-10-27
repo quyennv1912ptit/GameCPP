@@ -36,7 +36,7 @@ void TargetingSystem::MoveToTarget(SDL_Renderer *renderer, IEntity *seeker, std:
     float dy = seeker->attackTarget->GetHitPos().y - seeker->GetHitPos().y;
     float distance = std::sqrt(dx * dx + dy * dy);
 
-    if (distance <= seeker->AttackRanvge)
+    if (distance <= seeker->AttackRange)
     {
         seeker->attack(renderer);
     }

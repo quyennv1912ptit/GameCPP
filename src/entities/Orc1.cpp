@@ -3,15 +3,15 @@
 Orc1::Orc1()
 {
     // attributes
+    hasIdle = false;
 
     name = "Orc1";
 
-    transform.size = {100, 100};
-
     SDL_Color bg = {50, 50, 50, 255};
     SDL_Color fg = {0, 200, 0, 255};
+    transform.size = {64, 64};
 
-    curHP = maxHP = 80;
+    curHP = maxHP = 60;
 
     hpbar = new HPBar(maxHP, curHP, transform, bg, fg, 5, -30, 60);
 }
@@ -36,7 +36,7 @@ void Orc1::attack(SDL_Renderer *renderer)
     }
     if (attacking && getAnimCurFrame() == getAnimFrameCount() - 1)
     {
-        attackTarget->takeDamage(*(IEntity *)this);
+        attackTarget->takeDamage(attackDamage);
         attacking = false;
     }
 }

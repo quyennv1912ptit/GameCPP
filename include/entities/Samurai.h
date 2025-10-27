@@ -17,7 +17,8 @@ class Samurai : public IEntity
 {
 private:
     int atk_index = 0;
-    const std::vector<EntityState> atks = {SamuraiState::ATTACK1, SamuraiState::ATTACK2, SamuraiState::ATTACK3};
+    const std::vector<EntityState> atks = {
+        SamuraiState::ATTACK1, SamuraiState::ATTACK2, SamuraiState::ATTACK3};
 
 public:
     Samurai();
